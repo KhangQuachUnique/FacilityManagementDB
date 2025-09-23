@@ -9,54 +9,6 @@ GO
 USE FacilityManagementDB;
 GO
 
--- Chú thích: Phần tạo bảng roles. Bảng lưu trữ thông tin vai trò của nhân viên.
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[roles]') AND type in (N'U'))
-BEGIN
-    CREATE TABLE roles (
-        id INT IDENTITY(1,1) PRIMARY KEY,
-        name NVARCHAR(50) NOT NULL,
-        description NVARCHAR(255),
-        created_at DATETIME DEFAULT GETDATE(),
-        CONSTRAINT UQ_roles_name UNIQUE (name)
-    );
-END
-GO
-
--- Chú thích: Phần tạo bảng employees. Bảng lưu trữ thông tin nhân viên với cấu trúc mới.
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[employees]') AND type in (N'U'))
-BEGIN
-    CREATE TABLE employees (
-        id INT IDENTITY(1,1) PRIMARY KEY,
-        name NVARCHAR(100) NOT NULL,
-        phone NVARCHAR(20),
-        email NVARCHAR(100) UNIQUE,
-        address NVARCHAR(255) NULL,
-        birth_date DATE NULL,
-        role_id INT NOT NULL,
-        hire_date DATE NOT NULL DEFAULT CAST(GETDATE() AS DATE),
-        salary DECIMAL(12,2) CHECK (salary >= 0),
-        is_active BIT DEFAULT 1,
-        created_at DATETIME DEFAULT GETDATE(),
-        updated_at DATETIME DEFAULT GETDATE(),
-        CONSTRAINT FK_employees_role_id FOREIGN KEY (role_id) REFERENCES roles(id),
-        CONSTRAINT CHK_employees_email CHECK (email LIKE '%@%.%')
-    );
-END
-GO
-
--- Chú thích: Trigger cập nhật updated_at trong bảng employees
-CREATE OR ALTER TRIGGER trg_update_employees_updated_at
-ON employees
-AFTER UPDATE
-AS
-BEGIN
-    UPDATE employees
-    SET updated_at = GETDATE()
-    FROM employees e
-    INNER JOIN inserted i ON e.id = i.id;
-END
-GO
-
 -- Chú thích: Phần tạo bảng areas. Bảng lưu trữ thông tin các khu vực.
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[areas]') AND type in (N'U'))
 BEGIN
@@ -94,7 +46,6 @@ BEGIN
     CREATE TABLE equipment_maintenance (
         id INT IDENTITY(1,1) PRIMARY KEY,
         equipment_id INT NOT NULL,
-        employee_id INT NOT NULL,
         maintenance_date DATE NOT NULL,
         description NVARCHAR(255),
         cost DECIMAL(10,2) DEFAULT 0,
@@ -103,7 +54,6 @@ BEGIN
         next_maintenance_date DATE,
         created_at DATETIME DEFAULT GETDATE(),
         CONSTRAINT FK_maintenance_equipment FOREIGN KEY (equipment_id) REFERENCES equipment(id) ON DELETE CASCADE,
-        CONSTRAINT FK_maintenance_employees FOREIGN KEY (employee_id) REFERENCES employees(id),
         CONSTRAINT CHK_maintenance_date CHECK (maintenance_date <= GETDATE() AND maintenance_date >= '2000-01-01'),
         CONSTRAINT CHK_next_maintenance_date CHECK (next_maintenance_date >= maintenance_date OR next_maintenance_date IS NULL)
     );
@@ -148,7 +98,6 @@ AS
 BEGIN
     SET NOCOUNT ON;
     DECLARE @equipment_id INT, @start_date DATE, @interval_days INT, @description NVARCHAR(255);
-    DECLARE @employee_id INT;
 
     -- Lấy thông tin từ bản ghi vừa thêm/cập nhật
     SELECT @equipment_id = equipment_id, @start_date = start_date, @interval_days = interval_days, @description = description
@@ -167,16 +116,10 @@ BEGIN
             AND maintenance_date <= @next_maintenance_date
         )
         BEGIN
-            -- Chọn nhân viên Active ngẫu nhiên
-            SELECT TOP 1 @employee_id = id 
-            FROM employees 
-            WHERE is_active = 1 
-            ORDER BY NEWID();
-
-            IF @employee_id IS NOT NULL AND @next_maintenance_date <= GETDATE()
+            IF @next_maintenance_date <= GETDATE()
             BEGIN
-                INSERT INTO equipment_maintenance (equipment_id, employee_id, maintenance_date, description, cost, maintenance_type, status, next_maintenance_date)
-                VALUES (@equipment_id, @employee_id, GETDATE(), @description, 0, 'Routine', 'Pending', DATEADD(DAY, @interval_days, GETDATE()));
+                INSERT INTO equipment_maintenance (equipment_id, maintenance_date, description, cost, maintenance_type, status, next_maintenance_date)
+                VALUES (@equipment_id, GETDATE(), @description, 0, 'Routine', 'Pending', DATEADD(DAY, @interval_days, GETDATE()));
             END
         END
     END
@@ -189,7 +132,7 @@ AS
 BEGIN
     SET NOCOUNT ON;
     DECLARE @equipment_id INT, @start_date DATE, @interval_days INT, @description NVARCHAR(255);
-    DECLARE @employee_id INT, @next_maintenance_date DATE;
+    DECLARE @next_maintenance_date DATE;
 
     -- Cursor để duyệt qua các lịch trình
     DECLARE schedule_cursor CURSOR FOR
@@ -215,23 +158,14 @@ BEGIN
                 AND maintenance_date <= @next_maintenance_date
             )
             BEGIN
-                -- Chọn nhân viên Active ngẫu nhiên
-                SELECT TOP 1 @employee_id = id 
-                FROM employees 
-                WHERE is_active = 1 
-                ORDER BY NEWID();
+                -- Thêm bản ghi bảo trì
+                INSERT INTO equipment_maintenance (equipment_id, maintenance_date, description, cost, maintenance_type, status, next_maintenance_date)
+                VALUES (@equipment_id, GETDATE(), @description, 0, 'Routine', 'Pending', DATEADD(DAY, @interval_days, GETDATE()));
 
-                IF @employee_id IS NOT NULL
-                BEGIN
-                    -- Thêm bản ghi bảo trì
-                    INSERT INTO equipment_maintenance (equipment_id, employee_id, maintenance_date, description, cost, maintenance_type, status, next_maintenance_date)
-                    VALUES (@equipment_id, @employee_id, GETDATE(), @description, 0, 'Routine', 'Pending', DATEADD(DAY, @interval_days, GETDATE()));
-
-                    -- Cập nhật start_date để chuyển sang chu kỳ tiếp theo
-                    UPDATE maintenance_schedules
-                    SET start_date = DATEADD(DAY, @interval_days, @start_date)
-                    WHERE equipment_id = @equipment_id AND start_date = @start_date;
-                END
+                -- Cập nhật start_date để chuyển sang chu kỳ tiếp theo
+                UPDATE maintenance_schedules
+                SET start_date = DATEADD(DAY, @interval_days, @start_date)
+                WHERE equipment_id = @equipment_id AND start_date = @start_date;
             END
         END
         FETCH NEXT FROM schedule_cursor INTO @equipment_id, @start_date, @interval_days, @description;
@@ -284,9 +218,13 @@ RETURNS DECIMAL(10,2)
 AS
 BEGIN
     DECLARE @avg_days DECIMAL(10,2);
-    SELECT @avg_days = AVG(DATEDIFF(DAY, LAG(maintenance_date) OVER (ORDER BY maintenance_date), maintenance_date) * 1.0)
-    FROM equipment_maintenance
-    WHERE equipment_id = @equipment_id;
+    WITH diffs AS (
+        SELECT DATEDIFF(DAY, LAG(maintenance_date) OVER (ORDER BY maintenance_date), maintenance_date) AS diff
+        FROM equipment_maintenance
+        WHERE equipment_id = @equipment_id
+    )
+    SELECT @avg_days = AVG(diff * 1.0)
+    FROM diffs;
     RETURN ISNULL(@avg_days, 0);
 END
 GO
@@ -328,7 +266,6 @@ GO
 
 CREATE OR ALTER PROCEDURE sp_schedule_maintenance
     @equipment_id INT,
-    @employee_id INT,
     @maintenance_date DATE,
     @description NVARCHAR(255),
     @cost DECIMAL(10,2),
@@ -342,13 +279,8 @@ BEGIN
         RAISERROR ('Thiết bị không tồn tại.', 16, 1);
         RETURN;
     END
-    IF NOT EXISTS (SELECT 1 FROM employees WHERE id = @employee_id AND is_active = 1)
-    BEGIN
-        RAISERROR ('Nhân viên không tồn tại hoặc không hoạt động.', 16, 1);
-        RETURN;
-    END
-    INSERT INTO equipment_maintenance (equipment_id, employee_id, maintenance_date, description, cost, maintenance_type, status, next_maintenance_date)
-    VALUES (@equipment_id, @employee_id, @maintenance_date, @description, @cost, @maintenance_type, @status, @next_maintenance_date);
+    INSERT INTO equipment_maintenance (equipment_id, maintenance_date, description, cost, maintenance_type, status, next_maintenance_date)
+    VALUES (@equipment_id, @maintenance_date, @description, @cost, @maintenance_type, @status, @next_maintenance_date);
 END
 GO
 
@@ -395,7 +327,7 @@ BEGIN
         dbo.fn_area_equipment_count(a.id) AS AreaEquipmentCount
     FROM areas a
     LEFT JOIN equipment e ON a.id = e.area_id
-    GROUP BY a.name;
+    GROUP BY a.id, a.name;
 END
 GO
 
@@ -433,7 +365,6 @@ GO
 BEGIN TRANSACTION;
 BEGIN TRY
     DECLARE @equipment_id INT = 1;
-    DECLARE @employee_id INT = 1;
     DECLARE @maintenance_date DATE = GETDATE();
     DECLARE @description NVARCHAR(255) = 'Bảo trì mẫu';
     DECLARE @cost DECIMAL(10,2) = 100.00;
@@ -445,13 +376,9 @@ BEGIN TRY
     BEGIN
         RAISERROR ('Thiết bị không tồn tại.', 16, 1);
     END
-    IF NOT EXISTS (SELECT 1 FROM employees WHERE id = @employee_id AND is_active = 1)
-    BEGIN
-        RAISERROR ('Nhân viên không tồn tại hoặc không hoạt động.', 16, 1);
-    END
 
-    INSERT INTO equipment_maintenance (equipment_id, employee_id, maintenance_date, description, cost, maintenance_type, status, next_maintenance_date)
-    VALUES (@equipment_id, @employee_id, @maintenance_date, @description, @cost, @maintenance_type, @status, @next_maintenance_date);
+    INSERT INTO equipment_maintenance (equipment_id, maintenance_date, description, cost, maintenance_type, status, next_maintenance_date)
+    VALUES (@equipment_id, @maintenance_date, @description, @cost, @maintenance_type, @status, @next_maintenance_date);
 
     COMMIT TRANSACTION;
 END TRY
