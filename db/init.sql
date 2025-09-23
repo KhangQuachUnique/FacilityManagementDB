@@ -1,390 +1,496 @@
--- Chú thích: Phần tạo database. Kiểm tra nếu database chưa tồn tại trước khi tạo.
-IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'FacilityManagementDB')
-BEGIN
-    CREATE DATABASE FacilityManagementDB;
-END
+-- File: CreateDatabase.sql
+
+-- Run this script in SQL Server Management Studio to create the database and all objects.
+
+-- Create Database
+CREATE DATABASE FacilityManagementDB;
 GO
 
--- Chú thích: Sử dụng database mới tạo.
 USE FacilityManagementDB;
 GO
 
--- Chú thích: Phần tạo bảng areas. Bảng lưu trữ thông tin các khu vực.
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[areas]') AND type in (N'U'))
+-- Create Tables
+
+-- Roles Table
+CREATE TABLE Roles (
+    RoleID INT PRIMARY KEY IDENTITY(1,1),
+    RoleName NVARCHAR(50) NOT NULL UNIQUE
+);
+GO
+
+-- Users Table
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY IDENTITY(1,1),
+    Username NVARCHAR(50) NOT NULL UNIQUE,
+    PasswordHash NVARCHAR(255) NOT NULL,
+    RoleID INT NOT NULL FOREIGN KEY REFERENCES Roles(RoleID),
+    IsActive BIT NOT NULL DEFAULT 1
+);
+GO
+
+-- Areas Table
+CREATE TABLE Areas (
+    AreaID INT PRIMARY KEY IDENTITY(1,1),
+    AreaName NVARCHAR(100) NOT NULL
+);
+GO
+
+-- Employees Table
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY IDENTITY(1,1),
+    Name NVARCHAR(100) NOT NULL,
+    Position NVARCHAR(50),
+    AreaID INT FOREIGN KEY REFERENCES Areas(AreaID)
+);
+GO
+
+-- EquipmentTypes Table
+CREATE TABLE EquipmentTypes (
+    TypeID INT PRIMARY KEY IDENTITY(1,1),
+    TypeName NVARCHAR(100) NOT NULL
+);
+GO
+
+-- Equipment Table
+CREATE TABLE Equipment (
+    EquipmentID INT PRIMARY KEY IDENTITY(1,1),
+    Name NVARCHAR(100) NOT NULL,
+    TypeID INT NOT NULL FOREIGN KEY REFERENCES EquipmentTypes(TypeID),
+    AreaID INT NOT NULL FOREIGN KEY REFERENCES Areas(AreaID),
+    Status NVARCHAR(50) NOT NULL, -- e.g., 'Operational', 'Under Maintenance', 'Broken'
+    Quantity INT NOT NULL DEFAULT 1,
+    Price DECIMAL(18,2) NOT NULL,
+    LastMaintenanceDate DATE
+);
+GO
+
+-- MaintainEquipment Table
+CREATE TABLE MaintainEquipment (
+    MaintenanceID INT PRIMARY KEY IDENTITY(1,1),
+    EquipmentID INT NOT NULL FOREIGN KEY REFERENCES Equipment(EquipmentID),
+    EmployeeID INT NOT NULL FOREIGN KEY REFERENCES Employees(EmployeeID),
+    MaintenanceDate DATE NOT NULL,
+    Cost DECIMAL(18,2) NOT NULL,
+    Description NVARCHAR(MAX)
+);
+GO
+
+-- EquipmentStatusLog Table
+CREATE TABLE EquipmentStatusLog (
+    LogID INT PRIMARY KEY IDENTITY(1,1),
+    EquipmentID INT NOT NULL FOREIGN KEY REFERENCES Equipment(EquipmentID),
+    Status NVARCHAR(50) NOT NULL,
+    ChangeDate DATETIME NOT NULL DEFAULT GETDATE(),
+    ChangedBy INT NOT NULL FOREIGN KEY REFERENCES Employees(EmployeeID)
+);
+GO
+
+-- Stored Procedures for CRUD
+
+-- Roles
+CREATE PROCEDURE sp_InsertRole
+    @RoleName NVARCHAR(50)
+AS
 BEGIN
-    CREATE TABLE areas (
-        id INT IDENTITY(1,1) PRIMARY KEY,
-        name NVARCHAR(100) NOT NULL,
-        description NVARCHAR(255),
-        created_at DATETIME DEFAULT GETDATE(),
-        CONSTRAINT UQ_areas_name UNIQUE (name)
-    );
+    INSERT INTO Roles (RoleName) VALUES (@RoleName);
 END
 GO
 
--- Chú thích: Phần tạo bảng equipment. Bảng lưu trữ thông tin thiết bị.
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[equipment]') AND type in (N'U'))
+CREATE PROCEDURE sp_UpdateRole
+    @RoleID INT,
+    @RoleName NVARCHAR(50)
+AS
 BEGIN
-    CREATE TABLE equipment (
-        id INT IDENTITY(1,1) PRIMARY KEY,
-        area_id INT NOT NULL,
-        name NVARCHAR(100) NOT NULL,
-        type NVARCHAR(50) NOT NULL,
-        purchase_date DATE NOT NULL,
-        status NVARCHAR(20) NOT NULL CHECK (status IN ('Operational', 'Under Maintenance', 'Out of Service')),
-        created_at DATETIME DEFAULT GETDATE(),
-        updated_at DATETIME,
-        CONSTRAINT FK_equipment_areas FOREIGN KEY (area_id) REFERENCES areas(id),
-        CONSTRAINT CHK_purchase_date CHECK (purchase_date <= GETDATE() AND purchase_date >= '2000-01-01')
-    );
+    UPDATE Roles SET RoleName = @RoleName WHERE RoleID = @RoleID;
 END
 GO
 
--- Chú thích: Phần tạo bảng equipment_maintenance. Bảng lưu trữ lịch sử bảo trì.
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[equipment_maintenance]') AND type in (N'U'))
+CREATE PROCEDURE sp_DeleteRole
+    @RoleID INT
+AS
 BEGIN
-    CREATE TABLE equipment_maintenance (
-        id INT IDENTITY(1,1) PRIMARY KEY,
-        equipment_id INT NOT NULL,
-        maintenance_date DATE NOT NULL,
-        description NVARCHAR(255),
-        cost DECIMAL(10,2) DEFAULT 0,
-        maintenance_type NVARCHAR(20) NOT NULL CHECK (maintenance_type IN ('Routine', 'Repair', 'Inspection')),
-        status NVARCHAR(20) NOT NULL CHECK (status IN ('Completed', 'Pending', 'In Progress')),
-        next_maintenance_date DATE,
-        created_at DATETIME DEFAULT GETDATE(),
-        CONSTRAINT FK_maintenance_equipment FOREIGN KEY (equipment_id) REFERENCES equipment(id) ON DELETE CASCADE,
-        CONSTRAINT CHK_maintenance_date CHECK (maintenance_date <= GETDATE() AND maintenance_date >= '2000-01-01'),
-        CONSTRAINT CHK_next_maintenance_date CHECK (next_maintenance_date >= maintenance_date OR next_maintenance_date IS NULL)
-    );
+    DELETE FROM Roles WHERE RoleID = @RoleID;
 END
 GO
 
--- Chú thích: Phần tạo bảng maintenance_schedules. Bảng lưu trữ lịch bảo trì định kỳ.
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[maintenance_schedules]') AND type in (N'U'))
+CREATE PROCEDURE sp_GetAllRoles
+AS
 BEGIN
-    CREATE TABLE maintenance_schedules (
-        id INT IDENTITY(1,1) PRIMARY KEY,
-        equipment_id INT NOT NULL,
-        schedule_type NVARCHAR(20) NOT NULL CHECK (schedule_type IN ('Daily', 'Weekly', 'Monthly', 'Yearly')),
-        start_date DATE NOT NULL,
-        interval_days INT NOT NULL CHECK (interval_days > 0),
-        description NVARCHAR(255),
-        created_at DATETIME DEFAULT GETDATE(),
-        CONSTRAINT FK_schedules_equipment FOREIGN KEY (equipment_id) REFERENCES equipment(id) ON DELETE CASCADE,
-        CONSTRAINT CHK_start_date CHECK (start_date >= '2000-01-01')
-    );
+    SELECT * FROM Roles;
 END
 GO
 
--- Chú thích: Trigger cập nhật updated_at trong bảng equipment
-CREATE OR ALTER TRIGGER trg_update_equipment_updated_at
-ON equipment
+CREATE PROCEDURE sp_GetRoleByID
+    @RoleID INT
+AS
+BEGIN
+    SELECT * FROM Roles WHERE RoleID = @RoleID;
+END
+GO
+
+-- Users
+CREATE PROCEDURE sp_InsertUser
+    @Username NVARCHAR(50),
+    @PasswordHash NVARCHAR(255),
+    @RoleID INT,
+    @IsActive BIT
+AS
+BEGIN
+    INSERT INTO Users (Username, PasswordHash, RoleID, IsActive) VALUES (@Username, @PasswordHash, @RoleID, @IsActive);
+END
+GO
+
+CREATE PROCEDURE sp_UpdateUser
+    @UserID INT,
+    @Username NVARCHAR(50),
+    @PasswordHash NVARCHAR(255),
+    @RoleID INT,
+    @IsActive BIT
+AS
+BEGIN
+    UPDATE Users SET Username = @Username, PasswordHash = @PasswordHash, RoleID = @RoleID, IsActive = @IsActive WHERE UserID = @UserID;
+END
+GO
+
+CREATE PROCEDURE sp_DeleteUser
+    @UserID INT
+AS
+BEGIN
+    DELETE FROM Users WHERE UserID = @UserID;
+END
+GO
+
+CREATE PROCEDURE sp_GetAllUsers
+AS
+BEGIN
+    SELECT u.*, r.RoleName FROM Users u JOIN Roles r ON u.RoleID = r.RoleID;
+END
+GO
+
+CREATE PROCEDURE sp_GetUserByID
+    @UserID INT
+AS
+BEGIN
+    SELECT u.*, r.RoleName FROM Users u JOIN Roles r ON u.RoleID = r.RoleID WHERE u.UserID = @UserID;
+END
+GO
+
+CREATE PROCEDURE sp_GetUserByUsername
+    @Username NVARCHAR(50)
+AS
+BEGIN
+    SELECT u.*, r.RoleName FROM Users u JOIN Roles r ON u.RoleID = r.RoleID WHERE u.Username = @Username;
+END
+GO
+
+-- Areas
+CREATE PROCEDURE sp_InsertArea
+    @AreaName NVARCHAR(100)
+AS
+BEGIN
+    INSERT INTO Areas (AreaName) VALUES (@AreaName);
+END
+GO
+
+CREATE PROCEDURE sp_UpdateArea
+    @AreaID INT,
+    @AreaName NVARCHAR(100)
+AS
+BEGIN
+    UPDATE Areas SET AreaName = @AreaName WHERE AreaID = @AreaID;
+END
+GO
+
+CREATE PROCEDURE sp_DeleteArea
+    @AreaID INT
+AS
+BEGIN
+    DELETE FROM Areas WHERE AreaID = @AreaID;
+END
+GO
+
+CREATE PROCEDURE sp_GetAllAreas
+AS
+BEGIN
+    SELECT * FROM Areas;
+END
+GO
+
+-- Employees
+CREATE PROCEDURE sp_InsertEmployee
+    @Name NVARCHAR(100),
+    @Position NVARCHAR(50),
+    @AreaID INT
+AS
+BEGIN
+    INSERT INTO Employees (Name, Position, AreaID) VALUES (@Name, @Position, @AreaID);
+END
+GO
+
+CREATE PROCEDURE sp_UpdateEmployee
+    @EmployeeID INT,
+    @Name NVARCHAR(100),
+    @Position NVARCHAR(50),
+    @AreaID INT
+AS
+BEGIN
+    UPDATE Employees SET Name = @Name, Position = @Position, AreaID = @AreaID WHERE EmployeeID = @EmployeeID;
+END
+GO
+
+CREATE PROCEDURE sp_DeleteEmployee
+    @EmployeeID INT
+AS
+BEGIN
+    DELETE FROM Employees WHERE EmployeeID = @EmployeeID;
+END
+GO
+
+CREATE PROCEDURE sp_GetAllEmployees
+AS
+BEGIN
+    SELECT e.*, a.AreaName FROM Employees e LEFT JOIN Areas a ON e.AreaID = a.AreaID;
+END
+GO
+
+-- EquipmentTypes
+CREATE PROCEDURE sp_InsertEquipmentType
+    @TypeName NVARCHAR(100)
+AS
+BEGIN
+    INSERT INTO EquipmentTypes (TypeName) VALUES (@TypeName);
+END
+GO
+
+CREATE PROCEDURE sp_UpdateEquipmentType
+    @TypeID INT,
+    @TypeName NVARCHAR(100)
+AS
+BEGIN
+    UPDATE EquipmentTypes SET TypeName = @TypeName WHERE TypeID = @TypeID;
+END
+GO
+
+CREATE PROCEDURE sp_DeleteEquipmentType
+    @TypeID INT
+AS
+BEGIN
+    DELETE FROM EquipmentTypes WHERE TypeID = @TypeID;
+END
+GO
+
+CREATE PROCEDURE sp_GetAllEquipmentTypes
+AS
+BEGIN
+    SELECT * FROM EquipmentTypes;
+END
+GO
+
+-- Equipment
+CREATE PROCEDURE sp_InsertEquipment
+    @Name NVARCHAR(100),
+    @TypeID INT,
+    @AreaID INT,
+    @Status NVARCHAR(50),
+    @Quantity INT,
+    @Price DECIMAL(18,2),
+    @LastMaintenanceDate DATE
+AS
+BEGIN
+    INSERT INTO Equipment (Name, TypeID, AreaID, Status, Quantity, Price, LastMaintenanceDate) 
+    VALUES (@Name, @TypeID, @AreaID, @Status, @Quantity, @Price, @LastMaintenanceDate);
+END
+GO
+
+CREATE PROCEDURE sp_UpdateEquipment
+    @EquipmentID INT,
+    @Name NVARCHAR(100),
+    @TypeID INT,
+    @AreaID INT,
+    @Status NVARCHAR(50),
+    @Quantity INT,
+    @Price DECIMAL(18,2),
+    @LastMaintenanceDate DATE
+AS
+BEGIN
+    UPDATE Equipment SET Name = @Name, TypeID = @TypeID, AreaID = @AreaID, Status = @Status, 
+    Quantity = @Quantity, Price = @Price, LastMaintenanceDate = @LastMaintenanceDate 
+    WHERE EquipmentID = @EquipmentID;
+END
+GO
+
+CREATE PROCEDURE sp_DeleteEquipment
+    @EquipmentID INT
+AS
+BEGIN
+    DELETE FROM Equipment WHERE EquipmentID = @EquipmentID;
+END
+GO
+
+CREATE PROCEDURE sp_GetAllEquipment
+AS
+BEGIN
+    SELECT e.*, t.TypeName, a.AreaName FROM Equipment e 
+    JOIN EquipmentTypes t ON e.TypeID = t.TypeID
+    JOIN Areas a ON e.AreaID = a.AreaID;
+END
+GO
+
+CREATE PROCEDURE sp_GetEquipmentByFilter
+    @AreaID INT = NULL,
+    @TypeID INT = NULL,
+    @Status NVARCHAR(50) = NULL
+AS
+BEGIN
+    SELECT e.*, t.TypeName, a.AreaName FROM Equipment e 
+    JOIN EquipmentTypes t ON e.TypeID = t.TypeID
+    JOIN Areas a ON e.AreaID = a.AreaID
+    WHERE (@AreaID IS NULL OR e.AreaID = @AreaID)
+    AND (@TypeID IS NULL OR e.TypeID = @TypeID)
+    AND (@Status IS NULL OR e.Status = @Status);
+END
+GO
+
+-- MaintainEquipment
+CREATE PROCEDURE sp_InsertMaintenance
+    @EquipmentID INT,
+    @EmployeeID INT,
+    @MaintenanceDate DATE,
+    @Cost DECIMAL(18,2),
+    @Description NVARCHAR(MAX)
+AS
+BEGIN
+    INSERT INTO MaintainEquipment (EquipmentID, EmployeeID, MaintenanceDate, Cost, Description) 
+    VALUES (@EquipmentID, @EmployeeID, @MaintenanceDate, @Cost, @Description);
+END
+GO
+
+CREATE PROCEDURE sp_UpdateMaintenance
+    @MaintenanceID INT,
+    @EquipmentID INT,
+    @EmployeeID INT,
+    @MaintenanceDate DATE,
+    @Cost DECIMAL(18,2),
+    @Description NVARCHAR(MAX)
+AS
+BEGIN
+    UPDATE MaintainEquipment SET EquipmentID = @EquipmentID, EmployeeID = @EmployeeID, 
+    MaintenanceDate = @MaintenanceDate, Cost = @Cost, Description = @Description 
+    WHERE MaintenanceID = @MaintenanceID;
+END
+GO
+
+CREATE PROCEDURE sp_DeleteMaintenance
+    @MaintenanceID INT
+AS
+BEGIN
+    DELETE FROM MaintainEquipment WHERE MaintenanceID = @MaintenanceID;
+END
+GO
+
+CREATE PROCEDURE sp_GetAllMaintenance
+AS
+BEGIN
+    SELECT m.*, e.Name AS EquipmentName, emp.Name AS EmployeeName 
+    FROM MaintainEquipment m 
+    JOIN Equipment e ON m.EquipmentID = e.EquipmentID
+    JOIN Employees emp ON m.EmployeeID = emp.EmployeeID;
+END
+GO
+
+CREATE PROCEDURE sp_GetMaintenanceByFilter
+    @EquipmentID INT = NULL,
+    @EmployeeID INT = NULL,
+    @StartDate DATE = NULL,
+    @EndDate DATE = NULL
+AS
+BEGIN
+    SELECT m.*, e.Name AS EquipmentName, emp.Name AS EmployeeName 
+    FROM MaintainEquipment m 
+    JOIN Equipment e ON m.EquipmentID = e.EquipmentID
+    JOIN Employees emp ON m.EmployeeID = emp.EmployeeID
+    WHERE (@EquipmentID IS NULL OR m.EquipmentID = @EquipmentID)
+    AND (@EmployeeID IS NULL OR m.EmployeeID = @EmployeeID)
+    AND (@StartDate IS NULL OR m.MaintenanceDate >= @StartDate)
+    AND (@EndDate IS NULL OR m.MaintenanceDate <= @EndDate);
+END
+GO
+
+-- Reports
+CREATE PROCEDURE sp_ReportMaintenanceCostByMonthYear
+    @Month INT,
+    @Year INT
+AS
+BEGIN
+    SELECT SUM(Cost) AS TotalCost 
+    FROM MaintainEquipment 
+    WHERE MONTH(MaintenanceDate) = @Month AND YEAR(MaintenanceDate) = @Year;
+END
+GO
+
+CREATE PROCEDURE sp_ReportEquipmentValueByArea
+    @AreaID INT
+AS
+BEGIN
+    SELECT SUM(Price * Quantity) AS TotalValue 
+    FROM Equipment 
+    WHERE AreaID = @AreaID;
+END
+GO
+
+CREATE PROCEDURE sp_ReportEquipmentValueByType
+    @TypeID INT
+AS
+BEGIN
+    SELECT SUM(Price * Quantity) AS TotalValue 
+    FROM Equipment 
+    WHERE TypeID = @TypeID;
+END
+GO
+
+CREATE PROCEDURE sp_ReportEquipmentNeedingMaintenance
+    @DaysThreshold INT -- e.g., equipment not maintained in last X days
+AS
+BEGIN
+    SELECT * FROM Equipment 
+    WHERE LastMaintenanceDate < DATEADD(DAY, -@DaysThreshold, GETDATE()) OR LastMaintenanceDate IS NULL;
+END
+GO
+
+-- Functions
+CREATE FUNCTION fn_GetTotalMaintenanceCost (@EquipmentID INT)
+RETURNS DECIMAL(18,2)
+AS
+BEGIN
+    DECLARE @Total DECIMAL(18,2);
+    SELECT @Total = SUM(Cost) FROM MaintainEquipment WHERE EquipmentID = @EquipmentID;
+    RETURN ISNULL(@Total, 0);
+END
+GO
+
+-- Triggers
+CREATE TRIGGER trg_EquipmentStatusChange
+ON Equipment
 AFTER UPDATE
 AS
 BEGIN
-    UPDATE equipment
-    SET updated_at = GETDATE()
-    FROM equipment e
-    INNER JOIN inserted i ON e.id = i.id;
-END
-GO
-
--- Chú thích: Trigger kiểm tra và tạo bản ghi bảo trì từ maintenance_schedules khi INSERT/UPDATE
-CREATE OR ALTER TRIGGER trg_auto_create_maintenance
-ON maintenance_schedules
-AFTER INSERT, UPDATE
-AS
-BEGIN
-    SET NOCOUNT ON;
-    DECLARE @equipment_id INT, @start_date DATE, @interval_days INT, @description NVARCHAR(255);
-
-    -- Lấy thông tin từ bản ghi vừa thêm/cập nhật
-    SELECT @equipment_id = equipment_id, @start_date = start_date, @interval_days = interval_days, @description = description
-    FROM inserted;
-
-    -- Kiểm tra thiết bị tồn tại và ở trạng thái hợp lệ
-    IF EXISTS (SELECT 1 FROM equipment WHERE id = @equipment_id AND status IN ('Operational', 'Under Maintenance'))
+    IF UPDATE(Status)
     BEGIN
-        DECLARE @next_maintenance_date DATE = DATEADD(DAY, @interval_days, @start_date);
-        
-        -- Kiểm tra xem đã có bản ghi bảo trì nào cho chu kỳ này chưa
-        IF NOT EXISTS (
-            SELECT 1 FROM equipment_maintenance 
-            WHERE equipment_id = @equipment_id 
-            AND maintenance_date >= @start_date 
-            AND maintenance_date <= @next_maintenance_date
-        )
-        BEGIN
-            IF @next_maintenance_date <= GETDATE()
-            BEGIN
-                INSERT INTO equipment_maintenance (equipment_id, maintenance_date, description, cost, maintenance_type, status, next_maintenance_date)
-                VALUES (@equipment_id, GETDATE(), @description, 0, 'Routine', 'Pending', DATEADD(DAY, @interval_days, GETDATE()));
-            END
-        END
+        INSERT INTO EquipmentStatusLog (EquipmentID, Status, ChangeDate, ChangedBy)
+        SELECT i.EquipmentID, i.Status, GETDATE(), 1 -- Assume ChangedBy is 1 for demo, replace with actual
+        FROM inserted i
+        INNER JOIN deleted d ON i.EquipmentID = d.EquipmentID
+        WHERE i.Status <> d.Status;
     END
 END
 GO
 
--- Chú thích: Stored Procedure kiểm tra lịch trình và tạo bản ghi bảo trì định kỳ
-CREATE OR ALTER PROCEDURE sp_check_and_create_maintenance
-AS
-BEGIN
-    SET NOCOUNT ON;
-    DECLARE @equipment_id INT, @start_date DATE, @interval_days INT, @description NVARCHAR(255);
-    DECLARE @next_maintenance_date DATE;
-
-    -- Cursor để duyệt qua các lịch trình
-    DECLARE schedule_cursor CURSOR FOR
-    SELECT equipment_id, start_date, interval_days, description
-    FROM maintenance_schedules
-    WHERE DATEADD(DAY, interval_days, start_date) <= GETDATE();
-
-    OPEN schedule_cursor;
-    FETCH NEXT FROM schedule_cursor INTO @equipment_id, @start_date, @interval_days, @description;
-
-    WHILE @@FETCH_STATUS = 0
-    BEGIN
-        -- Kiểm tra thiết bị tồn tại và ở trạng thái hợp lệ
-        IF EXISTS (SELECT 1 FROM equipment WHERE id = @equipment_id AND status IN ('Operational', 'Under Maintenance'))
-        BEGIN
-            SET @next_maintenance_date = DATEADD(DAY, @interval_days, @start_date);
-
-            -- Kiểm tra xem đã có bản ghi bảo trì nào cho chu kỳ này chưa
-            IF NOT EXISTS (
-                SELECT 1 FROM equipment_maintenance 
-                WHERE equipment_id = @equipment_id 
-                AND maintenance_date >= @start_date 
-                AND maintenance_date <= @next_maintenance_date
-            )
-            BEGIN
-                -- Thêm bản ghi bảo trì
-                INSERT INTO equipment_maintenance (equipment_id, maintenance_date, description, cost, maintenance_type, status, next_maintenance_date)
-                VALUES (@equipment_id, GETDATE(), @description, 0, 'Routine', 'Pending', DATEADD(DAY, @interval_days, GETDATE()));
-
-                -- Cập nhật start_date để chuyển sang chu kỳ tiếp theo
-                UPDATE maintenance_schedules
-                SET start_date = DATEADD(DAY, @interval_days, @start_date)
-                WHERE equipment_id = @equipment_id AND start_date = @start_date;
-            END
-        END
-        FETCH NEXT FROM schedule_cursor INTO @equipment_id, @start_date, @interval_days, @description;
-    END
-
-    CLOSE schedule_cursor;
-    DEALLOCATE schedule_cursor;
-END
-GO
-
--- Chú thích: Phần tạo Functions
-CREATE OR ALTER FUNCTION fn_equipment_total_cost (@equipment_id INT)
-RETURNS DECIMAL(10,2)
-AS
-BEGIN
-    DECLARE @total_cost DECIMAL(10,2);
-    SELECT @total_cost = SUM(cost)
-    FROM equipment_maintenance
-    WHERE equipment_id = @equipment_id;
-    RETURN ISNULL(@total_cost, 0);
-END
-GO
-
-CREATE OR ALTER FUNCTION fn_equipment_status_count (@status NVARCHAR(20))
-RETURNS INT
-AS
-BEGIN
-    DECLARE @count INT;
-    SELECT @count = COUNT(*)
-    FROM equipment
-    WHERE status = @status;
-    RETURN @count;
-END
-GO
-
-CREATE OR ALTER FUNCTION fn_area_equipment_count (@area_id INT)
-RETURNS INT
-AS
-BEGIN
-    DECLARE @count INT;
-    SELECT @count = COUNT(*)
-    FROM equipment
-    WHERE area_id = @area_id;
-    RETURN @count;
-END
-GO
-
-CREATE OR ALTER FUNCTION fn_avg_maintenance_interval (@equipment_id INT)
-RETURNS DECIMAL(10,2)
-AS
-BEGIN
-    DECLARE @avg_days DECIMAL(10,2);
-    WITH diffs AS (
-        SELECT DATEDIFF(DAY, LAG(maintenance_date) OVER (ORDER BY maintenance_date), maintenance_date) AS diff
-        FROM equipment_maintenance
-        WHERE equipment_id = @equipment_id
-    )
-    SELECT @avg_days = AVG(diff * 1.0)
-    FROM diffs;
-    RETURN ISNULL(@avg_days, 0);
-END
-GO
-
--- Chú thích: Phần tạo Stored Procedures
-CREATE OR ALTER PROCEDURE sp_add_equipment
-    @area_id INT,
-    @name NVARCHAR(100),
-    @type NVARCHAR(50),
-    @purchase_date DATE,
-    @status NVARCHAR(20)
-AS
-BEGIN
-    IF EXISTS (SELECT 1 FROM equipment WHERE area_id = @area_id AND name = @name)
-    BEGIN
-        RAISERROR ('Tên thiết bị đã tồn tại trong khu vực này.', 16, 1);
-        RETURN;
-    END
-    INSERT INTO equipment (area_id, name, type, purchase_date, status)
-    VALUES (@area_id, @name, @type, @purchase_date, @status);
-END
-GO
-
-CREATE OR ALTER PROCEDURE sp_update_equipment_status
-    @equipment_id INT,
-    @new_status NVARCHAR(20)
-AS
-BEGIN
-    IF @new_status NOT IN ('Operational', 'Under Maintenance', 'Out of Service')
-    BEGIN
-        RAISERROR ('Trạng thái không hợp lệ.', 16, 1);
-        RETURN;
-    END
-    UPDATE equipment
-    SET status = @new_status
-    WHERE id = @equipment_id;
-END
-GO
-
-CREATE OR ALTER PROCEDURE sp_schedule_maintenance
-    @equipment_id INT,
-    @maintenance_date DATE,
-    @description NVARCHAR(255),
-    @cost DECIMAL(10,2),
-    @maintenance_type NVARCHAR(20),
-    @status NVARCHAR(20),
-    @next_maintenance_date DATE
-AS
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM equipment WHERE id = @equipment_id)
-    BEGIN
-        RAISERROR ('Thiết bị không tồn tại.', 16, 1);
-        RETURN;
-    END
-    INSERT INTO equipment_maintenance (equipment_id, maintenance_date, description, cost, maintenance_type, status, next_maintenance_date)
-    VALUES (@equipment_id, @maintenance_date, @description, @cost, @maintenance_type, @status, @next_maintenance_date);
-END
-GO
-
-CREATE OR ALTER PROCEDURE sp_get_equipment_history
-    @equipment_id INT
-AS
-BEGIN
-    SELECT * FROM equipment_maintenance
-    WHERE equipment_id = @equipment_id
-    ORDER BY maintenance_date DESC;
-END
-GO
-
-CREATE OR ALTER PROCEDURE sp_add_maintenance_schedule
-    @equipment_id INT,
-    @schedule_type NVARCHAR(20),
-    @start_date DATE,
-    @interval_days INT,
-    @description NVARCHAR(255)
-AS
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM equipment WHERE id = @equipment_id)
-    BEGIN
-        RAISERROR ('Thiết bị không tồn tại.', 16, 1);
-        RETURN;
-    END
-    IF @schedule_type NOT IN ('Daily', 'Weekly', 'Monthly', 'Yearly')
-    BEGIN
-        RAISERROR ('Loại lịch không hợp lệ.', 16, 1);
-        RETURN;
-    END
-    INSERT INTO maintenance_schedules (equipment_id, schedule_type, start_date, interval_days, description)
-    VALUES (@equipment_id, @schedule_type, @start_date, @interval_days, @description);
-END
-GO
-
-CREATE OR ALTER PROCEDURE sp_facility_report
-AS
-BEGIN
-    SELECT 
-        a.name AS AreaName,
-        COUNT(e.id) AS EquipmentCount,
-        SUM(dbo.fn_equipment_total_cost(e.id)) AS TotalMaintenanceCost,
-        dbo.fn_area_equipment_count(a.id) AS AreaEquipmentCount
-    FROM areas a
-    LEFT JOIN equipment e ON a.id = e.area_id
-    GROUP BY a.id, a.name;
-END
-GO
-
-CREATE OR ALTER PROCEDURE sp_overdue_maintenance
-AS
-BEGIN
-    SELECT 
-        e.name AS EquipmentName,
-        a.name AS AreaName,
-        em.next_maintenance_date AS OverdueDate,
-        DATEDIFF(DAY, em.next_maintenance_date, GETDATE()) AS DaysOverdue
-    FROM equipment_maintenance em
-    JOIN equipment e ON em.equipment_id = e.id
-    JOIN areas a ON e.area_id = a.id
-    WHERE em.next_maintenance_date < GETDATE() AND em.status != 'Completed'
-    ORDER BY em.next_maintenance_date;
-END
-GO
-
--- Chú thích: View hiển thị thông tin thiết bị với khu vực và tổng chi phí bảo trì
-CREATE OR ALTER VIEW vw_equipment_details
-AS
-SELECT 
-    e.id AS EquipmentID,
-    e.name AS EquipmentName,
-    a.name AS AreaName,
-    e.type AS EquipmentType,
-    e.status AS EquipmentStatus,
-    dbo.fn_equipment_total_cost(e.id) AS TotalMaintenanceCost
-FROM equipment e
-JOIN areas a ON e.area_id = a.id;
-GO
-
--- Chú thích: Transaction mẫu để thêm bản ghi bảo trì
-BEGIN TRANSACTION;
-BEGIN TRY
-    DECLARE @equipment_id INT = 1;
-    DECLARE @maintenance_date DATE = GETDATE();
-    DECLARE @description NVARCHAR(255) = 'Bảo trì mẫu';
-    DECLARE @cost DECIMAL(10,2) = 100.00;
-    DECLARE @maintenance_type NVARCHAR(20) = 'Routine';
-    DECLARE @status NVARCHAR(20) = 'Pending';
-    DECLARE @next_maintenance_date DATE = DATEADD(MONTH, 1, GETDATE());
-
-    IF NOT EXISTS (SELECT 1 FROM equipment WHERE id = @equipment_id)
-    BEGIN
-        RAISERROR ('Thiết bị không tồn tại.', 16, 1);
-    END
-
-    INSERT INTO equipment_maintenance (equipment_id, maintenance_date, description, cost, maintenance_type, status, next_maintenance_date)
-    VALUES (@equipment_id, @maintenance_date, @description, @cost, @maintenance_type, @status, @next_maintenance_date);
-
-    COMMIT TRANSACTION;
-END TRY
-BEGIN CATCH
-    ROLLBACK TRANSACTION;
-    DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
-    PRINT @ErrorMessage;
-END CATCH
+-- Insert Sample Data for Demo
+INSERT INTO Roles (RoleName) VALUES ('Admin'), ('Manager'), ('Staff');
+INSERT INTO Users (Username, PasswordHash, RoleID, IsActive) VALUES ('admin', 'hashedpass', 1, 1); -- Use proper hashing in code
+INSERT INTO Areas (AreaName) VALUES ('Storage'), ('Sales Floor');
+INSERT INTO Employees (Name, Position, AreaID) VALUES ('John Doe', 'Manager', 1);
+INSERT INTO EquipmentTypes (TypeName) VALUES ('Shelf'), ('Computer');
+INSERT INTO Equipment (Name, TypeID, AreaID, Status, Quantity, Price, LastMaintenanceDate) 
+VALUES ('Bookshelf', 1, 1, 'Operational', 5, 100.00, '2023-01-01');
 GO
