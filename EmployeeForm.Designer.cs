@@ -34,6 +34,9 @@ namespace FacilityManagementSystem
             this.txtName = new System.Windows.Forms.TextBox();
             this.txtPosition = new System.Windows.Forms.TextBox();
             this.cmbArea = new System.Windows.Forms.ComboBox();
+            this.lblNameValue = new System.Windows.Forms.Label();
+            this.lblPositionValue = new System.Windows.Forms.Label();
+            this.lblAreaValue = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
@@ -54,27 +57,57 @@ namespace FacilityManagementSystem
             this.dgvEmployees.TabIndex = 0;
             this.dgvEmployees.SelectionChanged += new System.EventHandler(this.dgvEmployees_SelectionChanged);
             // 
-            // txtName
+            // txtName (hidden, replaced by label)
             // 
             this.txtName.Location = new System.Drawing.Point(100, 220);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(150, 20);
             this.txtName.TabIndex = 1;
+            this.txtName.Visible = false;
             // 
-            // txtPosition
+            // txtPosition (hidden, replaced by label)
             // 
             this.txtPosition.Location = new System.Drawing.Point(100, 246);
             this.txtPosition.Name = "txtPosition";
             this.txtPosition.Size = new System.Drawing.Size(150, 20);
             this.txtPosition.TabIndex = 2;
+            this.txtPosition.Visible = false;
             // 
-            // cmbArea
+            // cmbArea (hidden, replaced by label)
             // 
             this.cmbArea.FormattingEnabled = true;
             this.cmbArea.Location = new System.Drawing.Point(100, 272);
             this.cmbArea.Name = "cmbArea";
             this.cmbArea.Size = new System.Drawing.Size(150, 21);
             this.cmbArea.TabIndex = 3;
+            this.cmbArea.Visible = false;
+
+            // 
+            // lblNameValue
+            // 
+            this.lblNameValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblNameValue.Location = new System.Drawing.Point(100, 220);
+            this.lblNameValue.Name = "lblNameValue";
+            this.lblNameValue.Size = new System.Drawing.Size(150, 20);
+            this.lblNameValue.TabIndex = 12;
+
+            // 
+            // lblPositionValue
+            // 
+            this.lblPositionValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblPositionValue.Location = new System.Drawing.Point(100, 246);
+            this.lblPositionValue.Name = "lblPositionValue";
+            this.lblPositionValue.Size = new System.Drawing.Size(150, 20);
+            this.lblPositionValue.TabIndex = 13;
+
+            // 
+            // lblAreaValue
+            // 
+            this.lblAreaValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblAreaValue.Location = new System.Drawing.Point(100, 272);
+            this.lblAreaValue.Name = "lblAreaValue";
+            this.lblAreaValue.Size = new System.Drawing.Size(150, 20);
+            this.lblAreaValue.TabIndex = 14;
             // 
             // btnAdd
             // 
@@ -161,6 +194,9 @@ namespace FacilityManagementSystem
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblAreaValue);
+            this.Controls.Add(this.lblPositionValue);
+            this.Controls.Add(this.lblNameValue);
             this.Controls.Add(this.btnPrev);
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.btnDelete);
@@ -192,5 +228,8 @@ namespace FacilityManagementSystem
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+    private System.Windows.Forms.Label lblNameValue;
+    private System.Windows.Forms.Label lblPositionValue;
+    private System.Windows.Forms.Label lblAreaValue;
     }
 }

@@ -66,13 +66,13 @@ namespace FacilityManagementSystem
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            SqlParameter[] parameters = {
-                new SqlParameter("@Name", txtName.Text),
-                new SqlParameter("@Position", txtPosition.Text),
-                new SqlParameter("@AreaID", cmbArea.SelectedValue ?? (object)DBNull.Value)
-            };
-            DatabaseHelper.ExecuteNonQuery("sp_InsertEmployee", parameters);
-            LoadEmployees();
+            using (var editForm = new EmployeeEditForm())
+            {
+                if (editForm.ShowDialog() == DialogResult.OK)
+                {
+                    LoadEmployees();
+                }
+            }
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -80,14 +80,17 @@ namespace FacilityManagementSystem
             if (dgvEmployees.SelectedRows.Count > 0)
             {
                 int employeeID = Convert.ToInt32(dgvEmployees.SelectedRows[0].Cells["EmployeeID"].Value);
-                SqlParameter[] parameters = {
-                    new SqlParameter("@EmployeeID", employeeID),
-                    new SqlParameter("@Name", txtName.Text),
-                    new SqlParameter("@Position", txtPosition.Text),
-                    new SqlParameter("@AreaID", cmbArea.SelectedValue ?? (object)DBNull.Value)
-                };
-                DatabaseHelper.ExecuteNonQuery("sp_UpdateEmployee", parameters);
-                LoadEmployees();
+                using (var editForm = new EmployeeEditForm(employeeID))
+                {
+                    if (editForm.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadEmployees();
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a row to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -106,16 +109,16 @@ namespace FacilityManagementSystem
         {
             if (dgvEmployees.SelectedRows.Count > 0)
             {
-                txtName.Text = dgvEmployees.SelectedRows[0].Cells["Name"].Value.ToString();
-                txtPosition.Text = dgvEmployees.SelectedRows[0].Cells["Position"].Value.ToString();
-                if (dgvEmployees.SelectedRows[0].Cells["AreaID"].Value != DBNull.Value)
-                {
-                    cmbArea.SelectedValue = dgvEmployees.SelectedRows[0].Cells["AreaID"].Value;
-                }
-                else
-                {
-                    cmbArea.SelectedIndex = -1;
-                }
+                var row = dgvEmployees.SelectedRows[0];
+                lblNameValue.Text = row.Cells["Name"].Value?.ToString() ?? string.Empty;
+                lblPositionValue.Text = row.Cells["Position"].Value?.ToString() ?? string.Empty;
+                lblAreaValue.Text = row.Cells["AreaName"]?.Value?.ToString() ?? string.Empty;
+            }
+            else
+            {
+                lblNameValue.Text = string.Empty;
+                lblPositionValue.Text = string.Empty;
+                lblAreaValue.Text = string.Empty;
             }
         }
     }

@@ -32,6 +32,7 @@ namespace FacilityManagementSystem
         {
             this.dgvTypes = new System.Windows.Forms.DataGridView();
             this.txtTypeName = new System.Windows.Forms.TextBox();
+            this.lblTypeNameValue = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
@@ -50,12 +51,22 @@ namespace FacilityManagementSystem
             this.dgvTypes.TabIndex = 0;
             this.dgvTypes.SelectionChanged += new System.EventHandler(this.dgvTypes_SelectionChanged);
             // 
-            // txtTypeName
+            // txtTypeName (hidden, replaced by label)
             // 
             this.txtTypeName.Location = new System.Drawing.Point(100, 220);
             this.txtTypeName.Name = "txtTypeName";
             this.txtTypeName.Size = new System.Drawing.Size(150, 20);
             this.txtTypeName.TabIndex = 1;
+            this.txtTypeName.Visible = false;
+
+            // 
+            // lblTypeNameValue
+            // 
+            this.lblTypeNameValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblTypeNameValue.Location = new System.Drawing.Point(100, 220);
+            this.lblTypeNameValue.Name = "lblTypeNameValue";
+            this.lblTypeNameValue.Size = new System.Drawing.Size(150, 20);
+            this.lblTypeNameValue.TabIndex = 8;
             // 
             // btnAdd
             // 
@@ -122,6 +133,7 @@ namespace FacilityManagementSystem
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 341);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblTypeNameValue);
             this.Controls.Add(this.btnPrev);
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.btnDelete);
@@ -141,6 +153,7 @@ namespace FacilityManagementSystem
 
         private System.Windows.Forms.DataGridView dgvTypes;
         private System.Windows.Forms.TextBox txtTypeName;
+    private System.Windows.Forms.Label lblTypeNameValue;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnDelete;

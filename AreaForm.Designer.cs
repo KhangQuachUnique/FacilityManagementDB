@@ -32,6 +32,7 @@ namespace FacilityManagementSystem
         {
             this.dgvAreas = new System.Windows.Forms.DataGridView();
             this.txtAreaName = new System.Windows.Forms.TextBox();
+            this.lblAreaNameValue = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
@@ -50,12 +51,22 @@ namespace FacilityManagementSystem
             this.dgvAreas.TabIndex = 0;
             this.dgvAreas.SelectionChanged += new System.EventHandler(this.dgvAreas_SelectionChanged);
             // 
-            // txtAreaName
+            // txtAreaName (hidden, replaced by label)
             // 
             this.txtAreaName.Location = new System.Drawing.Point(100, 220);
             this.txtAreaName.Name = "txtAreaName";
             this.txtAreaName.Size = new System.Drawing.Size(150, 20);
             this.txtAreaName.TabIndex = 1;
+            this.txtAreaName.Visible = false;
+
+            // 
+            // lblAreaNameValue
+            // 
+            this.lblAreaNameValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblAreaNameValue.Location = new System.Drawing.Point(100, 220);
+            this.lblAreaNameValue.Name = "lblAreaNameValue";
+            this.lblAreaNameValue.Size = new System.Drawing.Size(150, 20);
+            this.lblAreaNameValue.TabIndex = 8;
             // 
             // btnAdd
             // 
@@ -122,6 +133,7 @@ namespace FacilityManagementSystem
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 341);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblAreaNameValue);
             this.Controls.Add(this.btnPrev);
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.btnDelete);
@@ -141,6 +153,7 @@ namespace FacilityManagementSystem
 
         private System.Windows.Forms.DataGridView dgvAreas;
         private System.Windows.Forms.TextBox txtAreaName;
+    private System.Windows.Forms.Label lblAreaNameValue;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnDelete;

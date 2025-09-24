@@ -56,11 +56,13 @@ namespace FacilityManagementSystem
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            SqlParameter[] parameters = {
-                new SqlParameter("@AreaName", txtAreaName.Text)
-            };
-            DatabaseHelper.ExecuteNonQuery("sp_InsertArea", parameters);
-            LoadAreas();
+            using (var editForm = new AreaEditForm())
+            {
+                if (editForm.ShowDialog() == DialogResult.OK)
+                {
+                    LoadAreas();
+                }
+            }
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -68,12 +70,17 @@ namespace FacilityManagementSystem
             if (dgvAreas.SelectedRows.Count > 0)
             {
                 int areaID = Convert.ToInt32(dgvAreas.SelectedRows[0].Cells["AreaID"].Value);
-                SqlParameter[] parameters = {
-                    new SqlParameter("@AreaID", areaID),
-                    new SqlParameter("@AreaName", txtAreaName.Text)
-                };
-                DatabaseHelper.ExecuteNonQuery("sp_UpdateArea", parameters);
-                LoadAreas();
+                using (var editForm = new AreaEditForm(areaID))
+                {
+                    if (editForm.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadAreas();
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a row to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -92,7 +99,11 @@ namespace FacilityManagementSystem
         {
             if (dgvAreas.SelectedRows.Count > 0)
             {
-                txtAreaName.Text = dgvAreas.SelectedRows[0].Cells["AreaName"].Value.ToString();
+                lblAreaNameValue.Text = dgvAreas.SelectedRows[0].Cells["AreaName"].Value?.ToString() ?? string.Empty;
+            }
+            else
+            {
+                lblAreaNameValue.Text = string.Empty;
             }
         }
     }

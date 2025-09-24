@@ -56,11 +56,13 @@ namespace FacilityManagementSystem
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            SqlParameter[] parameters = {
-                new SqlParameter("@TypeName", txtTypeName.Text)
-            };
-            DatabaseHelper.ExecuteNonQuery("sp_InsertEquipmentType", parameters);
-            LoadTypes();
+            using (var editForm = new EquipmentTypeEditForm())
+            {
+                if (editForm.ShowDialog() == DialogResult.OK)
+                {
+                    LoadTypes();
+                }
+            }
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -68,12 +70,17 @@ namespace FacilityManagementSystem
             if (dgvTypes.SelectedRows.Count > 0)
             {
                 int typeID = Convert.ToInt32(dgvTypes.SelectedRows[0].Cells["TypeID"].Value);
-                SqlParameter[] parameters = {
-                    new SqlParameter("@TypeID", typeID),
-                    new SqlParameter("@TypeName", txtTypeName.Text)
-                };
-                DatabaseHelper.ExecuteNonQuery("sp_UpdateEquipmentType", parameters);
-                LoadTypes();
+                using (var editForm = new EquipmentTypeEditForm(typeID))
+                {
+                    if (editForm.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadTypes();
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a row to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -92,7 +99,11 @@ namespace FacilityManagementSystem
         {
             if (dgvTypes.SelectedRows.Count > 0)
             {
-                txtTypeName.Text = dgvTypes.SelectedRows[0].Cells["TypeName"].Value.ToString();
+                lblTypeNameValue.Text = dgvTypes.SelectedRows[0].Cells["TypeName"].Value?.ToString() ?? string.Empty;
+            }
+            else
+            {
+                lblTypeNameValue.Text = string.Empty;
             }
         }
     }
