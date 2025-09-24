@@ -19,16 +19,16 @@ namespace FacilityManagementSystem
             string password = txtPassword.Text; // In real app, hash password
 
             SqlParameter[] parameters = {
-                new SqlParameter("@Username", username)
+                new SqlParameter("@TenDangNhap", username)
             };
-            var dt = DatabaseHelper.ExecuteProcedure("sp_GetUserByUsername", parameters);
+            var dt = DatabaseHelper.ExecuteProcedure("sp_LayNguoiDungTheoTenDangNhap", parameters);
 
             if (dt.Rows.Count > 0)
             {
-                string storedHash = dt.Rows[0]["PasswordHash"].ToString();
+                string storedHash = dt.Rows[0]["MatKhauHash"].ToString() ?? "";
                 if (password == storedHash) // Demo: plain text, replace with hash check
                 {
-                    int roleID = Convert.ToInt32(dt.Rows[0]["RoleID"]);
+                    int roleID = Convert.ToInt32(dt.Rows[0]["MaVaiTro"]);
                     // Simulate MFA
                     MFASimulationForm mfaForm = new MFASimulationForm();
                     if (mfaForm.ShowDialog() == DialogResult.OK)

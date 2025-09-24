@@ -27,11 +27,11 @@ namespace FacilityManagementSystem
 
         private void LoadType(int id)
         {
-            SqlParameter[] parameters = { new SqlParameter("@TypeID", id) };
-            var dt = DatabaseHelper.ExecuteProcedure("sp_GetEquipmentTypeByID", parameters);
+            SqlParameter[] parameters = { new SqlParameter("@MaLoai", id) };
+            var dt = DatabaseHelper.ExecuteProcedure("sp_LayLoaiCoSoVatChatTheoID", parameters);
             if (dt.Rows.Count > 0)
             {
-                txtTypeName.Text = dt.Rows[0]["TypeName"].ToString();
+                txtTypeName.Text = dt.Rows[0]["TenLoai"].ToString();
             }
         }
 
@@ -46,17 +46,17 @@ namespace FacilityManagementSystem
             if (typeID.HasValue)
             {
                 SqlParameter[] parameters = {
-                    new SqlParameter("@TypeID", typeID.Value),
-                    new SqlParameter("@TypeName", txtTypeName.Text)
+                    new SqlParameter("@MaLoai", typeID.Value),
+                    new SqlParameter("@TenLoai", txtTypeName.Text)
                 };
-                DatabaseHelper.ExecuteNonQuery("sp_UpdateEquipmentType", parameters);
+                DatabaseHelper.ExecuteNonQuery("sp_CapNhatLoaiCoSoVatChat", parameters);
             }
             else
             {
                 SqlParameter[] parameters = {
-                    new SqlParameter("@TypeName", txtTypeName.Text)
+                    new SqlParameter("@TenLoai", txtTypeName.Text)
                 };
-                DatabaseHelper.ExecuteNonQuery("sp_InsertEquipmentType", parameters);
+                DatabaseHelper.ExecuteNonQuery("sp_ThemLoaiCoSoVatChat", parameters);
             }
 
             this.DialogResult = DialogResult.OK;

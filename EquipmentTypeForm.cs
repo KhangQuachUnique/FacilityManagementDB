@@ -21,7 +21,7 @@ namespace FacilityManagementSystem
 
         private void LoadTypes()
         {
-            dtTypes = DatabaseHelper.ExecuteProcedure("sp_GetAllEquipmentTypes");
+            dtTypes = DatabaseHelper.ExecuteProcedure("sp_LayTatCaLoaiCoSoVatChat");
             dgvTypes.DataSource = GetPagedData(dtTypes, currentPage);
         }
 
@@ -69,7 +69,7 @@ namespace FacilityManagementSystem
         {
             if (dgvTypes.SelectedRows.Count > 0)
             {
-                int typeID = Convert.ToInt32(dgvTypes.SelectedRows[0].Cells["TypeID"].Value);
+                int typeID = Convert.ToInt32(dgvTypes.SelectedRows[0].Cells["MaLoai"].Value);
                 using (var editForm = new EquipmentTypeEditForm(typeID))
                 {
                     if (editForm.ShowDialog() == DialogResult.OK)
@@ -88,9 +88,9 @@ namespace FacilityManagementSystem
         {
             if (dgvTypes.SelectedRows.Count > 0)
             {
-                int typeID = Convert.ToInt32(dgvTypes.SelectedRows[0].Cells["TypeID"].Value);
-                SqlParameter[] parameters = { new SqlParameter("@TypeID", typeID) };
-                DatabaseHelper.ExecuteNonQuery("sp_DeleteEquipmentType", parameters);
+                int typeID = Convert.ToInt32(dgvTypes.SelectedRows[0].Cells["MaLoai"].Value);
+                SqlParameter[] parameters = { new SqlParameter("@MaLoai", typeID) };
+                DatabaseHelper.ExecuteNonQuery("sp_XoaLoaiCoSoVatChat", parameters);
                 LoadTypes();
             }
         }
@@ -99,7 +99,7 @@ namespace FacilityManagementSystem
         {
             if (dgvTypes.SelectedRows.Count > 0)
             {
-                lblTypeNameValue.Text = dgvTypes.SelectedRows[0].Cells["TypeName"].Value?.ToString() ?? string.Empty;
+                lblTypeNameValue.Text = dgvTypes.SelectedRows[0].Cells["TenLoai"].Value?.ToString() ?? string.Empty;
             }
             else
             {

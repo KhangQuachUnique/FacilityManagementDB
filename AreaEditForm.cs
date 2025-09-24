@@ -27,11 +27,11 @@ namespace FacilityManagementSystem
 
         private void LoadArea(int id)
         {
-            SqlParameter[] parameters = { new SqlParameter("@AreaID", id) };
-            var dt = DatabaseHelper.ExecuteProcedure("sp_GetAreaByID", parameters);
+            SqlParameter[] parameters = { new SqlParameter("@MaKhuVuc", id) };
+            var dt = DatabaseHelper.ExecuteProcedure("sp_LayKhuVucTheoID", parameters);
             if (dt.Rows.Count > 0)
             {
-                txtAreaName.Text = dt.Rows[0]["AreaName"].ToString();
+                txtAreaName.Text = dt.Rows[0]["TenKhuVuc"].ToString();
             }
         }
 
@@ -46,17 +46,17 @@ namespace FacilityManagementSystem
             if (areaID.HasValue)
             {
                 SqlParameter[] parameters = {
-                    new SqlParameter("@AreaID", areaID.Value),
-                    new SqlParameter("@AreaName", txtAreaName.Text)
+                    new SqlParameter("@MaKhuVuc", areaID.Value),
+                    new SqlParameter("@TenKhuVuc", txtAreaName.Text)
                 };
-                DatabaseHelper.ExecuteNonQuery("sp_UpdateArea", parameters);
+                DatabaseHelper.ExecuteNonQuery("sp_CapNhatKhuVuc", parameters);
             }
             else
             {
                 SqlParameter[] parameters = {
-                    new SqlParameter("@AreaName", txtAreaName.Text)
+                    new SqlParameter("@TenKhuVuc", txtAreaName.Text)
                 };
-                DatabaseHelper.ExecuteNonQuery("sp_InsertArea", parameters);
+                DatabaseHelper.ExecuteNonQuery("sp_ThemKhuVuc", parameters);
             }
 
             this.DialogResult = DialogResult.OK;

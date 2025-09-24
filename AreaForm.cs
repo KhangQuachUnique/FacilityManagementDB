@@ -21,7 +21,7 @@ namespace FacilityManagementSystem
 
         private void LoadAreas()
         {
-            dtAreas = DatabaseHelper.ExecuteProcedure("sp_GetAllAreas");
+            dtAreas = DatabaseHelper.ExecuteProcedure("sp_LayTatCaKhuVuc");
             dgvAreas.DataSource = GetPagedData(dtAreas, currentPage);
         }
 
@@ -69,7 +69,7 @@ namespace FacilityManagementSystem
         {
             if (dgvAreas.SelectedRows.Count > 0)
             {
-                int areaID = Convert.ToInt32(dgvAreas.SelectedRows[0].Cells["AreaID"].Value);
+                int areaID = Convert.ToInt32(dgvAreas.SelectedRows[0].Cells["MaKhuVuc"].Value);
                 using (var editForm = new AreaEditForm(areaID))
                 {
                     if (editForm.ShowDialog() == DialogResult.OK)
@@ -88,9 +88,9 @@ namespace FacilityManagementSystem
         {
             if (dgvAreas.SelectedRows.Count > 0)
             {
-                int areaID = Convert.ToInt32(dgvAreas.SelectedRows[0].Cells["AreaID"].Value);
-                SqlParameter[] parameters = { new SqlParameter("@AreaID", areaID) };
-                DatabaseHelper.ExecuteNonQuery("sp_DeleteArea", parameters);
+                int areaID = Convert.ToInt32(dgvAreas.SelectedRows[0].Cells["MaKhuVuc"].Value);
+                SqlParameter[] parameters = { new SqlParameter("@MaKhuVuc", areaID) };
+                DatabaseHelper.ExecuteNonQuery("sp_XoaKhuVuc", parameters);
                 LoadAreas();
             }
         }
@@ -99,7 +99,7 @@ namespace FacilityManagementSystem
         {
             if (dgvAreas.SelectedRows.Count > 0)
             {
-                lblAreaNameValue.Text = dgvAreas.SelectedRows[0].Cells["AreaName"].Value?.ToString() ?? string.Empty;
+                lblAreaNameValue.Text = dgvAreas.SelectedRows[0].Cells["TenKhuVuc"].Value?.ToString() ?? string.Empty;
             }
             else
             {

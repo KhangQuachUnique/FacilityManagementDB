@@ -23,7 +23,7 @@ namespace FacilityManagementSystem
 
         private void LoadMaintenance()
         {
-            dtMaintenance = DatabaseHelper.ExecuteProcedure("sp_GetAllMaintenance");
+            dtMaintenance = DatabaseHelper.ExecuteProcedure("sp_LayTatCaBaoTri");
             dgvMaintenance.DataSource = GetPagedData(dtMaintenance, currentPage);
         }
 
@@ -58,37 +58,37 @@ namespace FacilityManagementSystem
 
         private void LoadEquipment()
         {
-            var dtEquipment = DatabaseHelper.ExecuteProcedure("sp_GetAllEquipment");
+            var dtEquipment = DatabaseHelper.ExecuteProcedure("sp_LayTatCaCoSoVatChat");
             cmbEquipment.DataSource = dtEquipment;
-            cmbEquipment.DisplayMember = "Name";
-            cmbEquipment.ValueMember = "EquipmentID";
+            cmbEquipment.DisplayMember = "Ten";
+            cmbEquipment.ValueMember = "MaCoSoVatChat";
             cmbFilterEquipment.DataSource = dtEquipment.Copy();
-            cmbFilterEquipment.DisplayMember = "Name";
-            cmbFilterEquipment.ValueMember = "EquipmentID";
+            cmbFilterEquipment.DisplayMember = "Ten";
+            cmbFilterEquipment.ValueMember = "MaCoSoVatChat";
             cmbFilterEquipment.SelectedIndex = -1;
         }
 
         private void LoadEmployees()
         {
-            var dtEmployees = DatabaseHelper.ExecuteProcedure("sp_GetAllEmployees");
+            var dtEmployees = DatabaseHelper.ExecuteProcedure("sp_LayTatCaNhanVien");
             cmbEmployee.DataSource = dtEmployees;
-            cmbEmployee.DisplayMember = "Name";
-            cmbEmployee.ValueMember = "EmployeeID";
+            cmbEmployee.DisplayMember = "Ten";
+            cmbEmployee.ValueMember = "MaNhanVien";
             cmbFilterEmployee.DataSource = dtEmployees.Copy();
-            cmbFilterEmployee.DisplayMember = "Name";
-            cmbFilterEmployee.ValueMember = "EmployeeID";
+            cmbFilterEmployee.DisplayMember = "Ten";
+            cmbFilterEmployee.ValueMember = "MaNhanVien";
             cmbFilterEmployee.SelectedIndex = -1;
         }
 
         private void btnFilter_Click(object sender, EventArgs e)
         {
             SqlParameter[] parameters = {
-                new SqlParameter("@EquipmentID", cmbFilterEquipment.SelectedValue ?? (object)DBNull.Value),
-                new SqlParameter("@EmployeeID", cmbFilterEmployee.SelectedValue ?? (object)DBNull.Value),
-                new SqlParameter("@StartDate", dtpStart.Value.Date),
-                new SqlParameter("@EndDate", dtpEnd.Value.Date)
+                new SqlParameter("@MaCoSoVatChat", cmbFilterEquipment.SelectedValue ?? (object)DBNull.Value),
+                new SqlParameter("@MaNhanVien", cmbFilterEmployee.SelectedValue ?? (object)DBNull.Value),
+                new SqlParameter("@NgayBatDau", dtpStart.Value.Date),
+                new SqlParameter("@NgayKetThuc", dtpEnd.Value.Date)
             };
-            dtMaintenance = DatabaseHelper.ExecuteProcedure("sp_GetMaintenanceByFilter", parameters);
+            dtMaintenance = DatabaseHelper.ExecuteProcedure("sp_LayBaoTriTheoBoLoc", parameters);
             dgvMaintenance.DataSource = GetPagedData(dtMaintenance, currentPage = 1);
         }
 
@@ -107,7 +107,7 @@ namespace FacilityManagementSystem
         {
             if (dgvMaintenance.SelectedRows.Count > 0)
             {
-                int maintenanceID = Convert.ToInt32(dgvMaintenance.SelectedRows[0].Cells["MaintenanceID"].Value);
+                int maintenanceID = Convert.ToInt32(dgvMaintenance.SelectedRows[0].Cells["MaBaoTri"].Value);
                 using (var editForm = new MaintenanceEditForm(maintenanceID))
                 {
                     if (editForm.ShowDialog() == DialogResult.OK)
@@ -126,9 +126,9 @@ namespace FacilityManagementSystem
         {
             if (dgvMaintenance.SelectedRows.Count > 0)
             {
-                int maintenanceID = Convert.ToInt32(dgvMaintenance.SelectedRows[0].Cells["MaintenanceID"].Value);
-                SqlParameter[] parameters = { new SqlParameter("@MaintenanceID", maintenanceID) };
-                DatabaseHelper.ExecuteNonQuery("sp_DeleteMaintenance", parameters);
+                int maintenanceID = Convert.ToInt32(dgvMaintenance.SelectedRows[0].Cells["MaBaoTri"].Value);
+                SqlParameter[] parameters = { new SqlParameter("@MaBaoTri", maintenanceID) };
+                DatabaseHelper.ExecuteNonQuery("sp_XoaBaoTri", parameters);
                 LoadMaintenance();
             }
         }
@@ -138,18 +138,18 @@ namespace FacilityManagementSystem
             if (dgvMaintenance.SelectedRows.Count > 0)
             {
                 var row = dgvMaintenance.SelectedRows[0];
-                // sp_GetAllMaintenance returns e.Name AS EquipmentName
-                lblEquipmentValue.Text = row.Cells["EquipmentName"]?.Value?.ToString() ?? string.Empty;
-                lblEmployeeValue.Text = row.Cells["EmployeeName"]?.Value?.ToString() ?? string.Empty;
-                if (DateTime.TryParse(row.Cells["MaintenanceDate"].Value?.ToString(), out var d))
+                // sp_LayTatCaBaoTri returns e.Ten AS TenCoSoVatChat
+                lblEquipmentValue.Text = row.Cells["TenCoSoVatChat"]?.Value?.ToString() ?? string.Empty;
+                lblEmployeeValue.Text = row.Cells["TenNhanVien"]?.Value?.ToString() ?? string.Empty;
+                if (DateTime.TryParse(row.Cells["NgayBaoTri"].Value?.ToString(), out var d))
                     lblDateValue.Text = d.ToShortDateString();
                 else
                     lblDateValue.Text = string.Empty;
-                if (decimal.TryParse(row.Cells["Cost"].Value?.ToString(), out var c))
+                if (decimal.TryParse(row.Cells["ChiPhi"].Value?.ToString(), out var c))
                     lblCostValue.Text = c.ToString("C");
                 else
                     lblCostValue.Text = string.Empty;
-                lblDescriptionValue.Text = row.Cells["Description"].Value?.ToString() ?? string.Empty;
+                lblDescriptionValue.Text = row.Cells["MoTa"].Value?.ToString() ?? string.Empty;
             }
             else
             {

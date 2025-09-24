@@ -22,7 +22,7 @@ namespace FacilityManagementSystem
 
         private void LoadEquipment()
         {
-            dtEquipment = DatabaseHelper.ExecuteProcedure("sp_GetAllEquipment");
+            dtEquipment = DatabaseHelper.ExecuteProcedure("sp_LayTatCaCoSoVatChat");
             dgvEquipment.DataSource = GetPagedData(dtEquipment, currentPage);
         }
 
@@ -57,37 +57,37 @@ namespace FacilityManagementSystem
 
         private void LoadTypes()
         {
-            var dtTypes = DatabaseHelper.ExecuteProcedure("sp_GetAllEquipmentTypes");
+            var dtTypes = DatabaseHelper.ExecuteProcedure("sp_LayTatCaLoaiCoSoVatChat");
             cmbFilterType.DataSource = dtTypes;
-            cmbFilterType.DisplayMember = "TypeName";
-            cmbFilterType.ValueMember = "TypeID";
+            cmbFilterType.DisplayMember = "TenLoai";
+            cmbFilterType.ValueMember = "MaLoai";
             cmbFilterType.SelectedIndex = -1;
         }
 
         private void LoadAreas()
         {
-            var dtAreas = DatabaseHelper.ExecuteProcedure("sp_GetAllAreas");
+            var dtAreas = DatabaseHelper.ExecuteProcedure("sp_LayTatCaKhuVuc");
             cmbFilterArea.DataSource = dtAreas;
-            cmbFilterArea.DisplayMember = "AreaName";
-            cmbFilterArea.ValueMember = "AreaID";
+            cmbFilterArea.DisplayMember = "TenKhuVuc";
+            cmbFilterArea.ValueMember = "MaKhuVuc";
             cmbFilterArea.SelectedIndex = -1;
         }
 
         private void LoadStatuses()
         {
             // Demo statuses
-            cmbFilterStatus.Items.AddRange(new string[] { "Operational", "Under Maintenance", "Broken" });
+            cmbFilterStatus.Items.AddRange(new string[] { "Hoạt Động", "Đang Bảo Trì", "Hỏng" });
             cmbFilterStatus.SelectedIndex = -1;
         }
 
         private void btnFilter_Click(object sender, EventArgs e)
         {
             SqlParameter[] parameters = {
-                new SqlParameter("@AreaID", cmbFilterArea.SelectedValue ?? (object)DBNull.Value),
-                new SqlParameter("@TypeID", cmbFilterType.SelectedValue ?? (object)DBNull.Value),
-                new SqlParameter("@Status", cmbFilterStatus.SelectedItem ?? (object)DBNull.Value)
+                new SqlParameter("@MaKhuVuc", cmbFilterArea.SelectedValue ?? (object)DBNull.Value),
+                new SqlParameter("@MaLoai", cmbFilterType.SelectedValue ?? (object)DBNull.Value),
+                new SqlParameter("@TrangThai", cmbFilterStatus.SelectedItem ?? (object)DBNull.Value)
             };
-            dtEquipment = DatabaseHelper.ExecuteProcedure("sp_GetEquipmentByFilter", parameters);
+            dtEquipment = DatabaseHelper.ExecuteProcedure("sp_LayCoSoVatChatTheoBoLoc", parameters);
             dgvEquipment.DataSource = GetPagedData(dtEquipment, currentPage = 1);
         }
 
@@ -106,7 +106,7 @@ namespace FacilityManagementSystem
         {
             if (dgvEquipment.SelectedRows.Count > 0)
             {
-                int equipmentID = Convert.ToInt32(dgvEquipment.SelectedRows[0].Cells["EquipmentID"].Value);
+                int equipmentID = Convert.ToInt32(dgvEquipment.SelectedRows[0].Cells["MaCoSoVatChat"].Value);
                 using (var editForm = new EquipmentEditForm(equipmentID))
                 {
                     if (editForm.ShowDialog() == DialogResult.OK)
@@ -125,9 +125,9 @@ namespace FacilityManagementSystem
         {
             if (dgvEquipment.SelectedRows.Count > 0)
             {
-                int equipmentID = Convert.ToInt32(dgvEquipment.SelectedRows[0].Cells["EquipmentID"].Value);
-                SqlParameter[] parameters = { new SqlParameter("@EquipmentID", equipmentID) };
-                DatabaseHelper.ExecuteNonQuery("sp_DeleteEquipment", parameters);
+                int equipmentID = Convert.ToInt32(dgvEquipment.SelectedRows[0].Cells["MaCoSoVatChat"].Value);
+                SqlParameter[] parameters = { new SqlParameter("@MaCoSoVatChat", equipmentID) };
+                DatabaseHelper.ExecuteNonQuery("sp_XoaCoSoVatChat", parameters);
                 LoadEquipment();
             }
             else
@@ -140,15 +140,13 @@ namespace FacilityManagementSystem
         {
             if (dgvEquipment.SelectedRows.Count > 0)
             {
-                lblName.Text = dgvEquipment.SelectedRows[0].Cells["Name"].Value?.ToString() ?? "";
-                lblType.Text = dgvEquipment.SelectedRows[0].Cells["TypeName"].Value?.ToString() ?? "";
-                lblArea.Text = dgvEquipment.SelectedRows[0].Cells["AreaName"].Value?.ToString() ?? "";
-                lblStatus.Text = dgvEquipment.SelectedRows[0].Cells["Status"].Value?.ToString() ?? "";
-                lblQuantity.Text = dgvEquipment.SelectedRows[0].Cells["Quantity"].Value?.ToString() ?? "0";
-                lblPrice.Text = dgvEquipment.SelectedRows[0].Cells["Price"].Value != null ? Convert.ToDecimal(dgvEquipment.SelectedRows[0].Cells["Price"].Value).ToString("C") : "$0.00";
-                lblLastMaintenance.Text = dgvEquipment.SelectedRows[0].Cells["LastMaintenanceDate"].Value != DBNull.Value
-                    ? Convert.ToDateTime(dgvEquipment.SelectedRows[0].Cells["LastMaintenanceDate"].Value).ToShortDateString()
-                    : "";
+                lblName.Text = dgvEquipment.SelectedRows[0].Cells["Ten"].Value?.ToString() ?? "";
+                lblType.Text = dgvEquipment.SelectedRows[0].Cells["TenLoai"].Value?.ToString() ?? "";
+                lblArea.Text = dgvEquipment.SelectedRows[0].Cells["TenKhuVuc"].Value?.ToString() ?? "";
+                lblStatus.Text = dgvEquipment.SelectedRows[0].Cells["TrangThai"].Value?.ToString() ?? "";
+                lblQuantity.Text = "1"; // Không có Quantity trong schema mới
+                lblPrice.Text = dgvEquipment.SelectedRows[0].Cells["Gia"].Value != null ? Convert.ToDecimal(dgvEquipment.SelectedRows[0].Cells["Gia"].Value).ToString("C") : "$0.00";
+                lblLastMaintenance.Text = ""; // Không có LastMaintenanceDate trong schema mới
             }
             else
             {
