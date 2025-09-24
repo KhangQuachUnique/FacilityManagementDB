@@ -513,15 +513,40 @@ BEGIN
 END
 GO
 
--- Chèn Dữ Liệu Mẫu để Demo
-INSERT INTO VaiTro (TenVaiTro) VALUES ('Quản Trị'), ('Quản Lý'), ('Nhân Viên');
+-- Chèn Dữ Liệu Mẫu để Demo với Unicode Support cho Tiếng Việt
+INSERT INTO VaiTro (TenVaiTro) VALUES (N'Quản Trị Hệ Thống'), (N'Quản Lý Cấp Cao'), (N'Nhân Viên Kỹ Thuật');
 INSERT INTO NguoiDung (TenDangNhap, MatKhauHash, MaVaiTro, HoatDong) 
-VALUES ('admin', 'matkhauhash', 1, 1); -- Sử dụng hàm băm phù hợp trong mã
-INSERT INTO KhuVuc (TenKhuVuc) VALUES ('Kho'), ('Sàn Bán Hàng'), ('Nhà Vệ Sinh');
-INSERT INTO NhanVien (Ten, ChucVu, MaKhuVuc) VALUES ('Nguyễn Văn A', 'Quản Lý', 1);
-INSERT INTO LoaiCoSoVatChat (TenLoai) VALUES ('Kệ'), ('Máy Tính'), ('Bồn Rửa'), ('Cửa');
+VALUES (N'quản_trị_viên', N'matkhauhash', 1, 1); -- Sử dụng hàm băm phù hợp trong mã
+INSERT INTO KhuVuc (TenKhuVuc) VALUES (N'Kho Chứa Hàng'), (N'Sàn Trưng Bày Sản Phẩm'), (N'Khu Vệ Sinh Công Cộng');
+INSERT INTO NhanVien (Ten, ChucVu, MaKhuVuc) VALUES (N'Nguyễn Văn Anh', N'Trưởng Phòng Kỹ Thuật', 1);
+INSERT INTO LoaiCoSoVatChat (TenLoai) VALUES (N'Kệ Trưng Bày'), (N'Máy Tính Xách Tay'), (N'Bồn Rửa Tay'), (N'Cửa Tự Động');
 INSERT INTO CoSoVatChat (Ten, MaLoai, MaKhuVuc, TrangThai, Gia) 
-VALUES ('Kệ Sách', 1, 1, 'Hoạt Động', 100.00),
-       ('Bồn Rửa Tay', 3, 3, 'Hoạt Động', 50.00),
-       ('Cửa Chính', 4, 3, 'Hoạt Động', 200.00);
+VALUES (N'Kệ Sách Cao Cấp', 1, 1, N'Đang Hoạt Động', 1500000.00),
+       (N'Bồn Rửa Tay Thông Minh', 3, 3, N'Hoạt Động Bình Thường', 850000.00),
+       (N'Cửa Tự Động Thông Minh', 4, 3, N'Đang Bảo Trì', 12000000.00);
+
+-- Thêm stored procedures hỗ trợ tìm kiếm Unicode
+CREATE PROCEDURE sp_TimKiemCoSoVatChatTheoTen
+    @TuKhoa NVARCHAR(255)
+AS
+BEGIN
+    SELECT e.*, t.TenLoai, a.TenKhuVuc FROM CoSoVatChat e 
+    JOIN LoaiCoSoVatChat t ON e.MaLoai = t.MaLoai
+    JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc
+    WHERE e.Ten LIKE N'%' + @TuKhoa + N'%' 
+    OR t.TenLoai LIKE N'%' + @TuKhoa + N'%'
+    OR a.TenKhuVuc LIKE N'%' + @TuKhoa + N'%';
+END
+GO
+
+CREATE PROCEDURE sp_TimKiemNhanVienTheoTen
+    @TuKhoa NVARCHAR(255)
+AS
+BEGIN
+    SELECT e.*, a.TenKhuVuc FROM NhanVien e 
+    LEFT JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc
+    WHERE e.Ten LIKE N'%' + @TuKhoa + N'%' 
+    OR e.ChucVu LIKE N'%' + @TuKhoa + N'%'
+    OR a.TenKhuVuc LIKE N'%' + @TuKhoa + N'%';
+END
 GO
