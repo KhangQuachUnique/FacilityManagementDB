@@ -82,6 +82,8 @@ namespace FacilityManagementSystem
             // numQuantity
             // 
             this.numQuantity.Location = new System.Drawing.Point(100, 127);
+            this.numQuantity.Maximum = new decimal(new int[] { 999999, 0, 0, 0 }); // 999,999 units
+            this.numQuantity.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
             this.numQuantity.Name = "numQuantity";
             this.numQuantity.Size = new System.Drawing.Size(200, 20);
             this.numQuantity.TabIndex = 4;
@@ -90,6 +92,8 @@ namespace FacilityManagementSystem
             // 
             this.numPrice.DecimalPlaces = 2;
             this.numPrice.Location = new System.Drawing.Point(100, 153);
+            this.numPrice.Maximum = new decimal(new int[] { -1486618624, 232830643, 0, 0 }); // 10 tỷ VND
+            this.numPrice.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
             this.numPrice.Name = "numPrice";
             this.numPrice.Size = new System.Drawing.Size(200, 20);
             this.numPrice.TabIndex = 5;

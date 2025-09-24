@@ -27,9 +27,9 @@ namespace FacilityManagementSystem
             if (tabMain != null) return;
 
             // Expand window if too small to host tabs next to the left-side buttons
-            if (this.ClientSize.Width < 900 || this.ClientSize.Height < 600)
+            if (this.ClientSize.Width < 1000 || this.ClientSize.Height < 700)
             {
-                this.ClientSize = new Size(Math.Max(1100, this.ClientSize.Width), Math.Max(700, this.ClientSize.Height));
+                this.ClientSize = new Size(Math.Max(1200, this.ClientSize.Width), Math.Max(800, this.ClientSize.Height));
             }
 
             // Calculate the right edge of left-side buttons to place the TabControl next to them

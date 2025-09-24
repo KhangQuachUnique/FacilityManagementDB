@@ -11,7 +11,7 @@ namespace FacilityManagementSystem
     {
         private DataTable dtAreas;
         private int currentPage = 1;
-        private const int pageSize = 20;
+        private const int pageSize = 50;
 
         public AreaForm()
         {

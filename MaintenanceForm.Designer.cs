@@ -111,6 +111,8 @@ namespace FacilityManagementSystem
             numCost.DecimalPlaces = 2;
             numCost.Location = new Point(133, 462);
             numCost.Margin = new Padding(4, 5, 4, 5);
+            numCost.Maximum = new decimal(new int[] { -1486618624, 232830643, 0, 0 }); // 10 tỷ VND
+            numCost.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
             numCost.Name = "numCost";
             numCost.Size = new Size(200, 27);
             numCost.TabIndex = 4;

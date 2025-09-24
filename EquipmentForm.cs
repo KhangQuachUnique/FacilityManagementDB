@@ -9,7 +9,7 @@ namespace FacilityManagementSystem
     {
         private DataTable dtEquipment;
         private int currentPage = 1;
-        private const int pageSize = 20;
+        private const int pageSize = 50;
 
         public EquipmentForm()
         {

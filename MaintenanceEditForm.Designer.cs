@@ -62,7 +62,7 @@ namespace FacilityManagementSystem
             // 
             this.numCost.DecimalPlaces = 2;
             this.numCost.Location = new System.Drawing.Point(120, 100);
-            this.numCost.Maximum = new decimal(new int[] {100000000,0,0,0});
+            this.numCost.Maximum = new decimal(new int[] {-1486618624,232830643,0,0}); // 10 tỷ VND
             this.numCost.Name = "numCost";
             this.numCost.Size = new System.Drawing.Size(220, 20);
             this.numCost.TabIndex = 3;

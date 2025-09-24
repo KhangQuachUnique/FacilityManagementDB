@@ -70,12 +70,12 @@ namespace FacilityManagementSystem
             // 
             numYear.Location = new Point(133, 58);
             numYear.Margin = new Padding(4, 5, 4, 5);
-            numYear.Maximum = new decimal(new int[] { 2100, 0, 0, 0 });
-            numYear.Minimum = new decimal(new int[] { 2000, 0, 0, 0 });
+            numYear.Maximum = new decimal(new int[] { 2050, 0, 0, 0 });
+            numYear.Minimum = new decimal(new int[] { 2020, 0, 0, 0 });
             numYear.Name = "numYear";
             numYear.Size = new Size(160, 27);
             numYear.TabIndex = 1;
-            numYear.Value = new decimal(new int[] { 2023, 0, 0, 0 });
+            numYear.Value = new decimal(new int[] { 2025, 0, 0, 0 });
             // 
             // btnMaintenanceCost
             // 
@@ -159,7 +159,7 @@ namespace FacilityManagementSystem
             // 
             numDays.Location = new Point(658, 23);
             numDays.Margin = new Padding(4, 5, 4, 5);
-            numDays.Maximum = new decimal(new int[] { 365, 0, 0, 0 });
+            numDays.Maximum = new decimal(new int[] { 1095, 0, 0, 0 }); // 3 năm
             numDays.Name = "numDays";
             numDays.Size = new Size(160, 27);
             numDays.TabIndex = 10;
