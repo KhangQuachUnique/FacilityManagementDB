@@ -24,6 +24,56 @@ namespace FacilityManagementSystem
         {
             dtEquipment = DatabaseHelper.ExecuteProcedure("sp_LayTatCaCoSoVatChat");
             dgvEquipment.DataSource = GetPagedData(dtEquipment, currentPage);
+            SetupColumnHeaders();
+        }
+
+        private void SetupColumnHeaders()
+        {
+            if (dgvEquipment.Columns.Count > 0)
+            {
+                var colMa = dgvEquipment.Columns["MaCoSoVatChat"];
+                if (colMa != null)
+                {
+                    colMa.HeaderText = "Mã";
+                    colMa.Width = 60;
+                }
+                
+                var colTen = dgvEquipment.Columns["Ten"];
+                if (colTen != null)
+                {
+                    colTen.HeaderText = "Tên Cơ Sở Vật Chất";
+                    colTen.Width = 200;
+                }
+                
+                var colLoai = dgvEquipment.Columns["TenLoai"];
+                if (colLoai != null)
+                {
+                    colLoai.HeaderText = "Loại";
+                    colLoai.Width = 120;
+                }
+                
+                var colKhuVuc = dgvEquipment.Columns["TenKhuVuc"];
+                if (colKhuVuc != null)
+                {
+                    colKhuVuc.HeaderText = "Khu Vực";
+                    colKhuVuc.Width = 120;
+                }
+                
+                var colTrangThai = dgvEquipment.Columns["TrangThai"];
+                if (colTrangThai != null)
+                {
+                    colTrangThai.HeaderText = "Trạng Thái";
+                    colTrangThai.Width = 100;
+                }
+                
+                var colGia = dgvEquipment.Columns["Gia"];
+                if (colGia != null)
+                {
+                    colGia.HeaderText = "Giá (VND)";
+                    colGia.Width = 100;
+                    colGia.DefaultCellStyle.Format = "N0";
+                }
+            }
         }
 
         private DataTable GetPagedData(DataTable dt, int page)
@@ -89,6 +139,17 @@ namespace FacilityManagementSystem
             };
             dtEquipment = DatabaseHelper.ExecuteProcedure("sp_LayCoSoVatChatTheoBoLoc", parameters);
             dgvEquipment.DataSource = GetPagedData(dtEquipment, currentPage = 1);
+        }
+
+        private void btnResetFilter_Click(object sender, EventArgs e)
+        {
+            // Reset các combo box về trạng thái ban đầu
+            cmbFilterArea.SelectedIndex = -1;
+            cmbFilterType.SelectedIndex = -1;
+            cmbFilterStatus.SelectedIndex = -1;
+            
+            // Load lại tất cả dữ liệu
+            LoadEquipment();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)

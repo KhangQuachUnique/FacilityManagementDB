@@ -23,6 +23,27 @@ namespace FacilityManagementSystem
         {
             dtAreas = DatabaseHelper.ExecuteProcedure("sp_LayTatCaKhuVuc");
             dgvAreas.DataSource = GetPagedData(dtAreas, currentPage);
+            SetupColumnHeaders();
+        }
+
+        private void SetupColumnHeaders()
+        {
+            if (dgvAreas.Columns.Count > 0)
+            {
+                var colMa = dgvAreas.Columns["MaKhuVuc"];
+                if (colMa != null)
+                {
+                    colMa.HeaderText = "Mã Khu Vực";
+                    colMa.Width = 80;
+                }
+                
+                var colTen = dgvAreas.Columns["TenKhuVuc"];
+                if (colTen != null)
+                {
+                    colTen.HeaderText = "Tên Khu Vực";
+                    colTen.Width = 250;
+                }
+            }
         }
 
         private DataTable GetPagedData(DataTable dt, int page)

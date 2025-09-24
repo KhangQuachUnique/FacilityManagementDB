@@ -25,6 +25,57 @@ namespace FacilityManagementSystem
         {
             dtMaintenance = DatabaseHelper.ExecuteProcedure("sp_LayTatCaBaoTri");
             dgvMaintenance.DataSource = GetPagedData(dtMaintenance, currentPage);
+            SetupColumnHeaders();
+        }
+
+        private void SetupColumnHeaders()
+        {
+            if (dgvMaintenance.Columns.Count > 0)
+            {
+                var colMa = dgvMaintenance.Columns["MaBaoTri"];
+                if (colMa != null)
+                {
+                    colMa.HeaderText = "Mã Bảo Trì";
+                    colMa.Width = 80;
+                }
+                
+                var colCoSoVatChat = dgvMaintenance.Columns["TenCoSoVatChat"];
+                if (colCoSoVatChat != null)
+                {
+                    colCoSoVatChat.HeaderText = "Tên Cơ Sở Vật Chất";
+                    colCoSoVatChat.Width = 200;
+                }
+                
+                var colNhanVien = dgvMaintenance.Columns["TenNhanVien"];
+                if (colNhanVien != null)
+                {
+                    colNhanVien.HeaderText = "Nhân Viên Bảo Trì";
+                    colNhanVien.Width = 150;
+                }
+                
+                var colNgay = dgvMaintenance.Columns["NgayBaoTri"];
+                if (colNgay != null)
+                {
+                    colNgay.HeaderText = "Ngày Bảo Trì";
+                    colNgay.Width = 100;
+                    colNgay.DefaultCellStyle.Format = "dd/MM/yyyy";
+                }
+                
+                var colChiPhi = dgvMaintenance.Columns["ChiPhi"];
+                if (colChiPhi != null)
+                {
+                    colChiPhi.HeaderText = "Chi Phí (VND)";
+                    colChiPhi.Width = 120;
+                    colChiPhi.DefaultCellStyle.Format = "N0";
+                }
+                
+                var colMoTa = dgvMaintenance.Columns["MoTa"];
+                if (colMoTa != null)
+                {
+                    colMoTa.HeaderText = "Mô Tả";
+                    colMoTa.Width = 200;
+                }
+            }
         }
 
         private DataTable GetPagedData(DataTable dt, int page)
@@ -92,6 +143,18 @@ namespace FacilityManagementSystem
             dgvMaintenance.DataSource = GetPagedData(dtMaintenance, currentPage = 1);
         }
 
+        private void btnResetFilter_Click(object sender, EventArgs e)
+        {
+            // Reset các combo box và date picker về trạng thái ban đầu
+            cmbFilterEquipment.SelectedIndex = -1;
+            cmbFilterEmployee.SelectedIndex = -1;
+            dtpStart.Value = DateTime.Now.AddMonths(-1);
+            dtpEnd.Value = DateTime.Now;
+            
+            // Load lại tất cả dữ liệu
+            LoadMaintenance();
+        }
+
         private void btnAdd_Click(object sender, EventArgs e)
         {
             using (var editForm = new MaintenanceEditForm())
@@ -118,7 +181,7 @@ namespace FacilityManagementSystem
             }
             else
             {
-                MessageBox.Show("Please select a row to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn một hàng để cập nhật.", "Chưa Chọn", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

@@ -56,6 +56,7 @@ namespace FacilityManagementSystem
             dtpStart = new DateTimePicker();
             dtpEnd = new DateTimePicker();
             btnFilter = new Button();
+            btnResetFilter = new Button();
             label6 = new Label();
             label7 = new Label();
             label8 = new Label();
@@ -177,7 +178,7 @@ namespace FacilityManagementSystem
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(100, 35);
             btnAdd.TabIndex = 6;
-            btnAdd.Text = "Add";
+            btnAdd.Text = "Thêm";
             btnAdd.UseVisualStyleBackColor = true;
             btnAdd.Click += btnAdd_Click;
             // 
@@ -188,7 +189,7 @@ namespace FacilityManagementSystem
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(100, 35);
             btnUpdate.TabIndex = 7;
-            btnUpdate.Text = "Update";
+            btnUpdate.Text = "Cập Nhật";
             btnUpdate.UseVisualStyleBackColor = true;
             btnUpdate.Click += btnUpdate_Click;
             // 
@@ -199,7 +200,7 @@ namespace FacilityManagementSystem
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(100, 35);
             btnDelete.TabIndex = 8;
-            btnDelete.Text = "Delete";
+            btnDelete.Text = "Xóa";
             btnDelete.UseVisualStyleBackColor = true;
             btnDelete.Click += btnDelete_Click;
             // 
@@ -210,7 +211,7 @@ namespace FacilityManagementSystem
             btnNext.Name = "btnNext";
             btnNext.Size = new Size(100, 35);
             btnNext.TabIndex = 9;
-            btnNext.Text = "Next";
+            btnNext.Text = "Tiếp";
             btnNext.UseVisualStyleBackColor = true;
             btnNext.Click += btnNext_Click;
             // 
@@ -221,7 +222,7 @@ namespace FacilityManagementSystem
             btnPrev.Name = "btnPrev";
             btnPrev.Size = new Size(100, 35);
             btnPrev.TabIndex = 10;
-            btnPrev.Text = "Prev";
+            btnPrev.Text = "Trước";
             btnPrev.UseVisualStyleBackColor = true;
             btnPrev.Click += btnPrev_Click;
             // 
@@ -233,7 +234,7 @@ namespace FacilityManagementSystem
             label1.Name = "label1";
             label1.Size = new Size(81, 20);
             label1.TabIndex = 11;
-            label1.Text = "Equipment";
+            label1.Text = "Cơ Sở Vật Chất";
             // 
             // label2
             // 
@@ -243,7 +244,7 @@ namespace FacilityManagementSystem
             label2.Name = "label2";
             label2.Size = new Size(75, 20);
             label2.TabIndex = 12;
-            label2.Text = "Employee";
+            label2.Text = "Nhân Viên";
             // 
             // label3
             // 
@@ -253,7 +254,7 @@ namespace FacilityManagementSystem
             label3.Name = "label3";
             label3.Size = new Size(41, 20);
             label3.TabIndex = 13;
-            label3.Text = "Date";
+            label3.Text = "Ngày";
             // 
             // label4
             // 
@@ -263,7 +264,7 @@ namespace FacilityManagementSystem
             label4.Name = "label4";
             label4.Size = new Size(38, 20);
             label4.TabIndex = 14;
-            label4.Text = "Cost";
+            label4.Text = "Chi Phí";
             // 
             // label5
             // 
@@ -273,7 +274,7 @@ namespace FacilityManagementSystem
             label5.Name = "label5";
             label5.Size = new Size(85, 20);
             label5.TabIndex = 15;
-            label5.Text = "Description";
+            label5.Text = "Mô Tả";
             // 
             // cmbFilterEquipment
             // 
@@ -318,9 +319,20 @@ namespace FacilityManagementSystem
             btnFilter.Name = "btnFilter";
             btnFilter.Size = new Size(100, 35);
             btnFilter.TabIndex = 20;
-            btnFilter.Text = "Filter";
+            btnFilter.Text = "Lọc";
             btnFilter.UseVisualStyleBackColor = true;
             btnFilter.Click += btnFilter_Click;
+            // 
+            // btnResetFilter
+            // 
+            btnResetFilter.Location = new Point(888, 520);
+            btnResetFilter.Margin = new Padding(4, 5, 4, 5);
+            btnResetFilter.Name = "btnResetFilter";
+            btnResetFilter.Size = new Size(100, 35);
+            btnResetFilter.TabIndex = 28;
+            btnResetFilter.Text = "Đặt Lại";
+            btnResetFilter.UseVisualStyleBackColor = true;
+            btnResetFilter.Click += btnResetFilter_Click;
             // 
             // label6
             // 
@@ -330,7 +342,7 @@ namespace FacilityManagementSystem
             label6.Name = "label6";
             label6.Size = new Size(118, 20);
             label6.TabIndex = 21;
-            label6.Text = "Filter Equipment";
+            label6.Text = "Lọc Cơ Sở Vật Chất";
             // 
             // label7
             // 
@@ -340,7 +352,7 @@ namespace FacilityManagementSystem
             label7.Name = "label7";
             label7.Size = new Size(112, 20);
             label7.TabIndex = 22;
-            label7.Text = "Filter Employee";
+            label7.Text = "Lọc Nhân Viên";
             // 
             // label8
             // 
@@ -350,7 +362,7 @@ namespace FacilityManagementSystem
             label8.Name = "label8";
             label8.Size = new Size(76, 20);
             label8.TabIndex = 23;
-            label8.Text = "Start Date";
+            label8.Text = "Ngày Bắt Đầu";
             // 
             // label9
             // 
@@ -360,7 +372,7 @@ namespace FacilityManagementSystem
             label9.Name = "label9";
             label9.Size = new Size(70, 20);
             label9.TabIndex = 24;
-            label9.Text = "End Date";
+            label9.Text = "Ngày Kết Thúc";
             // 
             // MaintenanceForm
             // 
@@ -371,6 +383,7 @@ namespace FacilityManagementSystem
             Controls.Add(label8);
             Controls.Add(label7);
             Controls.Add(label6);
+            Controls.Add(btnResetFilter);
             Controls.Add(btnFilter);
             Controls.Add(dtpEnd);
             Controls.Add(dtpStart);
@@ -399,7 +412,7 @@ namespace FacilityManagementSystem
             Controls.Add(dgvMaintenance);
             Margin = new Padding(4, 5, 4, 5);
             Name = "MaintenanceForm";
-            Text = "Maintenance Management";
+            Text = "Quản Lý Bảo Trì";
             ((System.ComponentModel.ISupportInitialize)dgvMaintenance).EndInit();
             ((System.ComponentModel.ISupportInitialize)numCost).EndInit();
             ResumeLayout(false);
@@ -430,6 +443,7 @@ namespace FacilityManagementSystem
         private System.Windows.Forms.DateTimePicker dtpStart;
         private System.Windows.Forms.DateTimePicker dtpEnd;
         private System.Windows.Forms.Button btnFilter;
+        private System.Windows.Forms.Button btnResetFilter;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;

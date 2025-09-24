@@ -163,7 +163,8 @@ GO
 CREATE PROCEDURE sp_LayTatCaNguoiDung
 AS
 BEGIN
-    SELECT u.*, r.TenVaiTro FROM NguoiDung u JOIN VaiTro r ON u.MaVaiTro = r.MaVaiTro;
+    SELECT u.MaNguoiDung, u.TenDangNhap, r.TenVaiTro, u.HoatDong 
+    FROM NguoiDung u JOIN VaiTro r ON u.MaVaiTro = r.MaVaiTro;
 END
 GO
 
@@ -260,7 +261,8 @@ GO
 CREATE PROCEDURE sp_LayTatCaNhanVien
 AS
 BEGIN
-    SELECT e.*, a.TenKhuVuc FROM NhanVien e LEFT JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc;
+    SELECT e.MaNhanVien, e.Ten, e.ChucVu, a.TenKhuVuc 
+    FROM NhanVien e LEFT JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc;
 END
 GO
 
@@ -344,7 +346,8 @@ GO
 CREATE PROCEDURE sp_LayTatCaCoSoVatChat
 AS
 BEGIN
-    SELECT e.*, t.TenLoai, a.TenKhuVuc FROM CoSoVatChat e 
+    SELECT e.MaCoSoVatChat, e.Ten, t.TenLoai, a.TenKhuVuc, e.TrangThai, e.Gia 
+    FROM CoSoVatChat e 
     JOIN LoaiCoSoVatChat t ON e.MaLoai = t.MaLoai
     JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc;
 END
@@ -416,7 +419,8 @@ GO
 CREATE PROCEDURE sp_LayTatCaBaoTri
 AS
 BEGIN
-    SELECT m.*, e.Ten AS TenCoSoVatChat, emp.Ten AS TenNhanVien 
+    SELECT m.MaBaoTri, e.Ten AS TenCoSoVatChat, emp.Ten AS TenNhanVien, 
+           m.NgayBaoTri, m.ChiPhi, m.MoTa
     FROM BaoTriCoSoVatChat m 
     JOIN CoSoVatChat e ON m.MaCoSoVatChat = e.MaCoSoVatChat
     JOIN NhanVien emp ON m.MaNhanVien = emp.MaNhanVien;
@@ -516,7 +520,7 @@ GO
 -- Chèn Dữ Liệu Mẫu để Demo với Unicode Support cho Tiếng Việt
 INSERT INTO VaiTro (TenVaiTro) VALUES (N'Quản Trị Hệ Thống'), (N'Quản Lý Cấp Cao'), (N'Nhân Viên Kỹ Thuật');
 INSERT INTO NguoiDung (TenDangNhap, MatKhauHash, MaVaiTro, HoatDong) 
-VALUES (N'quản_trị_viên', N'matkhauhash', 1, 1); -- Sử dụng hàm băm phù hợp trong mã
+VALUES (N'admin', N'123', 1, 1); -- Sử dụng hàm băm phù hợp trong mã
 INSERT INTO KhuVuc (TenKhuVuc) VALUES (N'Kho Chứa Hàng'), (N'Sàn Trưng Bày Sản Phẩm'), (N'Khu Vệ Sinh Công Cộng');
 INSERT INTO NhanVien (Ten, ChucVu, MaKhuVuc) VALUES (N'Nguyễn Văn Anh', N'Trưởng Phòng Kỹ Thuật', 1);
 INSERT INTO LoaiCoSoVatChat (TenLoai) VALUES (N'Kệ Trưng Bày'), (N'Máy Tính Xách Tay'), (N'Bồn Rửa Tay'), (N'Cửa Tự Động');
@@ -524,6 +528,7 @@ INSERT INTO CoSoVatChat (Ten, MaLoai, MaKhuVuc, TrangThai, Gia)
 VALUES (N'Kệ Sách Cao Cấp', 1, 1, N'Đang Hoạt Động', 1500000.00),
        (N'Bồn Rửa Tay Thông Minh', 3, 3, N'Hoạt Động Bình Thường', 850000.00),
        (N'Cửa Tự Động Thông Minh', 4, 3, N'Đang Bảo Trì', 12000000.00);
+GO
 
 -- Thêm stored procedures hỗ trợ tìm kiếm Unicode
 CREATE PROCEDURE sp_TimKiemCoSoVatChatTheoTen

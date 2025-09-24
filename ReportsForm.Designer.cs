@@ -84,7 +84,7 @@ namespace FacilityManagementSystem
             btnMaintenanceCost.Name = "btnMaintenanceCost";
             btnMaintenanceCost.Size = new Size(200, 35);
             btnMaintenanceCost.TabIndex = 2;
-            btnMaintenanceCost.Text = "Get Maintenance Cost";
+            btnMaintenanceCost.Text = "Xem Chi Phí Bảo Trì";
             btnMaintenanceCost.UseVisualStyleBackColor = true;
             btnMaintenanceCost.Click += btnMaintenanceCost_Click;
             // 
@@ -113,7 +113,7 @@ namespace FacilityManagementSystem
             btnValueByArea.Name = "btnValueByArea";
             btnValueByArea.Size = new Size(200, 35);
             btnValueByArea.TabIndex = 5;
-            btnValueByArea.Text = "Get Value by Area";
+            btnValueByArea.Text = "Xem Giá Trị theo Khu Vực";
             btnValueByArea.UseVisualStyleBackColor = true;
             btnValueByArea.Click += btnValueByArea_Click;
             // 
@@ -142,7 +142,7 @@ namespace FacilityManagementSystem
             btnValueByType.Name = "btnValueByType";
             btnValueByType.Size = new Size(200, 35);
             btnValueByType.TabIndex = 8;
-            btnValueByType.Text = "Get Value by Type";
+            btnValueByType.Text = "Xem Giá Trị theo Loại";
             btnValueByType.UseVisualStyleBackColor = true;
             btnValueByType.Click += btnValueByType_Click;
             // 
@@ -172,7 +172,7 @@ namespace FacilityManagementSystem
             btnNeedingMaintenance.Name = "btnNeedingMaintenance";
             btnNeedingMaintenance.Size = new Size(200, 35);
             btnNeedingMaintenance.TabIndex = 11;
-            btnNeedingMaintenance.Text = "Get Needing Maintenance";
+            btnNeedingMaintenance.Text = "Xem Cần Bảo Trì";
             btnNeedingMaintenance.UseVisualStyleBackColor = true;
             btnNeedingMaintenance.Click += btnNeedingMaintenance_Click;
             // 
@@ -194,7 +194,7 @@ namespace FacilityManagementSystem
             label1.Name = "label1";
             label1.Size = new Size(52, 20);
             label1.TabIndex = 13;
-            label1.Text = "Month";
+            label1.Text = "Tháng";
             // 
             // label2
             // 
@@ -204,7 +204,7 @@ namespace FacilityManagementSystem
             label2.Name = "label2";
             label2.Size = new Size(37, 20);
             label2.TabIndex = 14;
-            label2.Text = "Year";
+            label2.Text = "Năm";
             // 
             // label3
             // 
@@ -214,7 +214,7 @@ namespace FacilityManagementSystem
             label3.Name = "label3";
             label3.Size = new Size(40, 20);
             label3.TabIndex = 15;
-            label3.Text = "Area";
+            label3.Text = "Khu Vực";
             // 
             // label4
             // 
@@ -224,7 +224,7 @@ namespace FacilityManagementSystem
             label4.Name = "label4";
             label4.Size = new Size(40, 20);
             label4.TabIndex = 16;
-            label4.Text = "Type";
+            label4.Text = "Loại";
             // 
             // label5
             // 
@@ -234,7 +234,7 @@ namespace FacilityManagementSystem
             label5.Name = "label5";
             label5.Size = new Size(110, 20);
             label5.TabIndex = 17;
-            label5.Text = "Days Threshold";
+            label5.Text = "Ngưỡng Ngày";
             // 
             // label6
             // 
@@ -245,7 +245,7 @@ namespace FacilityManagementSystem
             label6.Name = "label6";
             label6.Size = new Size(216, 23);
             label6.TabIndex = 18;
-            label6.Text = "Equipment Needing Maint:";
+            label6.Text = "Cơ Sở Vật Chất Cần Bảo Trì:";
             // 
             // ReportsForm
             // 
@@ -273,7 +273,7 @@ namespace FacilityManagementSystem
             Controls.Add(numMonth);
             Margin = new Padding(4, 5, 4, 5);
             Name = "ReportsForm";
-            Text = "Reports";
+            Text = "Báo Cáo";
             ((System.ComponentModel.ISupportInitialize)numMonth).EndInit();
             ((System.ComponentModel.ISupportInitialize)numYear).EndInit();
             ((System.ComponentModel.ISupportInitialize)numDays).EndInit();

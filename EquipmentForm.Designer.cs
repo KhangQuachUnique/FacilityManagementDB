@@ -52,6 +52,7 @@ namespace FacilityManagementSystem
             cmbFilterType = new ComboBox();
             cmbFilterStatus = new ComboBox();
             btnFilter = new Button();
+            btnResetFilter = new Button();
             label8 = new Label();
             label9 = new Label();
             label10 = new Label();
@@ -295,6 +296,17 @@ namespace FacilityManagementSystem
             btnFilter.UseVisualStyleBackColor = true;
             btnFilter.Click += btnFilter_Click;
             // 
+            // btnResetFilter
+            // 
+            btnResetFilter.Location = new Point(901, 521);
+            btnResetFilter.Margin = new Padding(4, 5, 4, 5);
+            btnResetFilter.Name = "btnResetFilter";
+            btnResetFilter.Size = new Size(100, 35);
+            btnResetFilter.TabIndex = 27;
+            btnResetFilter.Text = "Đặt Lại";
+            btnResetFilter.UseVisualStyleBackColor = true;
+            btnResetFilter.Click += btnResetFilter_Click;
+            // 
             // label8
             // 
             label8.AutoSize = true;
@@ -333,6 +345,7 @@ namespace FacilityManagementSystem
             Controls.Add(label10);
             Controls.Add(label9);
             Controls.Add(label8);
+            Controls.Add(btnResetFilter);
             Controls.Add(btnFilter);
             Controls.Add(cmbFilterStatus);
             Controls.Add(cmbFilterType);
@@ -391,6 +404,7 @@ namespace FacilityManagementSystem
         private System.Windows.Forms.ComboBox cmbFilterType;
         private System.Windows.Forms.ComboBox cmbFilterStatus;
         private System.Windows.Forms.Button btnFilter;
+        private System.Windows.Forms.Button btnResetFilter;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;

@@ -23,6 +23,27 @@ namespace FacilityManagementSystem
         {
             dtTypes = DatabaseHelper.ExecuteProcedure("sp_LayTatCaLoaiCoSoVatChat");
             dgvTypes.DataSource = GetPagedData(dtTypes, currentPage);
+            SetupColumnHeaders();
+        }
+
+        private void SetupColumnHeaders()
+        {
+            if (dgvTypes.Columns.Count > 0)
+            {
+                var colMa = dgvTypes.Columns["MaLoai"];
+                if (colMa != null)
+                {
+                    colMa.HeaderText = "Mã Loại";
+                    colMa.Width = 80;
+                }
+                
+                var colTen = dgvTypes.Columns["TenLoai"];
+                if (colTen != null)
+                {
+                    colTen.HeaderText = "Tên Loại";
+                    colTen.Width = 250;
+                }
+            }
         }
 
         private DataTable GetPagedData(DataTable dt, int page)
