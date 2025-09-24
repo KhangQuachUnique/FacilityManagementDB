@@ -241,7 +241,7 @@ namespace FacilityManagementSystem
             // cmbFilterArea
             // 
             this.cmbFilterArea.FormattingEnabled = true;
-            this.cmbFilterArea.Location = new System.Drawing.Point(430, 246);
+            this.cmbFilterArea.Location = new System.Drawing.Point(530, 286);
             this.cmbFilterArea.Name = "cmbFilterArea";
             this.cmbFilterArea.Size = new System.Drawing.Size(150, 21);
             this.cmbFilterArea.TabIndex = 20;
@@ -249,7 +249,7 @@ namespace FacilityManagementSystem
             // cmbFilterType
             // 
             this.cmbFilterType.FormattingEnabled = true;
-            this.cmbFilterType.Location = new System.Drawing.Point(430, 273);
+            this.cmbFilterType.Location = new System.Drawing.Point(530, 316);
             this.cmbFilterType.Name = "cmbFilterType";
             this.cmbFilterType.Size = new System.Drawing.Size(150, 21);
             this.cmbFilterType.TabIndex = 21;
@@ -257,14 +257,14 @@ namespace FacilityManagementSystem
             // cmbFilterStatus
             // 
             this.cmbFilterStatus.FormattingEnabled = true;
-            this.cmbFilterStatus.Location = new System.Drawing.Point(430, 300);
+            this.cmbFilterStatus.Location = new System.Drawing.Point(530, 346);
             this.cmbFilterStatus.Name = "cmbFilterStatus";
             this.cmbFilterStatus.Size = new System.Drawing.Size(150, 21);
             this.cmbFilterStatus.TabIndex = 22;
             // 
             // btnFilter
             // 
-            this.btnFilter.Location = new System.Drawing.Point(600, 273);
+            this.btnFilter.Location = new System.Drawing.Point(680, 316);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.Size = new System.Drawing.Size(75, 23);
             this.btnFilter.TabIndex = 23;
@@ -275,7 +275,7 @@ namespace FacilityManagementSystem
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(342, 249);
+            this.label8.Location = new System.Drawing.Point(450, 290);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(82, 13);
             this.label8.TabIndex = 24;
@@ -284,7 +284,7 @@ namespace FacilityManagementSystem
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(342, 276);
+            this.label9.Location = new System.Drawing.Point(450, 320);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(80, 13);
             this.label9.TabIndex = 25;
@@ -293,7 +293,7 @@ namespace FacilityManagementSystem
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(342, 303);
+            this.label10.Location = new System.Drawing.Point(450, 350);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(86, 13);
             this.label10.TabIndex = 26;

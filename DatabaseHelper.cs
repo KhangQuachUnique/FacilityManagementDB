@@ -2,7 +2,7 @@
 
 using System;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Configuration;
 using System.Windows.Forms;
 
@@ -10,7 +10,7 @@ namespace FacilityManagementSystem
 {
     public class DatabaseHelper
     {
-        private static string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        private static string connectionString = "Server=localhost; Database=FacilityManagementDB; Trusted_Connection=True; TrustServerCertificate=True;";
 
         /// <summary>
         /// Executes a stored procedure and returns the result as DataTable.
