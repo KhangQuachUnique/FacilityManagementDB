@@ -36,6 +36,11 @@ namespace FacilityManagementSystem
             this.dtpDate = new System.Windows.Forms.DateTimePicker();
             this.numCost = new System.Windows.Forms.NumericUpDown();
             this.txtDescription = new System.Windows.Forms.TextBox();
+            this.lblEquipmentValue = new System.Windows.Forms.Label();
+            this.lblEmployeeValue = new System.Windows.Forms.Label();
+            this.lblDateValue = new System.Windows.Forms.Label();
+            this.lblCostValue = new System.Windows.Forms.Label();
+            this.lblDescriptionValue = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
@@ -75,6 +80,7 @@ namespace FacilityManagementSystem
             this.cmbEquipment.Name = "cmbEquipment";
             this.cmbEquipment.Size = new System.Drawing.Size(150, 21);
             this.cmbEquipment.TabIndex = 1;
+            this.cmbEquipment.Visible = false;
             // 
             // cmbEmployee
             // 
@@ -83,6 +89,7 @@ namespace FacilityManagementSystem
             this.cmbEmployee.Name = "cmbEmployee";
             this.cmbEmployee.Size = new System.Drawing.Size(150, 21);
             this.cmbEmployee.TabIndex = 2;
+            this.cmbEmployee.Visible = false;
             // 
             // dtpDate
             // 
@@ -91,6 +98,7 @@ namespace FacilityManagementSystem
             this.dtpDate.Name = "dtpDate";
             this.dtpDate.Size = new System.Drawing.Size(150, 20);
             this.dtpDate.TabIndex = 3;
+            this.dtpDate.Visible = false;
             // 
             // numCost
             // 
@@ -99,6 +107,7 @@ namespace FacilityManagementSystem
             this.numCost.Name = "numCost";
             this.numCost.Size = new System.Drawing.Size(150, 20);
             this.numCost.TabIndex = 4;
+            this.numCost.Visible = false;
             // 
             // txtDescription
             // 
@@ -107,6 +116,52 @@ namespace FacilityManagementSystem
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Size = new System.Drawing.Size(150, 60);
             this.txtDescription.TabIndex = 5;
+            this.txtDescription.Visible = false;
+
+            // 
+            // lblEquipmentValue
+            // 
+            this.lblEquipmentValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblEquipmentValue.Location = new System.Drawing.Point(100, 220);
+            this.lblEquipmentValue.Name = "lblEquipmentValue";
+            this.lblEquipmentValue.Size = new System.Drawing.Size(150, 20);
+            this.lblEquipmentValue.TabIndex = 25;
+
+            // 
+            // lblEmployeeValue
+            // 
+            this.lblEmployeeValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblEmployeeValue.Location = new System.Drawing.Point(100, 247);
+            this.lblEmployeeValue.Name = "lblEmployeeValue";
+            this.lblEmployeeValue.Size = new System.Drawing.Size(150, 20);
+            this.lblEmployeeValue.TabIndex = 26;
+
+            // 
+            // lblDateValue
+            // 
+            this.lblDateValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblDateValue.Location = new System.Drawing.Point(100, 274);
+            this.lblDateValue.Name = "lblDateValue";
+            this.lblDateValue.Size = new System.Drawing.Size(150, 20);
+            this.lblDateValue.TabIndex = 27;
+
+            // 
+            // lblCostValue
+            // 
+            this.lblCostValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblCostValue.Location = new System.Drawing.Point(100, 300);
+            this.lblCostValue.Name = "lblCostValue";
+            this.lblCostValue.Size = new System.Drawing.Size(150, 20);
+            this.lblCostValue.TabIndex = 28;
+
+            // 
+            // lblDescriptionValue
+            // 
+            this.lblDescriptionValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblDescriptionValue.Location = new System.Drawing.Point(100, 326);
+            this.lblDescriptionValue.Name = "lblDescriptionValue";
+            this.lblDescriptionValue.Size = new System.Drawing.Size(150, 60);
+            this.lblDescriptionValue.TabIndex = 29;
             // 
             // btnAdd
             // 
@@ -305,6 +360,11 @@ namespace FacilityManagementSystem
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnAdd);
+            this.Controls.Add(this.lblDescriptionValue);
+            this.Controls.Add(this.lblCostValue);
+            this.Controls.Add(this.lblDateValue);
+            this.Controls.Add(this.lblEmployeeValue);
+            this.Controls.Add(this.lblEquipmentValue);
             this.Controls.Add(this.txtDescription);
             this.Controls.Add(this.numCost);
             this.Controls.Add(this.dtpDate);
@@ -347,5 +407,10 @@ namespace FacilityManagementSystem
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
+    private System.Windows.Forms.Label lblEquipmentValue;
+    private System.Windows.Forms.Label lblEmployeeValue;
+    private System.Windows.Forms.Label lblDateValue;
+    private System.Windows.Forms.Label lblCostValue;
+    private System.Windows.Forms.Label lblDescriptionValue;
     }
 }

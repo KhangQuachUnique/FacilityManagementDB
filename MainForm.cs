@@ -113,20 +113,20 @@ namespace FacilityManagementSystem
             }
         }
 
-        private void btnUserManagement_Click(object sender, EventArgs e)
-        {
-            OpenInTab("Users", () => new UserManagementForm());
-        }
+        // private void btnUserManagement_Click(object sender, EventArgs e)
+        // {
+        //     OpenInTab("Users", () => new UserManagementForm());
+        // }
 
-        private void btnRoleManagement_Click(object sender, EventArgs e)
-        {
-            OpenInTab("Roles", () => new RoleManagementForm());
-        }
+        // private void btnRoleManagement_Click(object sender, EventArgs e)
+        // {
+        //     OpenInTab("Roles", () => new RoleManagementForm());
+        // }
 
-        private void btnEmployee_Click(object sender, EventArgs e)
-        {
-            OpenInTab("Employees", () => new EmployeeForm());
-        }
+        // private void btnEmployee_Click(object sender, EventArgs e)
+        // {
+        //     OpenInTab("Employees", () => new EmployeeForm());
+        // }
 
         private void btnArea_Click(object sender, EventArgs e)
         {

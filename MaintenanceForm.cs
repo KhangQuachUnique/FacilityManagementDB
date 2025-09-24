@@ -94,15 +94,13 @@ namespace FacilityManagementSystem
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            SqlParameter[] parameters = {
-                new SqlParameter("@EquipmentID", cmbEquipment.SelectedValue),
-                new SqlParameter("@EmployeeID", cmbEmployee.SelectedValue),
-                new SqlParameter("@MaintenanceDate", dtpDate.Value.Date),
-                new SqlParameter("@Cost", numCost.Value),
-                new SqlParameter("@Description", txtDescription.Text)
-            };
-            DatabaseHelper.ExecuteNonQuery("sp_InsertMaintenance", parameters);
-            LoadMaintenance();
+            using (var editForm = new MaintenanceEditForm())
+            {
+                if (editForm.ShowDialog() == DialogResult.OK)
+                {
+                    LoadMaintenance();
+                }
+            }
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -110,16 +108,17 @@ namespace FacilityManagementSystem
             if (dgvMaintenance.SelectedRows.Count > 0)
             {
                 int maintenanceID = Convert.ToInt32(dgvMaintenance.SelectedRows[0].Cells["MaintenanceID"].Value);
-                SqlParameter[] parameters = {
-                    new SqlParameter("@MaintenanceID", maintenanceID),
-                    new SqlParameter("@EquipmentID", cmbEquipment.SelectedValue),
-                    new SqlParameter("@EmployeeID", cmbEmployee.SelectedValue),
-                    new SqlParameter("@MaintenanceDate", dtpDate.Value.Date),
-                    new SqlParameter("@Cost", numCost.Value),
-                    new SqlParameter("@Description", txtDescription.Text)
-                };
-                DatabaseHelper.ExecuteNonQuery("sp_UpdateMaintenance", parameters);
-                LoadMaintenance();
+                using (var editForm = new MaintenanceEditForm(maintenanceID))
+                {
+                    if (editForm.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadMaintenance();
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a row to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -138,11 +137,27 @@ namespace FacilityManagementSystem
         {
             if (dgvMaintenance.SelectedRows.Count > 0)
             {
-                cmbEquipment.SelectedValue = dgvMaintenance.SelectedRows[0].Cells["EquipmentID"].Value;
-                cmbEmployee.SelectedValue = dgvMaintenance.SelectedRows[0].Cells["EmployeeID"].Value;
-                dtpDate.Value = Convert.ToDateTime(dgvMaintenance.SelectedRows[0].Cells["MaintenanceDate"].Value);
-                numCost.Value = Convert.ToDecimal(dgvMaintenance.SelectedRows[0].Cells["Cost"].Value);
-                txtDescription.Text = dgvMaintenance.SelectedRows[0].Cells["Description"].Value.ToString();
+                var row = dgvMaintenance.SelectedRows[0];
+                // sp_GetAllMaintenance returns e.Name AS EquipmentName
+                lblEquipmentValue.Text = row.Cells["EquipmentName"]?.Value?.ToString() ?? string.Empty;
+                lblEmployeeValue.Text = row.Cells["EmployeeName"]?.Value?.ToString() ?? string.Empty;
+                if (DateTime.TryParse(row.Cells["MaintenanceDate"].Value?.ToString(), out var d))
+                    lblDateValue.Text = d.ToShortDateString();
+                else
+                    lblDateValue.Text = string.Empty;
+                if (decimal.TryParse(row.Cells["Cost"].Value?.ToString(), out var c))
+                    lblCostValue.Text = c.ToString("C");
+                else
+                    lblCostValue.Text = string.Empty;
+                lblDescriptionValue.Text = row.Cells["Description"].Value?.ToString() ?? string.Empty;
+            }
+            else
+            {
+                lblEquipmentValue.Text = string.Empty;
+                lblEmployeeValue.Text = string.Empty;
+                lblDateValue.Text = string.Empty;
+                lblCostValue.Text = string.Empty;
+                lblDescriptionValue.Text = string.Empty;
             }
         }
     }

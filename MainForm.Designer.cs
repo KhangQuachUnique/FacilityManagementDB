@@ -30,49 +30,49 @@ namespace FacilityManagementSystem
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnUserManagement = new System.Windows.Forms.Button();
-            this.btnRoleManagement = new System.Windows.Forms.Button();
-            this.btnEmployee = new System.Windows.Forms.Button();
+            // this.btnUserManagement = new System.Windows.Forms.Button();
+            // this.btnRoleManagement = new System.Windows.Forms.Button();
+            // this.btnEmployee = new System.Windows.Forms.Button();
             this.btnArea = new System.Windows.Forms.Button();
             this.btnEquipmentType = new System.Windows.Forms.Button();
             this.btnEquipment = new System.Windows.Forms.Button();
             this.btnMaintenance = new System.Windows.Forms.Button();
             this.btnReports = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // btnUserManagement
-            // 
-            this.btnUserManagement.Location = new System.Drawing.Point(12, 12);
-            this.btnUserManagement.Name = "btnUserManagement";
-            this.btnUserManagement.Size = new System.Drawing.Size(150, 23);
-            this.btnUserManagement.TabIndex = 0;
-            this.btnUserManagement.Text = "User Management";
-            this.btnUserManagement.UseVisualStyleBackColor = true;
-            this.btnUserManagement.Click += new System.EventHandler(this.btnUserManagement_Click);
-            // 
-            // btnRoleManagement
-            // 
-            this.btnRoleManagement.Location = new System.Drawing.Point(12, 41);
-            this.btnRoleManagement.Name = "btnRoleManagement";
-            this.btnRoleManagement.Size = new System.Drawing.Size(150, 23);
-            this.btnRoleManagement.TabIndex = 1;
-            this.btnRoleManagement.Text = "Role Management";
-            this.btnRoleManagement.UseVisualStyleBackColor = true;
-            this.btnRoleManagement.Click += new System.EventHandler(this.btnRoleManagement_Click);
-            // 
-            // btnEmployee
-            // 
-            this.btnEmployee.Location = new System.Drawing.Point(12, 70);
-            this.btnEmployee.Name = "btnEmployee";
-            this.btnEmployee.Size = new System.Drawing.Size(150, 23);
-            this.btnEmployee.TabIndex = 2;
-            this.btnEmployee.Text = "Employee Management";
-            this.btnEmployee.UseVisualStyleBackColor = true;
-            this.btnEmployee.Click += new System.EventHandler(this.btnEmployee_Click);
+            // // 
+            // // btnUserManagement
+            // // 
+            // this.btnUserManagement.Location = new System.Drawing.Point(12, 12);
+            // this.btnUserManagement.Name = "btnUserManagement";
+            // this.btnUserManagement.Size = new System.Drawing.Size(150, 23);
+            // this.btnUserManagement.TabIndex = 0;
+            // this.btnUserManagement.Text = "User Management";
+            // this.btnUserManagement.UseVisualStyleBackColor = true;
+            // this.btnUserManagement.Click += new System.EventHandler(this.btnUserManagement_Click);
+            // // 
+            // // btnRoleManagement
+            // // 
+            // this.btnRoleManagement.Location = new System.Drawing.Point(12, 41);
+            // this.btnRoleManagement.Name = "btnRoleManagement";
+            // this.btnRoleManagement.Size = new System.Drawing.Size(150, 23);
+            // this.btnRoleManagement.TabIndex = 1;
+            // this.btnRoleManagement.Text = "Role Management";
+            // this.btnRoleManagement.UseVisualStyleBackColor = true;
+            // this.btnRoleManagement.Click += new System.EventHandler(this.btnRoleManagement_Click);
+            // // 
+            // // btnEmployee
+            // // 
+            // this.btnEmployee.Location = new System.Drawing.Point(12, 70);
+            // this.btnEmployee.Name = "btnEmployee";
+            // this.btnEmployee.Size = new System.Drawing.Size(150, 23);
+            // this.btnEmployee.TabIndex = 2;
+            // this.btnEmployee.Text = "Employee Management";
+            // this.btnEmployee.UseVisualStyleBackColor = true;
+            // this.btnEmployee.Click += new System.EventHandler(this.btnEmployee_Click);
             // 
             // btnArea
             // 
-            this.btnArea.Location = new System.Drawing.Point(12, 99);
+            this.btnArea.Location = new System.Drawing.Point(12, 12);
             this.btnArea.Name = "btnArea";
             this.btnArea.Size = new System.Drawing.Size(150, 23);
             this.btnArea.TabIndex = 3;
@@ -82,7 +82,7 @@ namespace FacilityManagementSystem
             // 
             // btnEquipmentType
             // 
-            this.btnEquipmentType.Location = new System.Drawing.Point(12, 128);
+            this.btnEquipmentType.Location = new System.Drawing.Point(12, 41);
             this.btnEquipmentType.Name = "btnEquipmentType";
             this.btnEquipmentType.Size = new System.Drawing.Size(150, 23);
             this.btnEquipmentType.TabIndex = 4;
@@ -92,7 +92,7 @@ namespace FacilityManagementSystem
             // 
             // btnEquipment
             // 
-            this.btnEquipment.Location = new System.Drawing.Point(12, 157);
+            this.btnEquipment.Location = new System.Drawing.Point(12, 70);
             this.btnEquipment.Name = "btnEquipment";
             this.btnEquipment.Size = new System.Drawing.Size(150, 23);
             this.btnEquipment.TabIndex = 5;
@@ -102,7 +102,7 @@ namespace FacilityManagementSystem
             // 
             // btnMaintenance
             // 
-            this.btnMaintenance.Location = new System.Drawing.Point(12, 186);
+            this.btnMaintenance.Location = new System.Drawing.Point(12, 99);
             this.btnMaintenance.Name = "btnMaintenance";
             this.btnMaintenance.Size = new System.Drawing.Size(150, 23);
             this.btnMaintenance.TabIndex = 6;
@@ -112,7 +112,7 @@ namespace FacilityManagementSystem
             // 
             // btnReports
             // 
-            this.btnReports.Location = new System.Drawing.Point(12, 215);
+            this.btnReports.Location = new System.Drawing.Point(12, 128);
             this.btnReports.Name = "btnReports";
             this.btnReports.Size = new System.Drawing.Size(150, 23);
             this.btnReports.TabIndex = 7;
