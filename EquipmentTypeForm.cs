@@ -127,5 +127,57 @@ namespace FacilityManagementSystem
                 lblTypeNameValue.Text = string.Empty;
             }
         }
+
+        // ============================================
+        // CÁC PHƯƠNG THỨC TÌM KIẾM
+        // ============================================
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            PerformSearch();
+        }
+
+        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                PerformSearch();
+            }
+        }
+
+        private void btnClearSearch_Click(object sender, EventArgs e)
+        {
+            txtSearch.Clear();
+            LoadTypes(); // Load lại tất cả dữ liệu
+            currentPage = 1;
+        }
+
+        private void PerformSearch()
+        {
+            string searchTerm = txtSearch.Text.Trim();
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                LoadTypes(); // Nếu không có từ khóa tìm kiếm, load tất cả
+                return;
+            }
+
+            try
+            {
+                dtTypes = DatabaseHelper.SearchEquipmentTypeByName(searchTerm);
+                dgvTypes.DataSource = GetPagedData(dtTypes, 1); // Reset về trang đầu
+                SetupColumnHeaders();
+                currentPage = 1;
+
+                if (dtTypes.Rows.Count == 0)
+                {
+                    MessageBox.Show($"Không tìm thấy loại cơ sở vật chất nào với từ khóa '{searchTerm}'.", 
+                                    "Không Tìm Thấy", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

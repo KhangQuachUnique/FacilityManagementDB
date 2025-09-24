@@ -56,13 +56,54 @@ namespace FacilityManagementSystem
             label8 = new Label();
             label9 = new Label();
             label10 = new Label();
+            txtSearch = new TextBox();
+            btnSearch = new Button();
+            btnClearSearch = new Button();
+            lblSearch = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvEquipment).BeginInit();
             SuspendLayout();
+            // 
+            // lblSearch
+            // 
+            lblSearch.AutoSize = true;
+            lblSearch.Location = new Point(16, 20);
+            lblSearch.Name = "lblSearch";
+            lblSearch.Size = new Size(78, 20);
+            lblSearch.TabIndex = 30;
+            lblSearch.Text = "Tìm Kiếm:";
+            // 
+            // txtSearch
+            // 
+            txtSearch.Location = new Point(100, 17);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(200, 27);
+            txtSearch.TabIndex = 31;
+            txtSearch.KeyDown += txtSearch_KeyDown;
+            // 
+            // btnSearch
+            // 
+            btnSearch.Location = new Point(310, 16);
+            btnSearch.Name = "btnSearch";
+            btnSearch.Size = new Size(94, 29);
+            btnSearch.TabIndex = 32;
+            btnSearch.Text = "Tìm Kiếm";
+            btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.Click += btnSearch_Click;
+            // 
+            // btnClearSearch
+            // 
+            btnClearSearch.Location = new Point(415, 16);
+            btnClearSearch.Name = "btnClearSearch";
+            btnClearSearch.Size = new Size(94, 29);
+            btnClearSearch.TabIndex = 33;
+            btnClearSearch.Text = "Xóa Tìm";
+            btnClearSearch.UseVisualStyleBackColor = true;
+            btnClearSearch.Click += btnClearSearch_Click;
             // 
             // dgvEquipment
             // 
             dgvEquipment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvEquipment.Location = new Point(16, 18);
+            dgvEquipment.Location = new Point(16, 55);
             dgvEquipment.Margin = new Padding(4, 5, 4, 5);
             dgvEquipment.Name = "dgvEquipment";
             dgvEquipment.RowHeadersWidth = 51;
@@ -342,6 +383,10 @@ namespace FacilityManagementSystem
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1045, 642);
+            Controls.Add(btnClearSearch);
+            Controls.Add(btnSearch);
+            Controls.Add(txtSearch);
+            Controls.Add(lblSearch);
             Controls.Add(label10);
             Controls.Add(label9);
             Controls.Add(label8);
@@ -408,5 +453,9 @@ namespace FacilityManagementSystem
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.Button btnClearSearch;
+        private System.Windows.Forms.Label lblSearch;
     }
 }

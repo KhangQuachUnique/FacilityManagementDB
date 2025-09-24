@@ -96,5 +96,81 @@ namespace FacilityManagementSystem
             }
             return result;
         }
+
+        // ============================================
+        // PHƯƠNG THỨC TÌM KIẾM THEO TÊN CƠ BẢN
+        // ============================================
+
+        /// <summary>
+        /// Tìm kiếm Khu Vực theo tên
+        /// </summary>
+        public static DataTable SearchAreaByName(string tenKhuVuc)
+        {
+            return ExecuteProcedure("sp_TimKiemKhuVucTheoTen", 
+                new SqlParameter("@TenKhuVuc", tenKhuVuc ?? ""));
+        }
+
+        /// <summary>
+        /// Tìm kiếm Nhân Viên theo tên
+        /// </summary>
+        public static DataTable SearchEmployeeByName(string tenNhanVien)
+        {
+            return ExecuteProcedure("sp_TimKiemNhanVienTheoTen", 
+                new SqlParameter("@TenNhanVien", tenNhanVien ?? ""));
+        }
+
+        /// <summary>
+        /// Tìm kiếm Loại Cơ Sở Vật Chất theo tên
+        /// </summary>
+        public static DataTable SearchEquipmentTypeByName(string tenLoai)
+        {
+            return ExecuteProcedure("sp_TimKiemLoaiCoSoVatChatTheoTen", 
+                new SqlParameter("@TenLoai", tenLoai ?? ""));
+        }
+
+        /// <summary>
+        /// Tìm kiếm Cơ Sở Vật Chất theo tên
+        /// </summary>
+        public static DataTable SearchEquipmentByName(string tenCoSoVatChat)
+        {
+            return ExecuteProcedure("sp_TimKiemCoSoVatChatTheoTen", 
+                new SqlParameter("@TenCoSoVatChat", tenCoSoVatChat ?? ""));
+        }
+
+        /// <summary>
+        /// Tìm kiếm Bảo Trì theo tên cơ sở vật chất
+        /// </summary>
+        public static DataTable SearchMaintenanceByEquipmentName(string tenCoSoVatChat)
+        {
+            return ExecuteProcedure("sp_TimKiemBaoTriTheoTenCoSoVatChat", 
+                new SqlParameter("@TenCoSoVatChat", tenCoSoVatChat ?? ""));
+        }
+
+        /// <summary>
+        /// Tìm kiếm Bảo Trì theo tên nhân viên
+        /// </summary>
+        public static DataTable SearchMaintenanceByEmployeeName(string tenNhanVien)
+        {
+            return ExecuteProcedure("sp_TimKiemBaoTriTheoTenNhanVien", 
+                new SqlParameter("@TenNhanVien", tenNhanVien ?? ""));
+        }
+
+        /// <summary>
+        /// Tìm kiếm Vai Trò theo tên
+        /// </summary>
+        public static DataTable SearchRoleByName(string tenVaiTro)
+        {
+            return ExecuteProcedure("sp_TimKiemVaiTroTheoTen", 
+                new SqlParameter("@TenVaiTro", tenVaiTro ?? ""));
+        }
+
+        /// <summary>
+        /// Tìm kiếm Người Dùng theo tên đăng nhập
+        /// </summary>
+        public static DataTable SearchUserByUsername(string tenDangNhap)
+        {
+            return ExecuteProcedure("sp_TimKiemNguoiDungTheoTenDangNhap", 
+                new SqlParameter("@TenDangNhap", tenDangNhap ?? ""));
+        }
     }
 }

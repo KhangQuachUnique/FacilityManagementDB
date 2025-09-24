@@ -38,6 +38,7 @@ namespace FacilityManagementSystem
             this.btnEquipment = new System.Windows.Forms.Button();
             this.btnMaintenance = new System.Windows.Forms.Button();
             this.btnReports = new System.Windows.Forms.Button();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // // 
             // // btnUserManagement
@@ -120,11 +121,22 @@ namespace FacilityManagementSystem
             this.btnReports.UseVisualStyleBackColor = true;
             this.btnReports.Click += new System.EventHandler(this.btnReports_Click);
             // 
+            // btnSearch
+            // 
+            this.btnSearch.Location = new System.Drawing.Point(12, 157);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(150, 23);
+            this.btnSearch.TabIndex = 8;
+            this.btnSearch.Text = "🔍 Tìm Kiếm";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(174, 261);
+            this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.btnReports);
             this.Controls.Add(this.btnMaintenance);
             this.Controls.Add(this.btnEquipment);
@@ -149,5 +161,6 @@ namespace FacilityManagementSystem
         private System.Windows.Forms.Button btnEquipment;
         private System.Windows.Forms.Button btnMaintenance;
         private System.Windows.Forms.Button btnReports;
+        private System.Windows.Forms.Button btnSearch;
     }
 }

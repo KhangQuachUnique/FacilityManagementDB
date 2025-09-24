@@ -230,5 +230,145 @@ namespace FacilityManagementSystem
                 lblDescriptionValue.Text = string.Empty;
             }
         }
+
+        // ============================================
+        // PHƯƠNG THỨC TÌM KIẾM BẢO TRÌ
+        // ============================================
+
+        /// <summary>
+        /// Tìm kiếm bảo trì theo tên cơ sở vật chất
+        /// </summary>
+        public void SearchMaintenanceByEquipment(string equipmentName)
+        {
+            if (string.IsNullOrEmpty(equipmentName))
+            {
+                LoadMaintenance();
+                return;
+            }
+
+            try
+            {
+                dtMaintenance = DatabaseHelper.SearchMaintenanceByEquipmentName(equipmentName);
+                dgvMaintenance.DataSource = GetPagedData(dtMaintenance, 1);
+                SetupColumnHeaders();
+                currentPage = 1;
+
+                if (dtMaintenance.Rows.Count == 0)
+                {
+                    MessageBox.Show($"Không tìm thấy bảo trì nào cho cơ sở vật chất '{equipmentName}'.", 
+                                    "Không Tìm Thấy", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"Tìm thấy {dtMaintenance.Rows.Count} bảo trì cho cơ sở vật chất '{equipmentName}'.", 
+                                    "Kết Quả Tìm Kiếm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Tìm kiếm bảo trì theo tên nhân viên
+        /// </summary>
+        public void SearchMaintenanceByEmployee(string employeeName)
+        {
+            if (string.IsNullOrEmpty(employeeName))
+            {
+                LoadMaintenance();
+                return;
+            }
+
+            try
+            {
+                dtMaintenance = DatabaseHelper.SearchMaintenanceByEmployeeName(employeeName);
+                dgvMaintenance.DataSource = GetPagedData(dtMaintenance, 1);
+                SetupColumnHeaders();
+                currentPage = 1;
+
+                if (dtMaintenance.Rows.Count == 0)
+                {
+                    MessageBox.Show($"Không tìm thấy bảo trì nào được thực hiện bởi '{employeeName}'.", 
+                                    "Không Tìm Thấy", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"Tìm thấy {dtMaintenance.Rows.Count} bảo trì được thực hiện bởi '{employeeName}'.", 
+                                    "Kết Quả Tìm Kiếm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            PerformSearch();
+        }
+
+        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                PerformSearch();
+            }
+        }
+
+        private void btnClearSearch_Click(object sender, EventArgs e)
+        {
+            txtSearch.Text = string.Empty;
+            LoadMaintenance(); // Load lại dữ liệu gốc
+        }
+
+        private void PerformSearch()
+        {
+            string searchTerm = txtSearch.Text.Trim();
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                MessageBox.Show("Vui lòng nhập từ khóa tìm kiếm.", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                // Tìm kiếm theo tên thiết bị trước
+                DataTable equipmentResult = DatabaseHelper.SearchMaintenanceByEquipmentName(searchTerm);
+                
+                if (equipmentResult.Rows.Count > 0)
+                {
+                    dtMaintenance = equipmentResult;
+                    dgvMaintenance.DataSource = GetPagedData(dtMaintenance, 1);
+                    currentPage = 1;
+                    MessageBox.Show($"Tìm thấy {dtMaintenance.Rows.Count} bảo trì cho thiết bị có tên chứa '{searchTerm}'.", 
+                                    "Kết Quả Tìm Kiếm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                // Nếu không tìm thấy theo thiết bị thì tìm theo nhân viên
+                DataTable employeeResult = DatabaseHelper.SearchMaintenanceByEmployeeName(searchTerm);
+                
+                if (employeeResult.Rows.Count > 0)
+                {
+                    dtMaintenance = employeeResult;
+                    dgvMaintenance.DataSource = GetPagedData(dtMaintenance, 1);
+                    currentPage = 1;
+                    MessageBox.Show($"Tìm thấy {dtMaintenance.Rows.Count} bảo trì được thực hiện bởi nhân viên có tên chứa '{searchTerm}'.", 
+                                    "Kết Quả Tìm Kiếm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"Không tìm thấy bảo trì nào liên quan đến '{searchTerm}'.", 
+                                    "Không Tìm Thấy", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

@@ -31,6 +31,10 @@ namespace FacilityManagementSystem
         private void InitializeComponent()
         {
             dgvMaintenance = new DataGridView();
+            txtSearch = new TextBox();
+            btnSearch = new Button();
+            btnClearSearch = new Button();
+            lblSearch = new Label();
             cmbEquipment = new ComboBox();
             cmbEmployee = new ComboBox();
             dtpDate = new DateTimePicker();
@@ -65,21 +69,63 @@ namespace FacilityManagementSystem
             ((System.ComponentModel.ISupportInitialize)numCost).BeginInit();
             SuspendLayout();
             // 
+            // lblSearch
+            // 
+            lblSearch.AutoSize = true;
+            lblSearch.Location = new Point(16, 18);
+            lblSearch.Margin = new Padding(4, 0, 4, 0);
+            lblSearch.Name = "lblSearch";
+            lblSearch.Size = new Size(77, 20);
+            lblSearch.TabIndex = 25;
+            lblSearch.Text = "Tìm kiếm:";
+            // 
+            // txtSearch
+            // 
+            txtSearch.Location = new Point(101, 15);
+            txtSearch.Margin = new Padding(4, 5, 4, 5);
+            txtSearch.Name = "txtSearch";
+            txtSearch.PlaceholderText = "Nhập tên thiết bị hoặc nhân viên để tìm kiếm...";
+            txtSearch.Size = new Size(300, 27);
+            txtSearch.TabIndex = 26;
+            txtSearch.KeyDown += txtSearch_KeyDown;
+            // 
+            // btnSearch
+            // 
+            btnSearch.Location = new Point(409, 14);
+            btnSearch.Margin = new Padding(4, 5, 4, 5);
+            btnSearch.Name = "btnSearch";
+            btnSearch.Size = new Size(80, 29);
+            btnSearch.TabIndex = 27;
+            btnSearch.Text = "Tìm kiếm";
+            btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.Click += btnSearch_Click;
+            // 
+            // btnClearSearch
+            // 
+            btnClearSearch.Location = new Point(497, 14);
+            btnClearSearch.Margin = new Padding(4, 5, 4, 5);
+            btnClearSearch.Name = "btnClearSearch";
+            btnClearSearch.Size = new Size(100, 29);
+            btnClearSearch.TabIndex = 28;
+            btnClearSearch.Text = "Hủy tìm kiếm";
+            btnClearSearch.UseVisualStyleBackColor = true;
+            btnClearSearch.Click += btnClearSearch_Click;
+            // 
             // dgvMaintenance
             // 
             dgvMaintenance.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvMaintenance.Location = new Point(16, 18);
+            dgvMaintenance.Location = new Point(16, 53);
             dgvMaintenance.Margin = new Padding(4, 5, 4, 5);
             dgvMaintenance.Name = "dgvMaintenance";
             dgvMaintenance.RowHeadersWidth = 51;
-            dgvMaintenance.Size = new Size(1013, 308);
+            dgvMaintenance.Size = new Size(1013, 273);
             dgvMaintenance.TabIndex = 0;
             dgvMaintenance.SelectionChanged += dgvMaintenance_SelectionChanged;
             // 
             // cmbEquipment
             // 
             cmbEquipment.FormattingEnabled = true;
-            cmbEquipment.Location = new Point(133, 338);
+            cmbEquipment.Location = new Point(133, 373);
             cmbEquipment.Margin = new Padding(4, 5, 4, 5);
             cmbEquipment.Name = "cmbEquipment";
             cmbEquipment.Size = new Size(199, 28);
@@ -89,7 +135,7 @@ namespace FacilityManagementSystem
             // cmbEmployee
             // 
             cmbEmployee.FormattingEnabled = true;
-            cmbEmployee.Location = new Point(133, 380);
+            cmbEmployee.Location = new Point(133, 415);
             cmbEmployee.Margin = new Padding(4, 5, 4, 5);
             cmbEmployee.Name = "cmbEmployee";
             cmbEmployee.Size = new Size(199, 28);
@@ -99,7 +145,7 @@ namespace FacilityManagementSystem
             // dtpDate
             // 
             dtpDate.Format = DateTimePickerFormat.Short;
-            dtpDate.Location = new Point(133, 422);
+            dtpDate.Location = new Point(133, 457);
             dtpDate.Margin = new Padding(4, 5, 4, 5);
             dtpDate.Name = "dtpDate";
             dtpDate.Size = new Size(199, 27);
@@ -109,7 +155,7 @@ namespace FacilityManagementSystem
             // numCost
             // 
             numCost.DecimalPlaces = 2;
-            numCost.Location = new Point(133, 462);
+            numCost.Location = new Point(133, 497);
             numCost.Margin = new Padding(4, 5, 4, 5);
             numCost.Maximum = new decimal(new int[] { -1486618624, 232830643, 0, 0 }); // 10 tỷ VND
             numCost.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
@@ -120,7 +166,7 @@ namespace FacilityManagementSystem
             // 
             // txtDescription
             // 
-            txtDescription.Location = new Point(133, 502);
+            txtDescription.Location = new Point(133, 537);
             txtDescription.Margin = new Padding(4, 5, 4, 5);
             txtDescription.Multiline = true;
             txtDescription.Name = "txtDescription";
@@ -131,7 +177,7 @@ namespace FacilityManagementSystem
             // lblEquipmentValue
             // 
             lblEquipmentValue.BorderStyle = BorderStyle.FixedSingle;
-            lblEquipmentValue.Location = new Point(133, 338);
+            lblEquipmentValue.Location = new Point(133, 373);
             lblEquipmentValue.Margin = new Padding(4, 0, 4, 0);
             lblEquipmentValue.Name = "lblEquipmentValue";
             lblEquipmentValue.Size = new Size(199, 30);
@@ -140,7 +186,7 @@ namespace FacilityManagementSystem
             // lblEmployeeValue
             // 
             lblEmployeeValue.BorderStyle = BorderStyle.FixedSingle;
-            lblEmployeeValue.Location = new Point(133, 380);
+            lblEmployeeValue.Location = new Point(133, 415);
             lblEmployeeValue.Margin = new Padding(4, 0, 4, 0);
             lblEmployeeValue.Name = "lblEmployeeValue";
             lblEmployeeValue.Size = new Size(199, 30);
@@ -149,7 +195,7 @@ namespace FacilityManagementSystem
             // lblDateValue
             // 
             lblDateValue.BorderStyle = BorderStyle.FixedSingle;
-            lblDateValue.Location = new Point(133, 422);
+            lblDateValue.Location = new Point(133, 457);
             lblDateValue.Margin = new Padding(4, 0, 4, 0);
             lblDateValue.Name = "lblDateValue";
             lblDateValue.Size = new Size(199, 30);
@@ -158,7 +204,7 @@ namespace FacilityManagementSystem
             // lblCostValue
             // 
             lblCostValue.BorderStyle = BorderStyle.FixedSingle;
-            lblCostValue.Location = new Point(133, 462);
+            lblCostValue.Location = new Point(133, 497);
             lblCostValue.Margin = new Padding(4, 0, 4, 0);
             lblCostValue.Name = "lblCostValue";
             lblCostValue.Size = new Size(199, 30);
@@ -167,7 +213,7 @@ namespace FacilityManagementSystem
             // lblDescriptionValue
             // 
             lblDescriptionValue.BorderStyle = BorderStyle.FixedSingle;
-            lblDescriptionValue.Location = new Point(133, 502);
+            lblDescriptionValue.Location = new Point(133, 537);
             lblDescriptionValue.Margin = new Padding(4, 0, 4, 0);
             lblDescriptionValue.Name = "lblDescriptionValue";
             lblDescriptionValue.Size = new Size(199, 91);
@@ -175,7 +221,7 @@ namespace FacilityManagementSystem
             // 
             // btnAdd
             // 
-            btnAdd.Location = new Point(400, 338);
+            btnAdd.Location = new Point(400, 373);
             btnAdd.Margin = new Padding(4, 5, 4, 5);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(100, 35);
@@ -186,7 +232,7 @@ namespace FacilityManagementSystem
             // 
             // btnUpdate
             // 
-            btnUpdate.Location = new Point(400, 383);
+            btnUpdate.Location = new Point(400, 418);
             btnUpdate.Margin = new Padding(4, 5, 4, 5);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(100, 35);
@@ -197,7 +243,7 @@ namespace FacilityManagementSystem
             // 
             // btnDelete
             // 
-            btnDelete.Location = new Point(400, 428);
+            btnDelete.Location = new Point(400, 463);
             btnDelete.Margin = new Padding(4, 5, 4, 5);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(100, 35);
@@ -208,7 +254,7 @@ namespace FacilityManagementSystem
             // 
             // btnNext
             // 
-            btnNext.Location = new Point(800, 338);
+            btnNext.Location = new Point(800, 373);
             btnNext.Margin = new Padding(4, 5, 4, 5);
             btnNext.Name = "btnNext";
             btnNext.Size = new Size(100, 35);
@@ -219,7 +265,7 @@ namespace FacilityManagementSystem
             // 
             // btnPrev
             // 
-            btnPrev.Location = new Point(667, 338);
+            btnPrev.Location = new Point(667, 373);
             btnPrev.Margin = new Padding(4, 5, 4, 5);
             btnPrev.Name = "btnPrev";
             btnPrev.Size = new Size(100, 35);
@@ -231,7 +277,7 @@ namespace FacilityManagementSystem
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(16, 343);
+            label1.Location = new Point(16, 378);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(81, 20);
@@ -241,7 +287,7 @@ namespace FacilityManagementSystem
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(16, 385);
+            label2.Location = new Point(16, 420);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
             label2.Size = new Size(75, 20);
@@ -251,7 +297,7 @@ namespace FacilityManagementSystem
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(16, 426);
+            label3.Location = new Point(16, 461);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
             label3.Size = new Size(41, 20);
@@ -261,7 +307,7 @@ namespace FacilityManagementSystem
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(16, 466);
+            label4.Location = new Point(16, 501);
             label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
             label4.Size = new Size(38, 20);
@@ -271,7 +317,7 @@ namespace FacilityManagementSystem
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(16, 506);
+            label5.Location = new Point(16, 541);
             label5.Margin = new Padding(4, 0, 4, 0);
             label5.Name = "label5";
             label5.Size = new Size(85, 20);
@@ -281,7 +327,7 @@ namespace FacilityManagementSystem
             // cmbFilterEquipment
             // 
             cmbFilterEquipment.FormattingEnabled = true;
-            cmbFilterEquipment.Location = new Point(667, 420);
+            cmbFilterEquipment.Location = new Point(667, 455);
             cmbFilterEquipment.Margin = new Padding(4, 5, 4, 5);
             cmbFilterEquipment.Name = "cmbFilterEquipment";
             cmbFilterEquipment.Size = new Size(199, 28);
@@ -290,7 +336,7 @@ namespace FacilityManagementSystem
             // cmbFilterEmployee
             // 
             cmbFilterEmployee.FormattingEnabled = true;
-            cmbFilterEmployee.Location = new Point(667, 462);
+            cmbFilterEmployee.Location = new Point(667, 497);
             cmbFilterEmployee.Margin = new Padding(4, 5, 4, 5);
             cmbFilterEmployee.Name = "cmbFilterEmployee";
             cmbFilterEmployee.Size = new Size(199, 28);
@@ -299,7 +345,7 @@ namespace FacilityManagementSystem
             // dtpStart
             // 
             dtpStart.Format = DateTimePickerFormat.Short;
-            dtpStart.Location = new Point(667, 503);
+            dtpStart.Location = new Point(667, 538);
             dtpStart.Margin = new Padding(4, 5, 4, 5);
             dtpStart.Name = "dtpStart";
             dtpStart.Size = new Size(199, 27);
@@ -308,7 +354,7 @@ namespace FacilityManagementSystem
             // dtpEnd
             // 
             dtpEnd.Format = DateTimePickerFormat.Short;
-            dtpEnd.Location = new Point(667, 543);
+            dtpEnd.Location = new Point(667, 578);
             dtpEnd.Margin = new Padding(4, 5, 4, 5);
             dtpEnd.Name = "dtpEnd";
             dtpEnd.Size = new Size(199, 27);
@@ -316,7 +362,7 @@ namespace FacilityManagementSystem
             // 
             // btnFilter
             // 
-            btnFilter.Location = new Point(888, 475);
+            btnFilter.Location = new Point(888, 510);
             btnFilter.Margin = new Padding(4, 5, 4, 5);
             btnFilter.Name = "btnFilter";
             btnFilter.Size = new Size(100, 35);
@@ -327,7 +373,7 @@ namespace FacilityManagementSystem
             // 
             // btnResetFilter
             // 
-            btnResetFilter.Location = new Point(888, 520);
+            btnResetFilter.Location = new Point(888, 555);
             btnResetFilter.Margin = new Padding(4, 5, 4, 5);
             btnResetFilter.Name = "btnResetFilter";
             btnResetFilter.Size = new Size(100, 35);
@@ -339,7 +385,7 @@ namespace FacilityManagementSystem
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(550, 425);
+            label6.Location = new Point(550, 460);
             label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
             label6.Size = new Size(118, 20);
@@ -349,7 +395,7 @@ namespace FacilityManagementSystem
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(550, 466);
+            label7.Location = new Point(550, 501);
             label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
             label7.Size = new Size(112, 20);
@@ -359,7 +405,7 @@ namespace FacilityManagementSystem
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(550, 508);
+            label8.Location = new Point(550, 543);
             label8.Margin = new Padding(4, 0, 4, 0);
             label8.Name = "label8";
             label8.Size = new Size(76, 20);
@@ -369,7 +415,7 @@ namespace FacilityManagementSystem
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(550, 548);
+            label9.Location = new Point(550, 583);
             label9.Margin = new Padding(4, 0, 4, 0);
             label9.Name = "label9";
             label9.Size = new Size(70, 20);
@@ -380,7 +426,7 @@ namespace FacilityManagementSystem
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1045, 632);
+            ClientSize = new Size(1045, 667);
             Controls.Add(label9);
             Controls.Add(label8);
             Controls.Add(label7);
@@ -411,6 +457,10 @@ namespace FacilityManagementSystem
             Controls.Add(dtpDate);
             Controls.Add(cmbEmployee);
             Controls.Add(cmbEquipment);
+            Controls.Add(btnClearSearch);
+            Controls.Add(btnSearch);
+            Controls.Add(txtSearch);
+            Controls.Add(lblSearch);
             Controls.Add(dgvMaintenance);
             Margin = new Padding(4, 5, 4, 5);
             Name = "MaintenanceForm";
@@ -425,6 +475,10 @@ namespace FacilityManagementSystem
         #endregion
 
         private System.Windows.Forms.DataGridView dgvMaintenance;
+        private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.Button btnClearSearch;
+        private System.Windows.Forms.Label lblSearch;
         private System.Windows.Forms.ComboBox cmbEquipment;
         private System.Windows.Forms.ComboBox cmbEmployee;
         private System.Windows.Forms.DateTimePicker dtpDate;

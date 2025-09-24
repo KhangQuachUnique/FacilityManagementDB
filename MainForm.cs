@@ -152,5 +152,151 @@ namespace FacilityManagementSystem
         {
             OpenInTab("Reports", () => new ReportsForm());
         }
+
+        // ============================================
+        // CHỨC NĂNG TÌM KIẾM
+        // ============================================
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            ShowSearchDialog();
+        }
+
+        private void ShowSearchDialog()
+        {
+            // Sử dụng InputBox đơn giản thay vì Microsoft.VisualBasic
+            using (var inputForm = new Form())
+            {
+                inputForm.Text = "Tìm Kiếm Trong Hệ Thống";
+                inputForm.Size = new Size(350, 150);
+                inputForm.StartPosition = FormStartPosition.CenterParent;
+                inputForm.FormBorderStyle = FormBorderStyle.FixedDialog;
+                inputForm.MaximizeBox = false;
+                inputForm.MinimizeBox = false;
+
+                var lblPrompt = new Label()
+                {
+                    Text = "Nhập từ khóa tìm kiếm:",
+                    Location = new Point(10, 20),
+                    Size = new Size(150, 20)
+                };
+
+                var txtInput = new TextBox()
+                {
+                    Location = new Point(10, 45),
+                    Size = new Size(200, 20)
+                };
+
+                var btnOK = new Button()
+                {
+                    Text = "OK",
+                    Location = new Point(220, 43),
+                    Size = new Size(50, 25),
+                    DialogResult = DialogResult.OK
+                };
+
+                var btnCancel = new Button()
+                {
+                    Text = "Hủy",
+                    Location = new Point(280, 43),
+                    Size = new Size(50, 25),
+                    DialogResult = DialogResult.Cancel
+                };
+
+                inputForm.Controls.AddRange(new Control[] { lblPrompt, txtInput, btnOK, btnCancel });
+                inputForm.AcceptButton = btnOK;
+                inputForm.CancelButton = btnCancel;
+
+                if (inputForm.ShowDialog(this) == DialogResult.OK && !string.IsNullOrEmpty(txtInput.Text))
+                {
+                    ShowSearchTypeDialog(txtInput.Text.Trim());
+                }
+            }
+        }
+
+        private void ShowSearchTypeDialog(string searchTerm)
+        {
+            // Hiển thị menu lựa chọn loại tìm kiếm
+            using (var searchForm = new Form())
+            {
+                searchForm.Text = "Chọn Loại Tìm Kiếm";
+                searchForm.Size = new Size(300, 250);
+                searchForm.StartPosition = FormStartPosition.CenterParent;
+                searchForm.FormBorderStyle = FormBorderStyle.FixedDialog;
+                searchForm.MaximizeBox = false;
+                searchForm.MinimizeBox = false;
+
+                var lblInstruction = new Label()
+                {
+                    Text = $"Tìm kiếm: '{searchTerm}'\nChọn loại dữ liệu cần tìm:",
+                    Location = new Point(10, 10),
+                    Size = new Size(260, 40)
+                };
+
+                var btnArea = new Button()
+                {
+                    Text = "Khu Vực",
+                    Location = new Point(10, 60),
+                    Size = new Size(100, 30)
+                };
+                btnArea.Click += (s, e) => { SearchArea(searchTerm); searchForm.Close(); };
+
+                var btnEquipment = new Button()
+                {
+                    Text = "Cơ Sở Vật Chất",
+                    Location = new Point(120, 60),
+                    Size = new Size(100, 30)
+                };
+                btnEquipment.Click += (s, e) => { SearchEquipment(searchTerm); searchForm.Close(); };
+
+                var btnMaintenance = new Button()
+                {
+                    Text = "Bảo Trì",
+                    Location = new Point(10, 100),
+                    Size = new Size(100, 30)
+                };
+                btnMaintenance.Click += (s, e) => { SearchMaintenance(searchTerm); searchForm.Close(); };
+
+                var btnCancelSearch = new Button()
+                {
+                    Text = "Hủy",
+                    Location = new Point(120, 140),
+                    Size = new Size(100, 30)
+                };
+                btnCancelSearch.Click += (s, e) => searchForm.Close();
+
+                searchForm.Controls.AddRange(new Control[] { lblInstruction, btnArea, btnEquipment, btnMaintenance, btnCancelSearch });
+                searchForm.ShowDialog(this);
+            }
+        }
+
+        private void SearchArea(string searchTerm)
+        {
+            OpenInTab("Areas", () => new AreaForm());
+            MessageBox.Show($"Đã mở tab Khu Vực. Sử dụng ô tìm kiếm với từ khóa: {searchTerm}", 
+                            "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void SearchEquipment(string searchTerm)
+        {
+            OpenInTab("Equipment", () => new EquipmentForm());
+            
+            // Tìm form trong openTabs và gọi phương thức tìm kiếm
+            if (openTabs.ContainsKey("Equipment") && openTabs["Equipment"] is EquipmentForm equipmentForm)
+            {
+                equipmentForm.SearchEquipment(searchTerm);
+            }
+        }
+
+        private void SearchMaintenance(string searchTerm)
+        {
+            OpenInTab("Maintenance", () => new MaintenanceForm());
+            
+            // Tìm form trong openTabs và gọi phương thức tìm kiếm
+            if (openTabs.ContainsKey("Maintenance") && openTabs["Maintenance"] is MaintenanceForm maintenanceForm)
+            {
+                maintenanceForm.SearchMaintenanceByEquipment(searchTerm);
+            }
+        }
     }
 }

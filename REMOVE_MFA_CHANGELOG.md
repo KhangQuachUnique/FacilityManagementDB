@@ -7,9 +7,10 @@
 ## 🔧 Chi Tiết Thay Đổi
 
 ### 1. **Cập Nhật LoginForm.cs**
+
 - ✅ **Loại bỏ MFA**: Xóa đoạn code gọi `MFASimulationForm`
 - ✅ **Đăng nhập trực tiếp**: Sau khi verify username/password thành công → vào thẳng `MainForm`
-- ✅ **Cải thiện UX**: 
+- ✅ **Cải thiện UX**:
   - Thêm kiểm tra tài khoản có bị vô hiệu hóa không
   - Thêm thông báo thành công khi đăng nhập
   - Thêm support phím Enter để đăng nhập
@@ -17,11 +18,13 @@
 - ✅ **Validation tốt hơn**: Kiểm tra input rỗng và trạng thái tài khoản
 
 ### 2. **Xóa Files MFA**
+
 - ✅ Xóa `MFASimulationForm.cs`
 - ✅ Xóa `MFASimulationForm.Designer.cs`
 - ✅ Project tự động cập nhật references
 
 ### 3. **Flow Đăng Nhập Mới**
+
 ```
 🔄 Quy Trình Đăng Nhập:
 1. Nhập username/password
@@ -41,7 +44,7 @@
 ## 🔑 Cách Sử Dụng
 
 1. **Chạy ứng dụng**: `dotnet run`
-2. **Đăng nhập**: 
+2. **Đăng nhập**:
    - Username: `admin`
    - Password: `123`
 3. **Hoặc nhấn Enter** sau khi nhập password
@@ -62,4 +65,5 @@
 ✅ **Ready**: Sẵn sàng để sử dụng
 
 ---
-*Cập nhật: September 24, 2025*
+
+_Cập nhật: September 24, 2025_

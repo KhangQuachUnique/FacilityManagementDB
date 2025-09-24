@@ -7,30 +7,36 @@ Sau khi kiểm tra toàn bộ project, đã phát hiện nhiều giới hạn (l
 ## 🛠️ **Chi Tiết Các Thay Đổi**
 
 ### 1. **📄 Page Size - Tăng từ 20 lên 50 records**
+
 **Vấn đề**: Tất cả forms chỉ hiển thị 20 records/trang, quá ít cho việc xem danh sách
 
 **Files đã sửa**:
+
 - ✅ `AreaForm.cs`: `pageSize = 20` → `pageSize = 50`
-- ✅ `EquipmentForm.cs`: `pageSize = 20` → `pageSize = 50`  
+- ✅ `EquipmentForm.cs`: `pageSize = 20` → `pageSize = 50`
 - ✅ `EquipmentTypeForm.cs`: `pageSize = 20` → `pageSize = 50`
 - ✅ `MaintenanceForm.cs`: `pageSize = 20` → `pageSize = 50`
 
 **Lợi ích**: Hiển thị nhiều dữ liệu hơn, ít phải chuyển trang
 
 ### 2. **💰 Cost Limits - Tăng từ 100 triệu lên 10 tỷ VND**
+
 **Vấn đề**: Giới hạn 100 triệu VND quá thấp cho thiết bị đắt tiền
 
 **Files đã sửa**:
+
 - ✅ `MaintenanceEditForm.Designer.cs`: `numCost.Maximum` = 10 tỷ VND
-- ✅ `MaintenanceForm.Designer.cs`: `numCost.Maximum` = 10 tỷ VND  
+- ✅ `MaintenanceForm.Designer.cs`: `numCost.Maximum` = 10 tỷ VND
 - ✅ `EquipmentEditForm.Designer.cs`: `numPrice.Maximum` = 10 tỷ VND
 
 **Lợi ích**: Có thể nhập giá trị thiết bị và chi phí bảo trì cao
 
 ### 3. **📅 Year Range - Cập nhật khoảng năm hợp lý**
+
 **Vấn đề**: Năm mặc định là 2023 (cũ), range từ 2000-2100 quá rộng
 
 **Files đã sửa**:
+
 - ✅ `ReportsForm.Designer.cs`:
   - `numYear.Minimum`: 2000 → 2020 (chỉ 5 năm gần đây)
   - `numYear.Maximum`: 2100 → 2050 (tương lai gần)
@@ -39,28 +45,34 @@ Sau khi kiểm tra toàn bộ project, đã phát hiện nhiều giới hạn (l
 **Lợi ích**: Range năm thực tế hơn, mặc định là năm hiện tại
 
 ### 4. **📆 Days Limit - Tăng từ 365 ngày lên 1095 ngày (3 năm)**
+
 **Vấn đề**: Chỉ cho phép report tối đa 365 ngày, hạn chế phân tích dài hạn
 
 **Files đã sửa**:
+
 - ✅ `ReportsForm.Designer.cs`: `numDays.Maximum` = 1095 ngày (3 năm)
 
 **Lợi ích**: Có thể tạo báo cáo dài hạn hơn
 
 ### 5. **🔢 Quantity Limits - Thêm giới hạn hợp lý cho số lượng**
+
 **Vấn đề**: numQuantity không có giới hạn Maximum, có thể gây overflow
 
 **Files đã sửa**:
-- ✅ `EquipmentEditForm.Designer.cs`: 
+
+- ✅ `EquipmentEditForm.Designer.cs`:
   - `numQuantity.Maximum` = 999,999 units
   - `numQuantity.Minimum` = 0
 
 **Lợi ích**: Tránh nhập số lượng không hợp lý
 
 ### 6. **🖥️ MainForm Size - Tăng kích thước cửa sổ mặc định**
+
 **Vấn đề**: Kích thước cửa sổ chính quá nhỏ (900x600)
 
 **Files đã sửa**:
-- ✅ `MainForm.cs`: 
+
+- ✅ `MainForm.cs`:
   - Minimum: 900x600 → 1000x700
   - Default: 1100x700 → 1200x800
 
@@ -68,14 +80,14 @@ Sau khi kiểm tra toàn bộ project, đã phát hiện nhiều giới hạn (l
 
 ## 📋 **Bảng So Sánh**
 
-| **Thành Phần** | **Trước** | **Sau** | **Lý Do** |
-|---|---|---|---|
-| Page Size | 20 records | 50 records | Hiển thị nhiều dữ liệu hơn |
-| Cost Limit | 100M VND | 10B VND | Thiết bị đắt tiền |
-| Year Range | 2000-2100 (2023) | 2020-2050 (2025) | Thực tế hơn |
-| Days Limit | 365 ngày | 1095 ngày | Báo cáo dài hạn |
-| Quantity Limit | Không giới hạn | 0-999,999 | Tránh overflow |
-| MainForm Size | 900x600 | 1200x800 | UX tốt hơn |
+| **Thành Phần** | **Trước**        | **Sau**          | **Lý Do**                  |
+| -------------- | ---------------- | ---------------- | -------------------------- |
+| Page Size      | 20 records       | 50 records       | Hiển thị nhiều dữ liệu hơn |
+| Cost Limit     | 100M VND         | 10B VND          | Thiết bị đắt tiền          |
+| Year Range     | 2000-2100 (2023) | 2020-2050 (2025) | Thực tế hơn                |
+| Days Limit     | 365 ngày         | 1095 ngày        | Báo cáo dài hạn            |
+| Quantity Limit | Không giới hạn   | 0-999,999        | Tránh overflow             |
+| MainForm Size  | 900x600          | 1200x800         | UX tốt hơn                 |
 
 ## ✅ **Kết Quả**
 
@@ -101,4 +113,5 @@ dotnet run
 Kiểm tra các form và thử nhập các giá trị lớn hơn để verify limits mới!
 
 ---
-*Cập nhật: September 24, 2025*
+
+_Cập nhật: September 24, 2025_

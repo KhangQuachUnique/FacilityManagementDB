@@ -39,17 +39,58 @@ namespace FacilityManagementSystem
             this.btnNext = new System.Windows.Forms.Button();
             this.btnPrev = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.btnClearSearch = new System.Windows.Forms.Button();
+            this.lblSearch = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAreas)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvAreas
             // 
             this.dgvAreas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAreas.Location = new System.Drawing.Point(12, 12);
+            this.dgvAreas.Location = new System.Drawing.Point(12, 42);
             this.dgvAreas.Name = "dgvAreas";
             this.dgvAreas.Size = new System.Drawing.Size(760, 200);
             this.dgvAreas.TabIndex = 0;
             this.dgvAreas.SelectionChanged += new System.EventHandler(this.dgvAreas_SelectionChanged);
+            // 
+            // lblSearch
+            // 
+            this.lblSearch.AutoSize = true;
+            this.lblSearch.Location = new System.Drawing.Point(12, 15);
+            this.lblSearch.Name = "lblSearch";
+            this.lblSearch.Size = new System.Drawing.Size(78, 13);
+            this.lblSearch.TabIndex = 10;
+            this.lblSearch.Text = "Tìm Kiếm:";
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Location = new System.Drawing.Point(100, 12);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(200, 20);
+            this.txtSearch.TabIndex = 11;
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Location = new System.Drawing.Point(310, 10);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(75, 23);
+            this.btnSearch.TabIndex = 12;
+            this.btnSearch.Text = "Tìm Kiếm";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
+            // btnClearSearch
+            // 
+            this.btnClearSearch.Location = new System.Drawing.Point(395, 10);
+            this.btnClearSearch.Name = "btnClearSearch";
+            this.btnClearSearch.Size = new System.Drawing.Size(75, 23);
+            this.btnClearSearch.TabIndex = 13;
+            this.btnClearSearch.Text = "Xóa Tìm";
+            this.btnClearSearch.UseVisualStyleBackColor = true;
+            this.btnClearSearch.Click += new System.EventHandler(this.btnClearSearch_Click);
             // 
             // txtAreaName (hidden, replaced by label)
             // 
@@ -63,14 +104,14 @@ namespace FacilityManagementSystem
             // lblAreaNameValue
             // 
             this.lblAreaNameValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblAreaNameValue.Location = new System.Drawing.Point(100, 220);
+            this.lblAreaNameValue.Location = new System.Drawing.Point(100, 250);
             this.lblAreaNameValue.Name = "lblAreaNameValue";
             this.lblAreaNameValue.Size = new System.Drawing.Size(150, 20);
             this.lblAreaNameValue.TabIndex = 8;
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(300, 220);
+            this.btnAdd.Location = new System.Drawing.Point(300, 250);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 2;
@@ -80,7 +121,7 @@ namespace FacilityManagementSystem
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(300, 249);
+            this.btnUpdate.Location = new System.Drawing.Point(300, 279);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(75, 23);
             this.btnUpdate.TabIndex = 3;
@@ -90,7 +131,7 @@ namespace FacilityManagementSystem
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(300, 278);
+            this.btnDelete.Location = new System.Drawing.Point(300, 308);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 4;
@@ -100,7 +141,7 @@ namespace FacilityManagementSystem
             // 
             // btnNext
             // 
-            this.btnNext.Location = new System.Drawing.Point(600, 220);
+            this.btnNext.Location = new System.Drawing.Point(600, 250);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(75, 23);
             this.btnNext.TabIndex = 5;
@@ -110,7 +151,7 @@ namespace FacilityManagementSystem
             // 
             // btnPrev
             // 
-            this.btnPrev.Location = new System.Drawing.Point(500, 220);
+            this.btnPrev.Location = new System.Drawing.Point(500, 250);
             this.btnPrev.Name = "btnPrev";
             this.btnPrev.Size = new System.Drawing.Size(75, 23);
             this.btnPrev.TabIndex = 6;
@@ -121,7 +162,7 @@ namespace FacilityManagementSystem
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 223);
+            this.label1.Location = new System.Drawing.Point(12, 253);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(61, 13);
             this.label1.TabIndex = 7;
@@ -131,7 +172,11 @@ namespace FacilityManagementSystem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 341);
+            this.ClientSize = new System.Drawing.Size(784, 371);
+            this.Controls.Add(this.btnClearSearch);
+            this.Controls.Add(this.btnSearch);
+            this.Controls.Add(this.txtSearch);
+            this.Controls.Add(this.lblSearch);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblAreaNameValue);
             this.Controls.Add(this.btnPrev);
@@ -160,5 +205,9 @@ namespace FacilityManagementSystem
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Button btnPrev;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.Button btnClearSearch;
+        private System.Windows.Forms.Label lblSearch;
     }
 }
