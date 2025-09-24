@@ -1,5 +1,3 @@
-// File: EquipmentForm.cs
-
 using System;
 using System.Data;
 using Microsoft.Data.SqlClient;
@@ -60,10 +58,7 @@ namespace FacilityManagementSystem
         private void LoadTypes()
         {
             var dtTypes = DatabaseHelper.ExecuteProcedure("sp_GetAllEquipmentTypes");
-            cmbType.DataSource = dtTypes;
-            cmbType.DisplayMember = "TypeName";
-            cmbType.ValueMember = "TypeID";
-            cmbFilterType.DataSource = dtTypes.Copy();
+            cmbFilterType.DataSource = dtTypes;
             cmbFilterType.DisplayMember = "TypeName";
             cmbFilterType.ValueMember = "TypeID";
             cmbFilterType.SelectedIndex = -1;
@@ -72,10 +67,7 @@ namespace FacilityManagementSystem
         private void LoadAreas()
         {
             var dtAreas = DatabaseHelper.ExecuteProcedure("sp_GetAllAreas");
-            cmbArea.DataSource = dtAreas;
-            cmbArea.DisplayMember = "AreaName";
-            cmbArea.ValueMember = "AreaID";
-            cmbFilterArea.DataSource = dtAreas.Copy();
+            cmbFilterArea.DataSource = dtAreas;
             cmbFilterArea.DisplayMember = "AreaName";
             cmbFilterArea.ValueMember = "AreaID";
             cmbFilterArea.SelectedIndex = -1;
@@ -84,7 +76,6 @@ namespace FacilityManagementSystem
         private void LoadStatuses()
         {
             // Demo statuses
-            cmbStatus.Items.AddRange(new string[] { "Operational", "Under Maintenance", "Broken" });
             cmbFilterStatus.Items.AddRange(new string[] { "Operational", "Under Maintenance", "Broken" });
             cmbFilterStatus.SelectedIndex = -1;
         }
@@ -102,17 +93,13 @@ namespace FacilityManagementSystem
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            SqlParameter[] parameters = {
-                new SqlParameter("@Name", txtName.Text),
-                new SqlParameter("@TypeID", cmbType.SelectedValue),
-                new SqlParameter("@AreaID", cmbArea.SelectedValue),
-                new SqlParameter("@Status", cmbStatus.SelectedItem),
-                new SqlParameter("@Quantity", numQuantity.Value),
-                new SqlParameter("@Price", numPrice.Value),
-                new SqlParameter("@LastMaintenanceDate", dtpLastMaintenance.Value.Date)
-            };
-            DatabaseHelper.ExecuteNonQuery("sp_InsertEquipment", parameters);
-            LoadEquipment();
+            using (var editForm = new EquipmentEditForm())
+            {
+                if (editForm.ShowDialog() == DialogResult.OK)
+                {
+                    LoadEquipment();
+                }
+            }
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -120,18 +107,17 @@ namespace FacilityManagementSystem
             if (dgvEquipment.SelectedRows.Count > 0)
             {
                 int equipmentID = Convert.ToInt32(dgvEquipment.SelectedRows[0].Cells["EquipmentID"].Value);
-                SqlParameter[] parameters = {
-                    new SqlParameter("@EquipmentID", equipmentID),
-                    new SqlParameter("@Name", txtName.Text),
-                    new SqlParameter("@TypeID", cmbType.SelectedValue),
-                    new SqlParameter("@AreaID", cmbArea.SelectedValue),
-                    new SqlParameter("@Status", cmbStatus.SelectedItem),
-                    new SqlParameter("@Quantity", numQuantity.Value),
-                    new SqlParameter("@Price", numPrice.Value),
-                    new SqlParameter("@LastMaintenanceDate", dtpLastMaintenance.Value.Date)
-                };
-                DatabaseHelper.ExecuteNonQuery("sp_UpdateEquipment", parameters);
-                LoadEquipment();
+                using (var editForm = new EquipmentEditForm(equipmentID))
+                {
+                    if (editForm.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadEquipment();
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a row to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -144,22 +130,36 @@ namespace FacilityManagementSystem
                 DatabaseHelper.ExecuteNonQuery("sp_DeleteEquipment", parameters);
                 LoadEquipment();
             }
+            else
+            {
+                MessageBox.Show("Please select a row to delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void dgvEquipment_SelectionChanged(object sender, EventArgs e)
         {
             if (dgvEquipment.SelectedRows.Count > 0)
             {
-                txtName.Text = dgvEquipment.SelectedRows[0].Cells["Name"].Value.ToString();
-                cmbType.SelectedValue = dgvEquipment.SelectedRows[0].Cells["TypeID"].Value;
-                cmbArea.SelectedValue = dgvEquipment.SelectedRows[0].Cells["AreaID"].Value;
-                cmbStatus.SelectedItem = dgvEquipment.SelectedRows[0].Cells["Status"].Value.ToString();
-                numQuantity.Value = Convert.ToDecimal(dgvEquipment.SelectedRows[0].Cells["Quantity"].Value);
-                numPrice.Value = Convert.ToDecimal(dgvEquipment.SelectedRows[0].Cells["Price"].Value);
-                if (dgvEquipment.SelectedRows[0].Cells["LastMaintenanceDate"].Value != DBNull.Value)
-                {
-                    dtpLastMaintenance.Value = Convert.ToDateTime(dgvEquipment.SelectedRows[0].Cells["LastMaintenanceDate"].Value);
-                }
+                lblName.Text = dgvEquipment.SelectedRows[0].Cells["Name"].Value?.ToString() ?? "";
+                lblType.Text = dgvEquipment.SelectedRows[0].Cells["TypeName"].Value?.ToString() ?? "";
+                lblArea.Text = dgvEquipment.SelectedRows[0].Cells["AreaName"].Value?.ToString() ?? "";
+                lblStatus.Text = dgvEquipment.SelectedRows[0].Cells["Status"].Value?.ToString() ?? "";
+                lblQuantity.Text = dgvEquipment.SelectedRows[0].Cells["Quantity"].Value?.ToString() ?? "0";
+                lblPrice.Text = dgvEquipment.SelectedRows[0].Cells["Price"].Value != null ? Convert.ToDecimal(dgvEquipment.SelectedRows[0].Cells["Price"].Value).ToString("C") : "$0.00";
+                lblLastMaintenance.Text = dgvEquipment.SelectedRows[0].Cells["LastMaintenanceDate"].Value != DBNull.Value
+                    ? Convert.ToDateTime(dgvEquipment.SelectedRows[0].Cells["LastMaintenanceDate"].Value).ToShortDateString()
+                    : "";
+            }
+            else
+            {
+                // Clear labels if no row is selected
+                lblName.Text = "";
+                lblType.Text = "";
+                lblArea.Text = "";
+                lblStatus.Text = "";
+                lblQuantity.Text = "";
+                lblPrice.Text = "";
+                lblLastMaintenance.Text = "";
             }
         }
     }

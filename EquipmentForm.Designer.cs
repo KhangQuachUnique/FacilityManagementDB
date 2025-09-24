@@ -1,5 +1,3 @@
-// File: EquipmentForm.Designer.cs
-
 namespace FacilityManagementSystem
 {
     partial class EquipmentForm
@@ -31,13 +29,13 @@ namespace FacilityManagementSystem
         private void InitializeComponent()
         {
             this.dgvEquipment = new System.Windows.Forms.DataGridView();
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.cmbType = new System.Windows.Forms.ComboBox();
-            this.cmbArea = new System.Windows.Forms.ComboBox();
-            this.cmbStatus = new System.Windows.Forms.ComboBox();
-            this.numQuantity = new System.Windows.Forms.NumericUpDown();
-            this.numPrice = new System.Windows.Forms.NumericUpDown();
-            this.dtpLastMaintenance = new System.Windows.Forms.DateTimePicker();
+            this.lblName = new System.Windows.Forms.Label();
+            this.lblType = new System.Windows.Forms.Label();
+            this.lblArea = new System.Windows.Forms.Label();
+            this.lblStatus = new System.Windows.Forms.Label();
+            this.lblQuantity = new System.Windows.Forms.Label();
+            this.lblPrice = new System.Windows.Forms.Label();
+            this.lblLastMaintenance = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
@@ -58,8 +56,6 @@ namespace FacilityManagementSystem
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEquipment)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numQuantity)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numPrice)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvEquipment
@@ -71,59 +67,68 @@ namespace FacilityManagementSystem
             this.dgvEquipment.TabIndex = 0;
             this.dgvEquipment.SelectionChanged += new System.EventHandler(this.dgvEquipment_SelectionChanged);
             // 
-            // txtName
+            // lblName
             // 
-            this.txtName.Location = new System.Drawing.Point(100, 220);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(150, 20);
-            this.txtName.TabIndex = 1;
+            this.lblName.AutoSize = false;
+            this.lblName.Location = new System.Drawing.Point(100, 220);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(150, 20);
+            this.lblName.TabIndex = 1;
+            this.lblName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             // 
-            // cmbType
+            // lblType
             // 
-            this.cmbType.FormattingEnabled = true;
-            this.cmbType.Location = new System.Drawing.Point(100, 246);
-            this.cmbType.Name = "cmbType";
-            this.cmbType.Size = new System.Drawing.Size(150, 21);
-            this.cmbType.TabIndex = 2;
+            this.lblType.AutoSize = false;
+            this.lblType.Location = new System.Drawing.Point(100, 246);
+            this.lblType.Name = "lblType";
+            this.lblType.Size = new System.Drawing.Size(150, 20);
+            this.lblType.TabIndex = 2;
+            this.lblType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             // 
-            // cmbArea
+            // lblArea
             // 
-            this.cmbArea.FormattingEnabled = true;
-            this.cmbArea.Location = new System.Drawing.Point(100, 273);
-            this.cmbArea.Name = "cmbArea";
-            this.cmbArea.Size = new System.Drawing.Size(150, 21);
-            this.cmbArea.TabIndex = 3;
+            this.lblArea.AutoSize = false;
+            this.lblArea.Location = new System.Drawing.Point(100, 273);
+            this.lblArea.Name = "lblArea";
+            this.lblArea.Size = new System.Drawing.Size(150, 20);
+            this.lblArea.TabIndex = 3;
+            this.lblArea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             // 
-            // cmbStatus
+            // lblStatus
             // 
-            this.cmbStatus.FormattingEnabled = true;
-            this.cmbStatus.Location = new System.Drawing.Point(100, 300);
-            this.cmbStatus.Name = "cmbStatus";
-            this.cmbStatus.Size = new System.Drawing.Size(150, 21);
-            this.cmbStatus.TabIndex = 4;
+            this.lblStatus.AutoSize = false;
+            this.lblStatus.Location = new System.Drawing.Point(100, 300);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(150, 20);
+            this.lblStatus.TabIndex = 4;
+            this.lblStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             // 
-            // numQuantity
+            // lblQuantity
             // 
-            this.numQuantity.Location = new System.Drawing.Point(100, 327);
-            this.numQuantity.Name = "numQuantity";
-            this.numQuantity.Size = new System.Drawing.Size(150, 20);
-            this.numQuantity.TabIndex = 5;
+            this.lblQuantity.AutoSize = false;
+            this.lblQuantity.Location = new System.Drawing.Point(100, 327);
+            this.lblQuantity.Name = "lblQuantity";
+            this.lblQuantity.Size = new System.Drawing.Size(150, 20);
+            this.lblQuantity.TabIndex = 5;
+            this.lblQuantity.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             // 
-            // numPrice
+            // lblPrice
             // 
-            this.numPrice.DecimalPlaces = 2;
-            this.numPrice.Location = new System.Drawing.Point(100, 353);
-            this.numPrice.Name = "numPrice";
-            this.numPrice.Size = new System.Drawing.Size(150, 20);
-            this.numPrice.TabIndex = 6;
+            this.lblPrice.AutoSize = false;
+            this.lblPrice.Location = new System.Drawing.Point(100, 353);
+            this.lblPrice.Name = "lblPrice";
+            this.lblPrice.Size = new System.Drawing.Size(150, 20);
+            this.lblPrice.TabIndex = 6;
+            this.lblPrice.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             // 
-            // dtpLastMaintenance
+            // lblLastMaintenance
             // 
-            this.dtpLastMaintenance.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpLastMaintenance.Location = new System.Drawing.Point(100, 379);
-            this.dtpLastMaintenance.Name = "dtpLastMaintenance";
-            this.dtpLastMaintenance.Size = new System.Drawing.Size(150, 20);
-            this.dtpLastMaintenance.TabIndex = 7;
+            this.lblLastMaintenance.AutoSize = false;
+            this.lblLastMaintenance.Location = new System.Drawing.Point(100, 379);
+            this.lblLastMaintenance.Name = "lblLastMaintenance";
+            this.lblLastMaintenance.Size = new System.Drawing.Size(150, 20);
+            this.lblLastMaintenance.TabIndex = 7;
+            this.lblLastMaintenance.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             // 
             // btnAdd
             // 
@@ -323,34 +328,31 @@ namespace FacilityManagementSystem
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.dtpLastMaintenance);
-            this.Controls.Add(this.numPrice);
-            this.Controls.Add(this.numQuantity);
-            this.Controls.Add(this.cmbStatus);
-            this.Controls.Add(this.cmbArea);
-            this.Controls.Add(this.cmbType);
-            this.Controls.Add(this.txtName);
+            this.Controls.Add(this.lblLastMaintenance);
+            this.Controls.Add(this.lblPrice);
+            this.Controls.Add(this.lblQuantity);
+            this.Controls.Add(this.lblStatus);
+            this.Controls.Add(this.lblArea);
+            this.Controls.Add(this.lblType);
+            this.Controls.Add(this.lblName);
             this.Controls.Add(this.dgvEquipment);
             this.Name = "EquipmentForm";
             this.Text = "Equipment Management";
             ((System.ComponentModel.ISupportInitialize)(this.dgvEquipment)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numQuantity)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numPrice)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
 
         private System.Windows.Forms.DataGridView dgvEquipment;
-        private System.Windows.Forms.TextBox txtName;
-        private System.Windows.Forms.ComboBox cmbType;
-        private System.Windows.Forms.ComboBox cmbArea;
-        private System.Windows.Forms.ComboBox cmbStatus;
-        private System.Windows.Forms.NumericUpDown numQuantity;
-        private System.Windows.Forms.NumericUpDown numPrice;
-        private System.Windows.Forms.DateTimePicker dtpLastMaintenance;
+        private System.Windows.Forms.Label lblName;
+        private System.Windows.Forms.Label lblType;
+        private System.Windows.Forms.Label lblArea;
+        private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.Label lblQuantity;
+        private System.Windows.Forms.Label lblPrice;
+        private System.Windows.Forms.Label lblLastMaintenance;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnDelete;
