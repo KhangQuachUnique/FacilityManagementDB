@@ -39,7 +39,7 @@ namespace FacilityManagementSystem
         {
             if (string.IsNullOrWhiteSpace(txtTypeName.Text))
             {
-                MessageBox.Show("Please enter type name.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng nhập tên loại.", "Lỗi Xác Thực", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

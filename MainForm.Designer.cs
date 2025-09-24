@@ -76,7 +76,7 @@ namespace FacilityManagementSystem
             this.btnArea.Name = "btnArea";
             this.btnArea.Size = new System.Drawing.Size(150, 23);
             this.btnArea.TabIndex = 3;
-            this.btnArea.Text = "Area Management";
+            this.btnArea.Text = "Quản Lý Khu Vực";
             this.btnArea.UseVisualStyleBackColor = true;
             this.btnArea.Click += new System.EventHandler(this.btnArea_Click);
             // 
@@ -86,7 +86,7 @@ namespace FacilityManagementSystem
             this.btnEquipmentType.Name = "btnEquipmentType";
             this.btnEquipmentType.Size = new System.Drawing.Size(150, 23);
             this.btnEquipmentType.TabIndex = 4;
-            this.btnEquipmentType.Text = "Equipment Type Management";
+            this.btnEquipmentType.Text = "Quản Lý Loại Cơ Sở Vật Chất";
             this.btnEquipmentType.UseVisualStyleBackColor = true;
             this.btnEquipmentType.Click += new System.EventHandler(this.btnEquipmentType_Click);
             // 
@@ -96,7 +96,7 @@ namespace FacilityManagementSystem
             this.btnEquipment.Name = "btnEquipment";
             this.btnEquipment.Size = new System.Drawing.Size(150, 23);
             this.btnEquipment.TabIndex = 5;
-            this.btnEquipment.Text = "Equipment Management";
+            this.btnEquipment.Text = "Quản Lý Cơ Sở Vật Chất";
             this.btnEquipment.UseVisualStyleBackColor = true;
             this.btnEquipment.Click += new System.EventHandler(this.btnEquipment_Click);
             // 
@@ -106,7 +106,7 @@ namespace FacilityManagementSystem
             this.btnMaintenance.Name = "btnMaintenance";
             this.btnMaintenance.Size = new System.Drawing.Size(150, 23);
             this.btnMaintenance.TabIndex = 6;
-            this.btnMaintenance.Text = "Maintenance Management";
+            this.btnMaintenance.Text = "Quản Lý Bảo Trì";
             this.btnMaintenance.UseVisualStyleBackColor = true;
             this.btnMaintenance.Click += new System.EventHandler(this.btnMaintenance_Click);
             // 
@@ -116,7 +116,7 @@ namespace FacilityManagementSystem
             this.btnReports.Name = "btnReports";
             this.btnReports.Size = new System.Drawing.Size(150, 23);
             this.btnReports.TabIndex = 7;
-            this.btnReports.Text = "Reports";
+            this.btnReports.Text = "Báo Cáo";
             this.btnReports.UseVisualStyleBackColor = true;
             this.btnReports.Click += new System.EventHandler(this.btnReports_Click);
             // 
@@ -134,7 +134,7 @@ namespace FacilityManagementSystem
             this.Controls.Add(this.btnRoleManagement);
             this.Controls.Add(this.btnUserManagement);
             this.Name = "MainForm";
-            this.Text = "Main Menu";
+            this.Text = "Menu Chính";
             this.ResumeLayout(false);
 
         }

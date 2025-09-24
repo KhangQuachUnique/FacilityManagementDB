@@ -74,7 +74,7 @@ namespace FacilityManagementSystem
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 2;
-            this.btnAdd.Text = "Add";
+            this.btnAdd.Text = "Thêm";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
@@ -84,7 +84,7 @@ namespace FacilityManagementSystem
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(75, 23);
             this.btnUpdate.TabIndex = 3;
-            this.btnUpdate.Text = "Update";
+            this.btnUpdate.Text = "Cập Nhật";
             this.btnUpdate.UseVisualStyleBackColor = true;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
@@ -94,7 +94,7 @@ namespace FacilityManagementSystem
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 4;
-            this.btnDelete.Text = "Delete";
+            this.btnDelete.Text = "Xóa";
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
@@ -104,7 +104,7 @@ namespace FacilityManagementSystem
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(75, 23);
             this.btnNext.TabIndex = 5;
-            this.btnNext.Text = "Next";
+            this.btnNext.Text = "Tiếp";
             this.btnNext.UseVisualStyleBackColor = true;
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
@@ -114,7 +114,7 @@ namespace FacilityManagementSystem
             this.btnPrev.Name = "btnPrev";
             this.btnPrev.Size = new System.Drawing.Size(75, 23);
             this.btnPrev.TabIndex = 6;
-            this.btnPrev.Text = "Prev";
+            this.btnPrev.Text = "Trước";
             this.btnPrev.UseVisualStyleBackColor = true;
             this.btnPrev.Click += new System.EventHandler(this.btnPrev_Click);
             // 
@@ -125,7 +125,7 @@ namespace FacilityManagementSystem
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(66, 13);
             this.label1.TabIndex = 7;
-            this.label1.Text = "Type Name";
+            this.label1.Text = "Tên Loại";
             // 
             // EquipmentTypeForm
             // 
@@ -142,7 +142,7 @@ namespace FacilityManagementSystem
             this.Controls.Add(this.txtTypeName);
             this.Controls.Add(this.dgvTypes);
             this.Name = "EquipmentTypeForm";
-            this.Text = "Equipment Type Management";
+            this.Text = "Quản Lý Loại Cơ Sở Vật Chất";
             ((System.ComponentModel.ISupportInitialize)(this.dgvTypes)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

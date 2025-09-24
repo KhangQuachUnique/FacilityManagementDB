@@ -58,7 +58,7 @@ namespace FacilityManagementSystem
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(75, 23);
             this.btnLogin.TabIndex = 2;
-            this.btnLogin.Text = "Login";
+            this.btnLogin.Text = "Đăng Nhập";
             this.btnLogin.UseVisualStyleBackColor = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
@@ -69,7 +69,7 @@ namespace FacilityManagementSystem
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 13);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Username:";
+            this.label1.Text = "Tên Đăng Nhập:";
             // 
             // label2
             // 
@@ -78,7 +78,7 @@ namespace FacilityManagementSystem
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 13);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Password:";
+            this.label2.Text = "Mật Khẩu:";
             // 
             // LoginForm
             // 
@@ -91,7 +91,7 @@ namespace FacilityManagementSystem
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtUsername);
             this.Name = "LoginForm";
-            this.Text = "Login";
+            this.Text = "Đăng Nhập";
             this.ResumeLayout(false);
             this.PerformLayout();
 

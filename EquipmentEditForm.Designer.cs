@@ -108,7 +108,7 @@ namespace FacilityManagementSystem
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 7;
-            this.btnSave.Text = "Save";
+            this.btnSave.Text = "Lưu";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -118,7 +118,7 @@ namespace FacilityManagementSystem
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 8;
-            this.btnCancel.Text = "Cancel";
+            this.btnCancel.Text = "Hủy";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
@@ -129,7 +129,7 @@ namespace FacilityManagementSystem
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(38, 13);
             this.label1.TabIndex = 9;
-            this.label1.Text = "Name";
+            this.label1.Text = "Tên";
             // 
             // label2
             // 
@@ -138,7 +138,7 @@ namespace FacilityManagementSystem
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(32, 13);
             this.label2.TabIndex = 10;
-            this.label2.Text = "Type";
+            this.label2.Text = "Loại";
             // 
             // label3
             // 
@@ -147,7 +147,7 @@ namespace FacilityManagementSystem
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(34, 13);
             this.label3.TabIndex = 11;
-            this.label3.Text = "Area";
+            this.label3.Text = "Khu Vực";
             // 
             // label4
             // 
@@ -156,7 +156,7 @@ namespace FacilityManagementSystem
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(40, 13);
             this.label4.TabIndex = 12;
-            this.label4.Text = "Status";
+            this.label4.Text = "Trạng Thái";
             // 
             // label5
             // 
@@ -165,7 +165,7 @@ namespace FacilityManagementSystem
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(49, 13);
             this.label5.TabIndex = 13;
-            this.label5.Text = "Quantity";
+            this.label5.Text = "Số Lượng";
             // 
             // label6
             // 
@@ -174,7 +174,7 @@ namespace FacilityManagementSystem
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(34, 13);
             this.label6.TabIndex = 14;
-            this.label6.Text = "Price";
+            this.label6.Text = "Giá";
             // 
             // label7
             // 
@@ -183,7 +183,7 @@ namespace FacilityManagementSystem
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(87, 13);
             this.label7.TabIndex = 15;
-            this.label7.Text = "Last Maintenance";
+            this.label7.Text = "Bảo Trì Cuối";
             // 
             // EquipmentEditForm
             // 
@@ -211,7 +211,7 @@ namespace FacilityManagementSystem
             this.MinimizeBox = false;
             this.Name = "EquipmentEditForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Equipment Form";
+            this.Text = "Biểu Mẫu Cơ Sở Vật Chất";
             ((System.ComponentModel.ISupportInitialize)(this.numQuantity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numPrice)).EndInit();
             this.ResumeLayout(false);

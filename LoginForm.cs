@@ -40,12 +40,12 @@ namespace FacilityManagementSystem
                 }
                 else
                 {
-                    MessageBox.Show("Invalid credentials.");
+                    MessageBox.Show("Thông tin đăng nhập không hợp lệ.");
                 }
             }
             else
             {
-                MessageBox.Show("Invalid credentials.");
+                MessageBox.Show("Thông tin đăng nhập không hợp lệ.");
             }
         }
     }

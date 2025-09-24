@@ -39,7 +39,7 @@ namespace FacilityManagementSystem
         {
             if (string.IsNullOrWhiteSpace(txtAreaName.Text))
             {
-                MessageBox.Show("Please enter area name.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng nhập tên khu vực.", "Lỗi Xác Thực", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

@@ -63,3 +63,9 @@ D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\refint\FacilityMa
 D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementDB.pdb
 D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementDB.genruntimeconfig.cache
 D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\ref\FacilityManagementDB.dll
+D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementSystem.AreaForm.resources
+D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementSystem.EquipmentForm.resources
+D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementSystem.EquipmentTypeForm.resources
+D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementSystem.MaintenanceForm.resources
+D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementSystem.ReportsForm.resources
+D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementDB.csproj.GenerateResource.cache

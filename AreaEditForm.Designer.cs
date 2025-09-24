@@ -36,7 +36,7 @@ namespace FacilityManagementSystem
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 1;
-            this.btnSave.Text = "Save";
+            this.btnSave.Text = "Lưu";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -46,7 +46,7 @@ namespace FacilityManagementSystem
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 2;
-            this.btnCancel.Text = "Cancel";
+            this.btnCancel.Text = "Hủy";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
@@ -57,7 +57,7 @@ namespace FacilityManagementSystem
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(61, 13);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Area Name";
+            this.label1.Text = "Tên Khu Vực";
             // 
             // AreaEditForm
             // 
@@ -73,7 +73,7 @@ namespace FacilityManagementSystem
             this.MinimizeBox = false;
             this.Name = "AreaEditForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Area";
+            this.Text = "Khu Vực";
             this.ResumeLayout(false);
             this.PerformLayout();
         }

@@ -75,22 +75,22 @@ namespace FacilityManagementSystem
             // Validate inputs
             if (string.IsNullOrWhiteSpace(txtName.Text))
             {
-                MessageBox.Show("Please enter a name.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng nhập tên.", "Lỗi Xác Thực", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (cmbType.SelectedIndex == -1)
             {
-                MessageBox.Show("Please select a type.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn loại.", "Lỗi Xác Thực", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (cmbArea.SelectedIndex == -1)
             {
-                MessageBox.Show("Please select an area.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn khu vực.", "Lỗi Xác Thực", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (cmbStatus.SelectedIndex == -1)
             {
-                MessageBox.Show("Please select a status.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn trạng thái.", "Lỗi Xác Thực", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

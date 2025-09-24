@@ -139,7 +139,7 @@ namespace FacilityManagementSystem
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(100, 35);
             btnAdd.TabIndex = 8;
-            btnAdd.Text = "Add";
+            btnAdd.Text = "Thêm";
             btnAdd.UseVisualStyleBackColor = true;
             btnAdd.Click += btnAdd_Click;
             // 
@@ -150,7 +150,7 @@ namespace FacilityManagementSystem
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(100, 35);
             btnUpdate.TabIndex = 9;
-            btnUpdate.Text = "Update";
+            btnUpdate.Text = "Cập Nhật";
             btnUpdate.UseVisualStyleBackColor = true;
             btnUpdate.Click += btnUpdate_Click;
             // 
@@ -161,7 +161,7 @@ namespace FacilityManagementSystem
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(100, 35);
             btnDelete.TabIndex = 10;
-            btnDelete.Text = "Delete";
+            btnDelete.Text = "Xóa";
             btnDelete.UseVisualStyleBackColor = true;
             btnDelete.Click += btnDelete_Click;
             // 
@@ -172,7 +172,7 @@ namespace FacilityManagementSystem
             btnNext.Name = "btnNext";
             btnNext.Size = new Size(100, 35);
             btnNext.TabIndex = 11;
-            btnNext.Text = "Next";
+            btnNext.Text = "Tiếp";
             btnNext.UseVisualStyleBackColor = true;
             btnNext.Click += btnNext_Click;
             // 
@@ -183,7 +183,7 @@ namespace FacilityManagementSystem
             btnPrev.Name = "btnPrev";
             btnPrev.Size = new Size(100, 35);
             btnPrev.TabIndex = 12;
-            btnPrev.Text = "Prev";
+            btnPrev.Text = "Trước";
             btnPrev.UseVisualStyleBackColor = true;
             btnPrev.Click += btnPrev_Click;
             // 
@@ -195,7 +195,7 @@ namespace FacilityManagementSystem
             label1.Name = "label1";
             label1.Size = new Size(49, 20);
             label1.TabIndex = 13;
-            label1.Text = "Name";
+            label1.Text = "Tên";
             // 
             // label2
             // 
@@ -205,7 +205,7 @@ namespace FacilityManagementSystem
             label2.Name = "label2";
             label2.Size = new Size(40, 20);
             label2.TabIndex = 14;
-            label2.Text = "Type";
+            label2.Text = "Loại";
             // 
             // label3
             // 
@@ -215,7 +215,7 @@ namespace FacilityManagementSystem
             label3.Name = "label3";
             label3.Size = new Size(40, 20);
             label3.TabIndex = 15;
-            label3.Text = "Area";
+            label3.Text = "Khu Vực";
             // 
             // label4
             // 
@@ -225,7 +225,7 @@ namespace FacilityManagementSystem
             label4.Name = "label4";
             label4.Size = new Size(49, 20);
             label4.TabIndex = 16;
-            label4.Text = "Status";
+            label4.Text = "Trạng Thái";
             // 
             // label5
             // 
@@ -235,7 +235,7 @@ namespace FacilityManagementSystem
             label5.Name = "label5";
             label5.Size = new Size(65, 20);
             label5.TabIndex = 17;
-            label5.Text = "Quantity";
+            label5.Text = "Số Lượng";
             // 
             // label6
             // 
@@ -245,7 +245,7 @@ namespace FacilityManagementSystem
             label6.Name = "label6";
             label6.Size = new Size(41, 20);
             label6.TabIndex = 18;
-            label6.Text = "Price";
+            label6.Text = "Giá";
             // 
             // label7
             // 
@@ -255,7 +255,7 @@ namespace FacilityManagementSystem
             label7.Name = "label7";
             label7.Size = new Size(124, 20);
             label7.TabIndex = 19;
-            label7.Text = "Last Maintenance";
+            label7.Text = "Bảo Trì Cuối";
             // 
             // cmbFilterArea
             // 
@@ -291,7 +291,7 @@ namespace FacilityManagementSystem
             btnFilter.Name = "btnFilter";
             btnFilter.Size = new Size(100, 35);
             btnFilter.TabIndex = 23;
-            btnFilter.Text = "Filter";
+            btnFilter.Text = "Lọc";
             btnFilter.UseVisualStyleBackColor = true;
             btnFilter.Click += btnFilter_Click;
             // 
@@ -303,7 +303,7 @@ namespace FacilityManagementSystem
             label8.Name = "label8";
             label8.Size = new Size(97, 20);
             label8.TabIndex = 24;
-            label8.Text = "Filter by Area";
+            label8.Text = "Lọc theo Khu Vực";
             // 
             // label9
             // 
@@ -313,7 +313,7 @@ namespace FacilityManagementSystem
             label9.Name = "label9";
             label9.Size = new Size(97, 20);
             label9.TabIndex = 25;
-            label9.Text = "Filter by Type";
+            label9.Text = "Lọc theo Loại";
             // 
             // label10
             // 
@@ -323,7 +323,7 @@ namespace FacilityManagementSystem
             label10.Name = "label10";
             label10.Size = new Size(106, 20);
             label10.TabIndex = 26;
-            label10.Text = "Filter by Status";
+            label10.Text = "Lọc theo Trạng Thái";
             // 
             // EquipmentForm
             // 
@@ -359,7 +359,7 @@ namespace FacilityManagementSystem
             Controls.Add(dgvEquipment);
             Margin = new Padding(4, 5, 4, 5);
             Name = "EquipmentForm";
-            Text = "Equipment Management";
+            Text = "Quản Lý Cơ Sở Vật Chất";
             ((System.ComponentModel.ISupportInitialize)dgvEquipment).EndInit();
             ResumeLayout(false);
             PerformLayout();
