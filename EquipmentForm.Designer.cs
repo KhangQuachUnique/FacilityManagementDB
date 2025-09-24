@@ -28,319 +28,341 @@ namespace FacilityManagementSystem
         /// </summary>
         private void InitializeComponent()
         {
-            this.dgvEquipment = new System.Windows.Forms.DataGridView();
-            this.lblName = new System.Windows.Forms.Label();
-            this.lblType = new System.Windows.Forms.Label();
-            this.lblArea = new System.Windows.Forms.Label();
-            this.lblStatus = new System.Windows.Forms.Label();
-            this.lblQuantity = new System.Windows.Forms.Label();
-            this.lblPrice = new System.Windows.Forms.Label();
-            this.lblLastMaintenance = new System.Windows.Forms.Label();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.btnUpdate = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnNext = new System.Windows.Forms.Button();
-            this.btnPrev = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.cmbFilterArea = new System.Windows.Forms.ComboBox();
-            this.cmbFilterType = new System.Windows.Forms.ComboBox();
-            this.cmbFilterStatus = new System.Windows.Forms.ComboBox();
-            this.btnFilter = new System.Windows.Forms.Button();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvEquipment)).BeginInit();
-            this.SuspendLayout();
+            dgvEquipment = new DataGridView();
+            lblName = new Label();
+            lblType = new Label();
+            lblArea = new Label();
+            lblStatus = new Label();
+            lblQuantity = new Label();
+            lblPrice = new Label();
+            lblLastMaintenance = new Label();
+            btnAdd = new Button();
+            btnUpdate = new Button();
+            btnDelete = new Button();
+            btnNext = new Button();
+            btnPrev = new Button();
+            label1 = new Label();
+            label2 = new Label();
+            label3 = new Label();
+            label4 = new Label();
+            label5 = new Label();
+            label6 = new Label();
+            label7 = new Label();
+            cmbFilterArea = new ComboBox();
+            cmbFilterType = new ComboBox();
+            cmbFilterStatus = new ComboBox();
+            btnFilter = new Button();
+            label8 = new Label();
+            label9 = new Label();
+            label10 = new Label();
+            ((System.ComponentModel.ISupportInitialize)dgvEquipment).BeginInit();
+            SuspendLayout();
             // 
             // dgvEquipment
             // 
-            this.dgvEquipment.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvEquipment.Location = new System.Drawing.Point(12, 12);
-            this.dgvEquipment.Name = "dgvEquipment";
-            this.dgvEquipment.Size = new System.Drawing.Size(760, 200);
-            this.dgvEquipment.TabIndex = 0;
-            this.dgvEquipment.SelectionChanged += new System.EventHandler(this.dgvEquipment_SelectionChanged);
+            dgvEquipment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvEquipment.Location = new Point(16, 18);
+            dgvEquipment.Margin = new Padding(4, 5, 4, 5);
+            dgvEquipment.Name = "dgvEquipment";
+            dgvEquipment.RowHeadersWidth = 51;
+            dgvEquipment.Size = new Size(1013, 308);
+            dgvEquipment.TabIndex = 0;
+            dgvEquipment.SelectionChanged += dgvEquipment_SelectionChanged;
             // 
             // lblName
             // 
-            this.lblName.AutoSize = false;
-            this.lblName.Location = new System.Drawing.Point(100, 220);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(150, 20);
-            this.lblName.TabIndex = 1;
-            this.lblName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            lblName.BorderStyle = BorderStyle.FixedSingle;
+            lblName.Location = new Point(133, 338);
+            lblName.Margin = new Padding(4, 0, 4, 0);
+            lblName.Name = "lblName";
+            lblName.Size = new Size(199, 30);
+            lblName.TabIndex = 1;
             // 
             // lblType
             // 
-            this.lblType.AutoSize = false;
-            this.lblType.Location = new System.Drawing.Point(100, 246);
-            this.lblType.Name = "lblType";
-            this.lblType.Size = new System.Drawing.Size(150, 20);
-            this.lblType.TabIndex = 2;
-            this.lblType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            lblType.BorderStyle = BorderStyle.FixedSingle;
+            lblType.Location = new Point(133, 378);
+            lblType.Margin = new Padding(4, 0, 4, 0);
+            lblType.Name = "lblType";
+            lblType.Size = new Size(199, 30);
+            lblType.TabIndex = 2;
             // 
             // lblArea
             // 
-            this.lblArea.AutoSize = false;
-            this.lblArea.Location = new System.Drawing.Point(100, 273);
-            this.lblArea.Name = "lblArea";
-            this.lblArea.Size = new System.Drawing.Size(150, 20);
-            this.lblArea.TabIndex = 3;
-            this.lblArea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            lblArea.BorderStyle = BorderStyle.FixedSingle;
+            lblArea.Location = new Point(133, 420);
+            lblArea.Margin = new Padding(4, 0, 4, 0);
+            lblArea.Name = "lblArea";
+            lblArea.Size = new Size(199, 30);
+            lblArea.TabIndex = 3;
             // 
             // lblStatus
             // 
-            this.lblStatus.AutoSize = false;
-            this.lblStatus.Location = new System.Drawing.Point(100, 300);
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(150, 20);
-            this.lblStatus.TabIndex = 4;
-            this.lblStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            lblStatus.BorderStyle = BorderStyle.FixedSingle;
+            lblStatus.Location = new Point(133, 462);
+            lblStatus.Margin = new Padding(4, 0, 4, 0);
+            lblStatus.Name = "lblStatus";
+            lblStatus.Size = new Size(199, 30);
+            lblStatus.TabIndex = 4;
             // 
             // lblQuantity
             // 
-            this.lblQuantity.AutoSize = false;
-            this.lblQuantity.Location = new System.Drawing.Point(100, 327);
-            this.lblQuantity.Name = "lblQuantity";
-            this.lblQuantity.Size = new System.Drawing.Size(150, 20);
-            this.lblQuantity.TabIndex = 5;
-            this.lblQuantity.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            lblQuantity.BorderStyle = BorderStyle.FixedSingle;
+            lblQuantity.Location = new Point(133, 503);
+            lblQuantity.Margin = new Padding(4, 0, 4, 0);
+            lblQuantity.Name = "lblQuantity";
+            lblQuantity.Size = new Size(199, 30);
+            lblQuantity.TabIndex = 5;
             // 
             // lblPrice
             // 
-            this.lblPrice.AutoSize = false;
-            this.lblPrice.Location = new System.Drawing.Point(100, 353);
-            this.lblPrice.Name = "lblPrice";
-            this.lblPrice.Size = new System.Drawing.Size(150, 20);
-            this.lblPrice.TabIndex = 6;
-            this.lblPrice.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            lblPrice.BorderStyle = BorderStyle.FixedSingle;
+            lblPrice.Location = new Point(133, 543);
+            lblPrice.Margin = new Padding(4, 0, 4, 0);
+            lblPrice.Name = "lblPrice";
+            lblPrice.Size = new Size(199, 30);
+            lblPrice.TabIndex = 6;
             // 
             // lblLastMaintenance
             // 
-            this.lblLastMaintenance.AutoSize = false;
-            this.lblLastMaintenance.Location = new System.Drawing.Point(100, 379);
-            this.lblLastMaintenance.Name = "lblLastMaintenance";
-            this.lblLastMaintenance.Size = new System.Drawing.Size(150, 20);
-            this.lblLastMaintenance.TabIndex = 7;
-            this.lblLastMaintenance.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            lblLastMaintenance.BorderStyle = BorderStyle.FixedSingle;
+            lblLastMaintenance.Location = new Point(133, 583);
+            lblLastMaintenance.Margin = new Padding(4, 0, 4, 0);
+            lblLastMaintenance.Name = "lblLastMaintenance";
+            lblLastMaintenance.Size = new Size(199, 30);
+            lblLastMaintenance.TabIndex = 7;
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(300, 220);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(75, 23);
-            this.btnAdd.TabIndex = 8;
-            this.btnAdd.Text = "Add";
-            this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            btnAdd.Location = new Point(400, 338);
+            btnAdd.Margin = new Padding(4, 5, 4, 5);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(100, 35);
+            btnAdd.TabIndex = 8;
+            btnAdd.Text = "Add";
+            btnAdd.UseVisualStyleBackColor = true;
+            btnAdd.Click += btnAdd_Click;
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(300, 249);
-            this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(75, 23);
-            this.btnUpdate.TabIndex = 9;
-            this.btnUpdate.Text = "Update";
-            this.btnUpdate.UseVisualStyleBackColor = true;
-            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            btnUpdate.Location = new Point(400, 383);
+            btnUpdate.Margin = new Padding(4, 5, 4, 5);
+            btnUpdate.Name = "btnUpdate";
+            btnUpdate.Size = new Size(100, 35);
+            btnUpdate.TabIndex = 9;
+            btnUpdate.Text = "Update";
+            btnUpdate.UseVisualStyleBackColor = true;
+            btnUpdate.Click += btnUpdate_Click;
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(300, 278);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(75, 23);
-            this.btnDelete.TabIndex = 10;
-            this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            btnDelete.Location = new Point(400, 428);
+            btnDelete.Margin = new Padding(4, 5, 4, 5);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(100, 35);
+            btnDelete.TabIndex = 10;
+            btnDelete.Text = "Delete";
+            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
             // 
             // btnNext
             // 
-            this.btnNext.Location = new System.Drawing.Point(600, 220);
-            this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(75, 23);
-            this.btnNext.TabIndex = 11;
-            this.btnNext.Text = "Next";
-            this.btnNext.UseVisualStyleBackColor = true;
-            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
+            btnNext.Location = new Point(800, 338);
+            btnNext.Margin = new Padding(4, 5, 4, 5);
+            btnNext.Name = "btnNext";
+            btnNext.Size = new Size(100, 35);
+            btnNext.TabIndex = 11;
+            btnNext.Text = "Next";
+            btnNext.UseVisualStyleBackColor = true;
+            btnNext.Click += btnNext_Click;
             // 
             // btnPrev
             // 
-            this.btnPrev.Location = new System.Drawing.Point(500, 220);
-            this.btnPrev.Name = "btnPrev";
-            this.btnPrev.Size = new System.Drawing.Size(75, 23);
-            this.btnPrev.TabIndex = 12;
-            this.btnPrev.Text = "Prev";
-            this.btnPrev.UseVisualStyleBackColor = true;
-            this.btnPrev.Click += new System.EventHandler(this.btnPrev_Click);
+            btnPrev.Location = new Point(667, 338);
+            btnPrev.Margin = new Padding(4, 5, 4, 5);
+            btnPrev.Name = "btnPrev";
+            btnPrev.Size = new Size(100, 35);
+            btnPrev.TabIndex = 12;
+            btnPrev.Text = "Prev";
+            btnPrev.UseVisualStyleBackColor = true;
+            btnPrev.Click += btnPrev_Click;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 223);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 13);
-            this.label1.TabIndex = 13;
-            this.label1.Text = "Name";
+            label1.AutoSize = true;
+            label1.Location = new Point(16, 343);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(49, 20);
+            label1.TabIndex = 13;
+            label1.Text = "Name";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 249);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(32, 13);
-            this.label2.TabIndex = 14;
-            this.label2.Text = "Type";
+            label2.AutoSize = true;
+            label2.Location = new Point(16, 383);
+            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(40, 20);
+            label2.TabIndex = 14;
+            label2.Text = "Type";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 276);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(34, 13);
-            this.label3.TabIndex = 15;
-            this.label3.Text = "Area";
+            label3.AutoSize = true;
+            label3.Location = new Point(16, 425);
+            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(40, 20);
+            label3.TabIndex = 15;
+            label3.Text = "Area";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 303);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(40, 13);
-            this.label4.TabIndex = 16;
-            this.label4.Text = "Status";
+            label4.AutoSize = true;
+            label4.Location = new Point(16, 466);
+            label4.Margin = new Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(49, 20);
+            label4.TabIndex = 16;
+            label4.Text = "Status";
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 329);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(49, 13);
-            this.label5.TabIndex = 17;
-            this.label5.Text = "Quantity";
+            label5.AutoSize = true;
+            label5.Location = new Point(16, 506);
+            label5.Margin = new Padding(4, 0, 4, 0);
+            label5.Name = "label5";
+            label5.Size = new Size(65, 20);
+            label5.TabIndex = 17;
+            label5.Text = "Quantity";
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 355);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(34, 13);
-            this.label6.TabIndex = 18;
-            this.label6.Text = "Price";
+            label6.AutoSize = true;
+            label6.Location = new Point(16, 546);
+            label6.Margin = new Padding(4, 0, 4, 0);
+            label6.Name = "label6";
+            label6.Size = new Size(41, 20);
+            label6.TabIndex = 18;
+            label6.Text = "Price";
             // 
             // label7
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 381);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(87, 13);
-            this.label7.TabIndex = 19;
-            this.label7.Text = "Last Maintenance";
+            label7.AutoSize = true;
+            label7.Location = new Point(16, 586);
+            label7.Margin = new Padding(4, 0, 4, 0);
+            label7.Name = "label7";
+            label7.Size = new Size(124, 20);
+            label7.TabIndex = 19;
+            label7.Text = "Last Maintenance";
             // 
             // cmbFilterArea
             // 
-            this.cmbFilterArea.FormattingEnabled = true;
-            this.cmbFilterArea.Location = new System.Drawing.Point(530, 286);
-            this.cmbFilterArea.Name = "cmbFilterArea";
-            this.cmbFilterArea.Size = new System.Drawing.Size(150, 21);
-            this.cmbFilterArea.TabIndex = 20;
+            cmbFilterArea.FormattingEnabled = true;
+            cmbFilterArea.Location = new Point(675, 434);
+            cmbFilterArea.Margin = new Padding(4, 5, 4, 5);
+            cmbFilterArea.Name = "cmbFilterArea";
+            cmbFilterArea.Size = new Size(199, 28);
+            cmbFilterArea.TabIndex = 20;
             // 
             // cmbFilterType
             // 
-            this.cmbFilterType.FormattingEnabled = true;
-            this.cmbFilterType.Location = new System.Drawing.Point(530, 316);
-            this.cmbFilterType.Name = "cmbFilterType";
-            this.cmbFilterType.Size = new System.Drawing.Size(150, 21);
-            this.cmbFilterType.TabIndex = 21;
+            cmbFilterType.FormattingEnabled = true;
+            cmbFilterType.Location = new Point(675, 480);
+            cmbFilterType.Margin = new Padding(4, 5, 4, 5);
+            cmbFilterType.Name = "cmbFilterType";
+            cmbFilterType.Size = new Size(199, 28);
+            cmbFilterType.TabIndex = 21;
             // 
             // cmbFilterStatus
             // 
-            this.cmbFilterStatus.FormattingEnabled = true;
-            this.cmbFilterStatus.Location = new System.Drawing.Point(530, 346);
-            this.cmbFilterStatus.Name = "cmbFilterStatus";
-            this.cmbFilterStatus.Size = new System.Drawing.Size(150, 21);
-            this.cmbFilterStatus.TabIndex = 22;
+            cmbFilterStatus.FormattingEnabled = true;
+            cmbFilterStatus.Location = new Point(675, 526);
+            cmbFilterStatus.Margin = new Padding(4, 5, 4, 5);
+            cmbFilterStatus.Name = "cmbFilterStatus";
+            cmbFilterStatus.Size = new Size(199, 28);
+            cmbFilterStatus.TabIndex = 22;
             // 
             // btnFilter
             // 
-            this.btnFilter.Location = new System.Drawing.Point(680, 316);
-            this.btnFilter.Name = "btnFilter";
-            this.btnFilter.Size = new System.Drawing.Size(75, 23);
-            this.btnFilter.TabIndex = 23;
-            this.btnFilter.Text = "Filter";
-            this.btnFilter.UseVisualStyleBackColor = true;
-            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
+            btnFilter.Location = new Point(901, 476);
+            btnFilter.Margin = new Padding(4, 5, 4, 5);
+            btnFilter.Name = "btnFilter";
+            btnFilter.Size = new Size(100, 35);
+            btnFilter.TabIndex = 23;
+            btnFilter.Text = "Filter";
+            btnFilter.UseVisualStyleBackColor = true;
+            btnFilter.Click += btnFilter_Click;
             // 
             // label8
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(450, 290);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(82, 13);
-            this.label8.TabIndex = 24;
-            this.label8.Text = "Filter by Area";
+            label8.AutoSize = true;
+            label8.Location = new Point(568, 440);
+            label8.Margin = new Padding(4, 0, 4, 0);
+            label8.Name = "label8";
+            label8.Size = new Size(97, 20);
+            label8.TabIndex = 24;
+            label8.Text = "Filter by Area";
             // 
             // label9
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(450, 320);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(80, 13);
-            this.label9.TabIndex = 25;
-            this.label9.Text = "Filter by Type";
+            label9.AutoSize = true;
+            label9.Location = new Point(568, 486);
+            label9.Margin = new Padding(4, 0, 4, 0);
+            label9.Name = "label9";
+            label9.Size = new Size(97, 20);
+            label9.TabIndex = 25;
+            label9.Text = "Filter by Type";
             // 
             // label10
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(450, 350);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(86, 13);
-            this.label10.TabIndex = 26;
-            this.label10.Text = "Filter by Status";
+            label10.AutoSize = true;
+            label10.Location = new Point(568, 532);
+            label10.Margin = new Padding(4, 0, 4, 0);
+            label10.Name = "label10";
+            label10.Size = new Size(106, 20);
+            label10.TabIndex = 26;
+            label10.Text = "Filter by Status";
             // 
             // EquipmentForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 417);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.btnFilter);
-            this.Controls.Add(this.cmbFilterStatus);
-            this.Controls.Add(this.cmbFilterType);
-            this.Controls.Add(this.cmbFilterArea);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnPrev);
-            this.Controls.Add(this.btnNext);
-            this.Controls.Add(this.btnDelete);
-            this.Controls.Add(this.btnUpdate);
-            this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.lblLastMaintenance);
-            this.Controls.Add(this.lblPrice);
-            this.Controls.Add(this.lblQuantity);
-            this.Controls.Add(this.lblStatus);
-            this.Controls.Add(this.lblArea);
-            this.Controls.Add(this.lblType);
-            this.Controls.Add(this.lblName);
-            this.Controls.Add(this.dgvEquipment);
-            this.Name = "EquipmentForm";
-            this.Text = "Equipment Management";
-            ((System.ComponentModel.ISupportInitialize)(this.dgvEquipment)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1045, 642);
+            Controls.Add(label10);
+            Controls.Add(label9);
+            Controls.Add(label8);
+            Controls.Add(btnFilter);
+            Controls.Add(cmbFilterStatus);
+            Controls.Add(cmbFilterType);
+            Controls.Add(cmbFilterArea);
+            Controls.Add(label7);
+            Controls.Add(label6);
+            Controls.Add(label5);
+            Controls.Add(label4);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(btnPrev);
+            Controls.Add(btnNext);
+            Controls.Add(btnDelete);
+            Controls.Add(btnUpdate);
+            Controls.Add(btnAdd);
+            Controls.Add(lblLastMaintenance);
+            Controls.Add(lblPrice);
+            Controls.Add(lblQuantity);
+            Controls.Add(lblStatus);
+            Controls.Add(lblArea);
+            Controls.Add(lblType);
+            Controls.Add(lblName);
+            Controls.Add(dgvEquipment);
+            Margin = new Padding(4, 5, 4, 5);
+            Name = "EquipmentForm";
+            Text = "Equipment Management";
+            ((System.ComponentModel.ISupportInitialize)dgvEquipment).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

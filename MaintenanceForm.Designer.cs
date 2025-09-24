@@ -30,353 +30,380 @@ namespace FacilityManagementSystem
         /// </summary>
         private void InitializeComponent()
         {
-            this.dgvMaintenance = new System.Windows.Forms.DataGridView();
-            this.cmbEquipment = new System.Windows.Forms.ComboBox();
-            this.cmbEmployee = new System.Windows.Forms.ComboBox();
-            this.dtpDate = new System.Windows.Forms.DateTimePicker();
-            this.numCost = new System.Windows.Forms.NumericUpDown();
-            this.txtDescription = new System.Windows.Forms.TextBox();
-            this.lblEquipmentValue = new System.Windows.Forms.Label();
-            this.lblEmployeeValue = new System.Windows.Forms.Label();
-            this.lblDateValue = new System.Windows.Forms.Label();
-            this.lblCostValue = new System.Windows.Forms.Label();
-            this.lblDescriptionValue = new System.Windows.Forms.Label();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.btnUpdate = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnNext = new System.Windows.Forms.Button();
-            this.btnPrev = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.cmbFilterEquipment = new System.Windows.Forms.ComboBox();
-            this.cmbFilterEmployee = new System.Windows.Forms.ComboBox();
-            this.dtpStart = new System.Windows.Forms.DateTimePicker();
-            this.dtpEnd = new System.Windows.Forms.DateTimePicker();
-            this.btnFilter = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvMaintenance)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numCost)).BeginInit();
-            this.SuspendLayout();
+            dgvMaintenance = new DataGridView();
+            cmbEquipment = new ComboBox();
+            cmbEmployee = new ComboBox();
+            dtpDate = new DateTimePicker();
+            numCost = new NumericUpDown();
+            txtDescription = new TextBox();
+            lblEquipmentValue = new Label();
+            lblEmployeeValue = new Label();
+            lblDateValue = new Label();
+            lblCostValue = new Label();
+            lblDescriptionValue = new Label();
+            btnAdd = new Button();
+            btnUpdate = new Button();
+            btnDelete = new Button();
+            btnNext = new Button();
+            btnPrev = new Button();
+            label1 = new Label();
+            label2 = new Label();
+            label3 = new Label();
+            label4 = new Label();
+            label5 = new Label();
+            cmbFilterEquipment = new ComboBox();
+            cmbFilterEmployee = new ComboBox();
+            dtpStart = new DateTimePicker();
+            dtpEnd = new DateTimePicker();
+            btnFilter = new Button();
+            label6 = new Label();
+            label7 = new Label();
+            label8 = new Label();
+            label9 = new Label();
+            ((System.ComponentModel.ISupportInitialize)dgvMaintenance).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numCost).BeginInit();
+            SuspendLayout();
             // 
             // dgvMaintenance
             // 
-            this.dgvMaintenance.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMaintenance.Location = new System.Drawing.Point(12, 12);
-            this.dgvMaintenance.Name = "dgvMaintenance";
-            this.dgvMaintenance.Size = new System.Drawing.Size(760, 200);
-            this.dgvMaintenance.TabIndex = 0;
-            this.dgvMaintenance.SelectionChanged += new System.EventHandler(this.dgvMaintenance_SelectionChanged);
+            dgvMaintenance.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvMaintenance.Location = new Point(16, 18);
+            dgvMaintenance.Margin = new Padding(4, 5, 4, 5);
+            dgvMaintenance.Name = "dgvMaintenance";
+            dgvMaintenance.RowHeadersWidth = 51;
+            dgvMaintenance.Size = new Size(1013, 308);
+            dgvMaintenance.TabIndex = 0;
+            dgvMaintenance.SelectionChanged += dgvMaintenance_SelectionChanged;
             // 
             // cmbEquipment
             // 
-            this.cmbEquipment.FormattingEnabled = true;
-            this.cmbEquipment.Location = new System.Drawing.Point(100, 220);
-            this.cmbEquipment.Name = "cmbEquipment";
-            this.cmbEquipment.Size = new System.Drawing.Size(150, 21);
-            this.cmbEquipment.TabIndex = 1;
-            this.cmbEquipment.Visible = false;
+            cmbEquipment.FormattingEnabled = true;
+            cmbEquipment.Location = new Point(133, 338);
+            cmbEquipment.Margin = new Padding(4, 5, 4, 5);
+            cmbEquipment.Name = "cmbEquipment";
+            cmbEquipment.Size = new Size(199, 28);
+            cmbEquipment.TabIndex = 1;
+            cmbEquipment.Visible = false;
             // 
             // cmbEmployee
             // 
-            this.cmbEmployee.FormattingEnabled = true;
-            this.cmbEmployee.Location = new System.Drawing.Point(100, 247);
-            this.cmbEmployee.Name = "cmbEmployee";
-            this.cmbEmployee.Size = new System.Drawing.Size(150, 21);
-            this.cmbEmployee.TabIndex = 2;
-            this.cmbEmployee.Visible = false;
+            cmbEmployee.FormattingEnabled = true;
+            cmbEmployee.Location = new Point(133, 380);
+            cmbEmployee.Margin = new Padding(4, 5, 4, 5);
+            cmbEmployee.Name = "cmbEmployee";
+            cmbEmployee.Size = new Size(199, 28);
+            cmbEmployee.TabIndex = 2;
+            cmbEmployee.Visible = false;
             // 
             // dtpDate
             // 
-            this.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDate.Location = new System.Drawing.Point(100, 274);
-            this.dtpDate.Name = "dtpDate";
-            this.dtpDate.Size = new System.Drawing.Size(150, 20);
-            this.dtpDate.TabIndex = 3;
-            this.dtpDate.Visible = false;
+            dtpDate.Format = DateTimePickerFormat.Short;
+            dtpDate.Location = new Point(133, 422);
+            dtpDate.Margin = new Padding(4, 5, 4, 5);
+            dtpDate.Name = "dtpDate";
+            dtpDate.Size = new Size(199, 27);
+            dtpDate.TabIndex = 3;
+            dtpDate.Visible = false;
             // 
             // numCost
             // 
-            this.numCost.DecimalPlaces = 2;
-            this.numCost.Location = new System.Drawing.Point(100, 300);
-            this.numCost.Name = "numCost";
-            this.numCost.Size = new System.Drawing.Size(150, 20);
-            this.numCost.TabIndex = 4;
-            this.numCost.Visible = false;
+            numCost.DecimalPlaces = 2;
+            numCost.Location = new Point(133, 462);
+            numCost.Margin = new Padding(4, 5, 4, 5);
+            numCost.Name = "numCost";
+            numCost.Size = new Size(200, 27);
+            numCost.TabIndex = 4;
+            numCost.Visible = false;
             // 
             // txtDescription
             // 
-            this.txtDescription.Location = new System.Drawing.Point(100, 326);
-            this.txtDescription.Multiline = true;
-            this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(150, 60);
-            this.txtDescription.TabIndex = 5;
-            this.txtDescription.Visible = false;
-
+            txtDescription.Location = new Point(133, 502);
+            txtDescription.Margin = new Padding(4, 5, 4, 5);
+            txtDescription.Multiline = true;
+            txtDescription.Name = "txtDescription";
+            txtDescription.Size = new Size(199, 90);
+            txtDescription.TabIndex = 5;
+            txtDescription.Visible = false;
             // 
             // lblEquipmentValue
             // 
-            this.lblEquipmentValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEquipmentValue.Location = new System.Drawing.Point(100, 220);
-            this.lblEquipmentValue.Name = "lblEquipmentValue";
-            this.lblEquipmentValue.Size = new System.Drawing.Size(150, 20);
-            this.lblEquipmentValue.TabIndex = 25;
-
+            lblEquipmentValue.BorderStyle = BorderStyle.FixedSingle;
+            lblEquipmentValue.Location = new Point(133, 338);
+            lblEquipmentValue.Margin = new Padding(4, 0, 4, 0);
+            lblEquipmentValue.Name = "lblEquipmentValue";
+            lblEquipmentValue.Size = new Size(199, 30);
+            lblEquipmentValue.TabIndex = 25;
             // 
             // lblEmployeeValue
             // 
-            this.lblEmployeeValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEmployeeValue.Location = new System.Drawing.Point(100, 247);
-            this.lblEmployeeValue.Name = "lblEmployeeValue";
-            this.lblEmployeeValue.Size = new System.Drawing.Size(150, 20);
-            this.lblEmployeeValue.TabIndex = 26;
-
+            lblEmployeeValue.BorderStyle = BorderStyle.FixedSingle;
+            lblEmployeeValue.Location = new Point(133, 380);
+            lblEmployeeValue.Margin = new Padding(4, 0, 4, 0);
+            lblEmployeeValue.Name = "lblEmployeeValue";
+            lblEmployeeValue.Size = new Size(199, 30);
+            lblEmployeeValue.TabIndex = 26;
             // 
             // lblDateValue
             // 
-            this.lblDateValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblDateValue.Location = new System.Drawing.Point(100, 274);
-            this.lblDateValue.Name = "lblDateValue";
-            this.lblDateValue.Size = new System.Drawing.Size(150, 20);
-            this.lblDateValue.TabIndex = 27;
-
+            lblDateValue.BorderStyle = BorderStyle.FixedSingle;
+            lblDateValue.Location = new Point(133, 422);
+            lblDateValue.Margin = new Padding(4, 0, 4, 0);
+            lblDateValue.Name = "lblDateValue";
+            lblDateValue.Size = new Size(199, 30);
+            lblDateValue.TabIndex = 27;
             // 
             // lblCostValue
             // 
-            this.lblCostValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblCostValue.Location = new System.Drawing.Point(100, 300);
-            this.lblCostValue.Name = "lblCostValue";
-            this.lblCostValue.Size = new System.Drawing.Size(150, 20);
-            this.lblCostValue.TabIndex = 28;
-
+            lblCostValue.BorderStyle = BorderStyle.FixedSingle;
+            lblCostValue.Location = new Point(133, 462);
+            lblCostValue.Margin = new Padding(4, 0, 4, 0);
+            lblCostValue.Name = "lblCostValue";
+            lblCostValue.Size = new Size(199, 30);
+            lblCostValue.TabIndex = 28;
             // 
             // lblDescriptionValue
             // 
-            this.lblDescriptionValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblDescriptionValue.Location = new System.Drawing.Point(100, 326);
-            this.lblDescriptionValue.Name = "lblDescriptionValue";
-            this.lblDescriptionValue.Size = new System.Drawing.Size(150, 60);
-            this.lblDescriptionValue.TabIndex = 29;
+            lblDescriptionValue.BorderStyle = BorderStyle.FixedSingle;
+            lblDescriptionValue.Location = new Point(133, 502);
+            lblDescriptionValue.Margin = new Padding(4, 0, 4, 0);
+            lblDescriptionValue.Name = "lblDescriptionValue";
+            lblDescriptionValue.Size = new Size(199, 91);
+            lblDescriptionValue.TabIndex = 29;
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(300, 220);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(75, 23);
-            this.btnAdd.TabIndex = 6;
-            this.btnAdd.Text = "Add";
-            this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            btnAdd.Location = new Point(400, 338);
+            btnAdd.Margin = new Padding(4, 5, 4, 5);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(100, 35);
+            btnAdd.TabIndex = 6;
+            btnAdd.Text = "Add";
+            btnAdd.UseVisualStyleBackColor = true;
+            btnAdd.Click += btnAdd_Click;
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(300, 249);
-            this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(75, 23);
-            this.btnUpdate.TabIndex = 7;
-            this.btnUpdate.Text = "Update";
-            this.btnUpdate.UseVisualStyleBackColor = true;
-            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            btnUpdate.Location = new Point(400, 383);
+            btnUpdate.Margin = new Padding(4, 5, 4, 5);
+            btnUpdate.Name = "btnUpdate";
+            btnUpdate.Size = new Size(100, 35);
+            btnUpdate.TabIndex = 7;
+            btnUpdate.Text = "Update";
+            btnUpdate.UseVisualStyleBackColor = true;
+            btnUpdate.Click += btnUpdate_Click;
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(300, 278);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(75, 23);
-            this.btnDelete.TabIndex = 8;
-            this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            btnDelete.Location = new Point(400, 428);
+            btnDelete.Margin = new Padding(4, 5, 4, 5);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(100, 35);
+            btnDelete.TabIndex = 8;
+            btnDelete.Text = "Delete";
+            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
             // 
             // btnNext
             // 
-            this.btnNext.Location = new System.Drawing.Point(600, 220);
-            this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(75, 23);
-            this.btnNext.TabIndex = 9;
-            this.btnNext.Text = "Next";
-            this.btnNext.UseVisualStyleBackColor = true;
-            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
+            btnNext.Location = new Point(800, 338);
+            btnNext.Margin = new Padding(4, 5, 4, 5);
+            btnNext.Name = "btnNext";
+            btnNext.Size = new Size(100, 35);
+            btnNext.TabIndex = 9;
+            btnNext.Text = "Next";
+            btnNext.UseVisualStyleBackColor = true;
+            btnNext.Click += btnNext_Click;
             // 
             // btnPrev
             // 
-            this.btnPrev.Location = new System.Drawing.Point(500, 220);
-            this.btnPrev.Name = "btnPrev";
-            this.btnPrev.Size = new System.Drawing.Size(75, 23);
-            this.btnPrev.TabIndex = 10;
-            this.btnPrev.Text = "Prev";
-            this.btnPrev.UseVisualStyleBackColor = true;
-            this.btnPrev.Click += new System.EventHandler(this.btnPrev_Click);
+            btnPrev.Location = new Point(667, 338);
+            btnPrev.Margin = new Padding(4, 5, 4, 5);
+            btnPrev.Name = "btnPrev";
+            btnPrev.Size = new Size(100, 35);
+            btnPrev.TabIndex = 10;
+            btnPrev.Text = "Prev";
+            btnPrev.UseVisualStyleBackColor = true;
+            btnPrev.Click += btnPrev_Click;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 223);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 13);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "Equipment";
+            label1.AutoSize = true;
+            label1.Location = new Point(16, 343);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(81, 20);
+            label1.TabIndex = 11;
+            label1.Text = "Equipment";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 250);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(57, 13);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "Employee";
+            label2.AutoSize = true;
+            label2.Location = new Point(16, 385);
+            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(75, 20);
+            label2.TabIndex = 12;
+            label2.Text = "Employee";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 277);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(30, 13);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "Date";
+            label3.AutoSize = true;
+            label3.Location = new Point(16, 426);
+            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(41, 20);
+            label3.TabIndex = 13;
+            label3.Text = "Date";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 303);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(29, 13);
-            this.label4.TabIndex = 14;
-            this.label4.Text = "Cost";
+            label4.AutoSize = true;
+            label4.Location = new Point(16, 466);
+            label4.Margin = new Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(38, 20);
+            label4.TabIndex = 14;
+            label4.Text = "Cost";
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 329);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(63, 13);
-            this.label5.TabIndex = 15;
-            this.label5.Text = "Description";
+            label5.AutoSize = true;
+            label5.Location = new Point(16, 506);
+            label5.Margin = new Padding(4, 0, 4, 0);
+            label5.Name = "label5";
+            label5.Size = new Size(85, 20);
+            label5.TabIndex = 15;
+            label5.Text = "Description";
             // 
             // cmbFilterEquipment
             // 
-            this.cmbFilterEquipment.FormattingEnabled = true;
-            this.cmbFilterEquipment.Location = new System.Drawing.Point(430, 247);
-            this.cmbFilterEquipment.Name = "cmbFilterEquipment";
-            this.cmbFilterEquipment.Size = new System.Drawing.Size(150, 21);
-            this.cmbFilterEquipment.TabIndex = 16;
+            cmbFilterEquipment.FormattingEnabled = true;
+            cmbFilterEquipment.Location = new Point(667, 420);
+            cmbFilterEquipment.Margin = new Padding(4, 5, 4, 5);
+            cmbFilterEquipment.Name = "cmbFilterEquipment";
+            cmbFilterEquipment.Size = new Size(199, 28);
+            cmbFilterEquipment.TabIndex = 16;
             // 
             // cmbFilterEmployee
             // 
-            this.cmbFilterEmployee.FormattingEnabled = true;
-            this.cmbFilterEmployee.Location = new System.Drawing.Point(430, 274);
-            this.cmbFilterEmployee.Name = "cmbFilterEmployee";
-            this.cmbFilterEmployee.Size = new System.Drawing.Size(150, 21);
-            this.cmbFilterEmployee.TabIndex = 17;
+            cmbFilterEmployee.FormattingEnabled = true;
+            cmbFilterEmployee.Location = new Point(667, 462);
+            cmbFilterEmployee.Margin = new Padding(4, 5, 4, 5);
+            cmbFilterEmployee.Name = "cmbFilterEmployee";
+            cmbFilterEmployee.Size = new Size(199, 28);
+            cmbFilterEmployee.TabIndex = 17;
             // 
             // dtpStart
             // 
-            this.dtpStart.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpStart.Location = new System.Drawing.Point(430, 301);
-            this.dtpStart.Name = "dtpStart";
-            this.dtpStart.Size = new System.Drawing.Size(150, 20);
-            this.dtpStart.TabIndex = 18;
+            dtpStart.Format = DateTimePickerFormat.Short;
+            dtpStart.Location = new Point(667, 503);
+            dtpStart.Margin = new Padding(4, 5, 4, 5);
+            dtpStart.Name = "dtpStart";
+            dtpStart.Size = new Size(199, 27);
+            dtpStart.TabIndex = 18;
             // 
             // dtpEnd
             // 
-            this.dtpEnd.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpEnd.Location = new System.Drawing.Point(430, 327);
-            this.dtpEnd.Name = "dtpEnd";
-            this.dtpEnd.Size = new System.Drawing.Size(150, 20);
-            this.dtpEnd.TabIndex = 19;
+            dtpEnd.Format = DateTimePickerFormat.Short;
+            dtpEnd.Location = new Point(667, 543);
+            dtpEnd.Margin = new Padding(4, 5, 4, 5);
+            dtpEnd.Name = "dtpEnd";
+            dtpEnd.Size = new Size(199, 27);
+            dtpEnd.TabIndex = 19;
             // 
             // btnFilter
             // 
-            this.btnFilter.Location = new System.Drawing.Point(600, 301);
-            this.btnFilter.Name = "btnFilter";
-            this.btnFilter.Size = new System.Drawing.Size(75, 23);
-            this.btnFilter.TabIndex = 20;
-            this.btnFilter.Text = "Filter";
-            this.btnFilter.UseVisualStyleBackColor = true;
-            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
+            btnFilter.Location = new Point(888, 475);
+            btnFilter.Margin = new Padding(4, 5, 4, 5);
+            btnFilter.Name = "btnFilter";
+            btnFilter.Size = new Size(100, 35);
+            btnFilter.TabIndex = 20;
+            btnFilter.Text = "Filter";
+            btnFilter.UseVisualStyleBackColor = true;
+            btnFilter.Click += btnFilter_Click;
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(342, 250);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(82, 13);
-            this.label6.TabIndex = 21;
-            this.label6.Text = "Filter Equipment";
+            label6.AutoSize = true;
+            label6.Location = new Point(550, 425);
+            label6.Margin = new Padding(4, 0, 4, 0);
+            label6.Name = "label6";
+            label6.Size = new Size(118, 20);
+            label6.TabIndex = 21;
+            label6.Text = "Filter Equipment";
             // 
             // label7
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(342, 277);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(79, 13);
-            this.label7.TabIndex = 22;
-            this.label7.Text = "Filter Employee";
+            label7.AutoSize = true;
+            label7.Location = new Point(550, 466);
+            label7.Margin = new Padding(4, 0, 4, 0);
+            label7.Name = "label7";
+            label7.Size = new Size(112, 20);
+            label7.TabIndex = 22;
+            label7.Text = "Filter Employee";
             // 
             // label8
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(342, 304);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(58, 13);
-            this.label8.TabIndex = 23;
-            this.label8.Text = "Start Date";
+            label8.AutoSize = true;
+            label8.Location = new Point(550, 508);
+            label8.Margin = new Padding(4, 0, 4, 0);
+            label8.Name = "label8";
+            label8.Size = new Size(76, 20);
+            label8.TabIndex = 23;
+            label8.Text = "Start Date";
             // 
             // label9
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(342, 330);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(55, 13);
-            this.label9.TabIndex = 24;
-            this.label9.Text = "End Date";
+            label9.AutoSize = true;
+            label9.Location = new Point(550, 548);
+            label9.Margin = new Padding(4, 0, 4, 0);
+            label9.Name = "label9";
+            label9.Size = new Size(70, 20);
+            label9.TabIndex = 24;
+            label9.Text = "End Date";
             // 
             // MaintenanceForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 411);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.btnFilter);
-            this.Controls.Add(this.dtpEnd);
-            this.Controls.Add(this.dtpStart);
-            this.Controls.Add(this.cmbFilterEmployee);
-            this.Controls.Add(this.cmbFilterEquipment);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnPrev);
-            this.Controls.Add(this.btnNext);
-            this.Controls.Add(this.btnDelete);
-            this.Controls.Add(this.btnUpdate);
-            this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.lblDescriptionValue);
-            this.Controls.Add(this.lblCostValue);
-            this.Controls.Add(this.lblDateValue);
-            this.Controls.Add(this.lblEmployeeValue);
-            this.Controls.Add(this.lblEquipmentValue);
-            this.Controls.Add(this.txtDescription);
-            this.Controls.Add(this.numCost);
-            this.Controls.Add(this.dtpDate);
-            this.Controls.Add(this.cmbEmployee);
-            this.Controls.Add(this.cmbEquipment);
-            this.Controls.Add(this.dgvMaintenance);
-            this.Name = "MaintenanceForm";
-            this.Text = "Maintenance Management";
-            ((System.ComponentModel.ISupportInitialize)(this.dgvMaintenance)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numCost)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1045, 632);
+            Controls.Add(label9);
+            Controls.Add(label8);
+            Controls.Add(label7);
+            Controls.Add(label6);
+            Controls.Add(btnFilter);
+            Controls.Add(dtpEnd);
+            Controls.Add(dtpStart);
+            Controls.Add(cmbFilterEmployee);
+            Controls.Add(cmbFilterEquipment);
+            Controls.Add(label5);
+            Controls.Add(label4);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(btnPrev);
+            Controls.Add(btnNext);
+            Controls.Add(btnDelete);
+            Controls.Add(btnUpdate);
+            Controls.Add(btnAdd);
+            Controls.Add(lblDescriptionValue);
+            Controls.Add(lblCostValue);
+            Controls.Add(lblDateValue);
+            Controls.Add(lblEmployeeValue);
+            Controls.Add(lblEquipmentValue);
+            Controls.Add(txtDescription);
+            Controls.Add(numCost);
+            Controls.Add(dtpDate);
+            Controls.Add(cmbEmployee);
+            Controls.Add(cmbEquipment);
+            Controls.Add(dgvMaintenance);
+            Margin = new Padding(4, 5, 4, 5);
+            Name = "MaintenanceForm";
+            Text = "Maintenance Management";
+            ((System.ComponentModel.ISupportInitialize)dgvMaintenance).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numCost).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

@@ -30,266 +30,256 @@ namespace FacilityManagementSystem
         /// </summary>
         private void InitializeComponent()
         {
-            this.numMonth = new System.Windows.Forms.NumericUpDown();
-            this.numYear = new System.Windows.Forms.NumericUpDown();
-            this.btnMaintenanceCost = new System.Windows.Forms.Button();
-            this.lblMaintenanceCost = new System.Windows.Forms.Label();
-            this.cmbArea = new System.Windows.Forms.ComboBox();
-            this.btnValueByArea = new System.Windows.Forms.Button();
-            this.lblValueByArea = new System.Windows.Forms.Label();
-            this.cmbType = new System.Windows.Forms.ComboBox();
-            this.btnValueByType = new System.Windows.Forms.Button();
-            this.lblValueByType = new System.Windows.Forms.Label();
-            this.numDays = new System.Windows.Forms.NumericUpDown();
-            this.btnNeedingMaintenance = new System.Windows.Forms.Button();
-            this.dgvNeedingMaintenance = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.numMonth)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numYear)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numDays)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvNeedingMaintenance)).BeginInit();
-            this.SuspendLayout();
+            numMonth = new NumericUpDown();
+            numYear = new NumericUpDown();
+            btnMaintenanceCost = new Button();
+            lblMaintenanceCost = new Label();
+            cmbArea = new ComboBox();
+            btnValueByArea = new Button();
+            lblValueByArea = new Label();
+            cmbType = new ComboBox();
+            btnValueByType = new Button();
+            lblValueByType = new Label();
+            numDays = new NumericUpDown();
+            btnNeedingMaintenance = new Button();
+            dgvNeedingMaintenance = new DataGridView();
+            label1 = new Label();
+            label2 = new Label();
+            label3 = new Label();
+            label4 = new Label();
+            label5 = new Label();
+            label6 = new Label();
+            ((System.ComponentModel.ISupportInitialize)numMonth).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numYear).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numDays).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvNeedingMaintenance).BeginInit();
+            SuspendLayout();
             // 
             // numMonth
             // 
-            this.numMonth.Location = new System.Drawing.Point(100, 12);
-            this.numMonth.Maximum = new decimal(new int[] {
-            12,
-            0,
-            0,
-            0});
-            this.numMonth.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numMonth.Name = "numMonth";
-            this.numMonth.Size = new System.Drawing.Size(120, 20);
-            this.numMonth.TabIndex = 0;
-            this.numMonth.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            numMonth.Location = new Point(133, 18);
+            numMonth.Margin = new Padding(4, 5, 4, 5);
+            numMonth.Maximum = new decimal(new int[] { 12, 0, 0, 0 });
+            numMonth.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numMonth.Name = "numMonth";
+            numMonth.Size = new Size(160, 27);
+            numMonth.TabIndex = 0;
+            numMonth.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // numYear
             // 
-            this.numYear.Location = new System.Drawing.Point(100, 38);
-            this.numYear.Maximum = new decimal(new int[] {
-            2100,
-            0,
-            0,
-            0});
-            this.numYear.Minimum = new decimal(new int[] {
-            2000,
-            0,
-            0,
-            0});
-            this.numYear.Name = "numYear";
-            this.numYear.Size = new System.Drawing.Size(120, 20);
-            this.numYear.TabIndex = 1;
-            this.numYear.Value = new decimal(new int[] {
-            2023,
-            0,
-            0,
-            0});
+            numYear.Location = new Point(133, 58);
+            numYear.Margin = new Padding(4, 5, 4, 5);
+            numYear.Maximum = new decimal(new int[] { 2100, 0, 0, 0 });
+            numYear.Minimum = new decimal(new int[] { 2000, 0, 0, 0 });
+            numYear.Name = "numYear";
+            numYear.Size = new Size(160, 27);
+            numYear.TabIndex = 1;
+            numYear.Value = new decimal(new int[] { 2023, 0, 0, 0 });
             // 
             // btnMaintenanceCost
             // 
-            this.btnMaintenanceCost.Location = new System.Drawing.Point(226, 12);
-            this.btnMaintenanceCost.Name = "btnMaintenanceCost";
-            this.btnMaintenanceCost.Size = new System.Drawing.Size(150, 23);
-            this.btnMaintenanceCost.TabIndex = 2;
-            this.btnMaintenanceCost.Text = "Get Maintenance Cost";
-            this.btnMaintenanceCost.UseVisualStyleBackColor = true;
-            this.btnMaintenanceCost.Click += new System.EventHandler(this.btnMaintenanceCost_Click);
+            btnMaintenanceCost.Location = new Point(301, 15);
+            btnMaintenanceCost.Margin = new Padding(4, 5, 4, 5);
+            btnMaintenanceCost.Name = "btnMaintenanceCost";
+            btnMaintenanceCost.Size = new Size(200, 35);
+            btnMaintenanceCost.TabIndex = 2;
+            btnMaintenanceCost.Text = "Get Maintenance Cost";
+            btnMaintenanceCost.UseVisualStyleBackColor = true;
+            btnMaintenanceCost.Click += btnMaintenanceCost_Click;
             // 
             // lblMaintenanceCost
             // 
-            this.lblMaintenanceCost.AutoSize = true;
-            this.lblMaintenanceCost.Location = new System.Drawing.Point(382, 17);
-            this.lblMaintenanceCost.Name = "lblMaintenanceCost";
-            this.lblMaintenanceCost.Size = new System.Drawing.Size(0, 13);
-            this.lblMaintenanceCost.TabIndex = 3;
+            lblMaintenanceCost.AutoSize = true;
+            lblMaintenanceCost.Location = new Point(509, 26);
+            lblMaintenanceCost.Margin = new Padding(4, 0, 4, 0);
+            lblMaintenanceCost.Name = "lblMaintenanceCost";
+            lblMaintenanceCost.Size = new Size(0, 20);
+            lblMaintenanceCost.TabIndex = 3;
             // 
             // cmbArea
             // 
-            this.cmbArea.FormattingEnabled = true;
-            this.cmbArea.Location = new System.Drawing.Point(100, 64);
-            this.cmbArea.Name = "cmbArea";
-            this.cmbArea.Size = new System.Drawing.Size(120, 21);
-            this.cmbArea.TabIndex = 4;
+            cmbArea.FormattingEnabled = true;
+            cmbArea.Location = new Point(133, 98);
+            cmbArea.Margin = new Padding(4, 5, 4, 5);
+            cmbArea.Name = "cmbArea";
+            cmbArea.Size = new Size(159, 28);
+            cmbArea.TabIndex = 4;
             // 
             // btnValueByArea
             // 
-            this.btnValueByArea.Location = new System.Drawing.Point(226, 64);
-            this.btnValueByArea.Name = "btnValueByArea";
-            this.btnValueByArea.Size = new System.Drawing.Size(150, 23);
-            this.btnValueByArea.TabIndex = 5;
-            this.btnValueByArea.Text = "Get Value by Area";
-            this.btnValueByArea.UseVisualStyleBackColor = true;
-            this.btnValueByArea.Click += new System.EventHandler(this.btnValueByArea_Click);
+            btnValueByArea.Location = new Point(301, 94);
+            btnValueByArea.Margin = new Padding(4, 5, 4, 5);
+            btnValueByArea.Name = "btnValueByArea";
+            btnValueByArea.Size = new Size(200, 35);
+            btnValueByArea.TabIndex = 5;
+            btnValueByArea.Text = "Get Value by Area";
+            btnValueByArea.UseVisualStyleBackColor = true;
+            btnValueByArea.Click += btnValueByArea_Click;
             // 
             // lblValueByArea
             // 
-            this.lblValueByArea.AutoSize = true;
-            this.lblValueByArea.Location = new System.Drawing.Point(382, 68);
-            this.lblValueByArea.Name = "lblValueByArea";
-            this.lblValueByArea.Size = new System.Drawing.Size(0, 13);
-            this.lblValueByArea.TabIndex = 6;
+            lblValueByArea.AutoSize = true;
+            lblValueByArea.Location = new Point(509, 105);
+            lblValueByArea.Margin = new Padding(4, 0, 4, 0);
+            lblValueByArea.Name = "lblValueByArea";
+            lblValueByArea.Size = new Size(0, 20);
+            lblValueByArea.TabIndex = 6;
             // 
             // cmbType
             // 
-            this.cmbType.FormattingEnabled = true;
-            this.cmbType.Location = new System.Drawing.Point(100, 91);
-            this.cmbType.Name = "cmbType";
-            this.cmbType.Size = new System.Drawing.Size(120, 21);
-            this.cmbType.TabIndex = 7;
+            cmbType.FormattingEnabled = true;
+            cmbType.Location = new Point(133, 140);
+            cmbType.Margin = new Padding(4, 5, 4, 5);
+            cmbType.Name = "cmbType";
+            cmbType.Size = new Size(159, 28);
+            cmbType.TabIndex = 7;
             // 
             // btnValueByType
             // 
-            this.btnValueByType.Location = new System.Drawing.Point(226, 91);
-            this.btnValueByType.Name = "btnValueByType";
-            this.btnValueByType.Size = new System.Drawing.Size(150, 23);
-            this.btnValueByType.TabIndex = 8;
-            this.btnValueByType.Text = "Get Value by Type";
-            this.btnValueByType.UseVisualStyleBackColor = true;
-            this.btnValueByType.Click += new System.EventHandler(this.btnValueByType_Click);
+            btnValueByType.Location = new Point(301, 137);
+            btnValueByType.Margin = new Padding(4, 5, 4, 5);
+            btnValueByType.Name = "btnValueByType";
+            btnValueByType.Size = new Size(200, 35);
+            btnValueByType.TabIndex = 8;
+            btnValueByType.Text = "Get Value by Type";
+            btnValueByType.UseVisualStyleBackColor = true;
+            btnValueByType.Click += btnValueByType_Click;
             // 
             // lblValueByType
             // 
-            this.lblValueByType.AutoSize = true;
-            this.lblValueByType.Location = new System.Drawing.Point(382, 95);
-            this.lblValueByType.Name = "lblValueByType";
-            this.lblValueByType.Size = new System.Drawing.Size(0, 13);
-            this.lblValueByType.TabIndex = 9;
+            lblValueByType.AutoSize = true;
+            lblValueByType.Location = new Point(509, 146);
+            lblValueByType.Margin = new Padding(4, 0, 4, 0);
+            lblValueByType.Name = "lblValueByType";
+            lblValueByType.Size = new Size(0, 20);
+            lblValueByType.TabIndex = 9;
             // 
             // numDays
             // 
-            this.numDays.Location = new System.Drawing.Point(100, 118);
-            this.numDays.Maximum = new decimal(new int[] {
-            365,
-            0,
-            0,
-            0});
-            this.numDays.Name = "numDays";
-            this.numDays.Size = new System.Drawing.Size(120, 20);
-            this.numDays.TabIndex = 10;
-            this.numDays.Value = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
+            numDays.Location = new Point(658, 23);
+            numDays.Margin = new Padding(4, 5, 4, 5);
+            numDays.Maximum = new decimal(new int[] { 365, 0, 0, 0 });
+            numDays.Name = "numDays";
+            numDays.Size = new Size(160, 27);
+            numDays.TabIndex = 10;
+            numDays.Value = new decimal(new int[] { 30, 0, 0, 0 });
             // 
             // btnNeedingMaintenance
             // 
-            this.btnNeedingMaintenance.Location = new System.Drawing.Point(226, 118);
-            this.btnNeedingMaintenance.Name = "btnNeedingMaintenance";
-            this.btnNeedingMaintenance.Size = new System.Drawing.Size(150, 23);
-            this.btnNeedingMaintenance.TabIndex = 11;
-            this.btnNeedingMaintenance.Text = "Get Needing Maintenance";
-            this.btnNeedingMaintenance.UseVisualStyleBackColor = true;
-            this.btnNeedingMaintenance.Click += new System.EventHandler(this.btnNeedingMaintenance_Click);
+            btnNeedingMaintenance.Location = new Point(829, 18);
+            btnNeedingMaintenance.Margin = new Padding(4, 5, 4, 5);
+            btnNeedingMaintenance.Name = "btnNeedingMaintenance";
+            btnNeedingMaintenance.Size = new Size(200, 35);
+            btnNeedingMaintenance.TabIndex = 11;
+            btnNeedingMaintenance.Text = "Get Needing Maintenance";
+            btnNeedingMaintenance.UseVisualStyleBackColor = true;
+            btnNeedingMaintenance.Click += btnNeedingMaintenance_Click;
             // 
             // dgvNeedingMaintenance
             // 
-            this.dgvNeedingMaintenance.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvNeedingMaintenance.Location = new System.Drawing.Point(12, 147);
-            this.dgvNeedingMaintenance.Name = "dgvNeedingMaintenance";
-            this.dgvNeedingMaintenance.Size = new System.Drawing.Size(760, 200);
-            this.dgvNeedingMaintenance.TabIndex = 12;
+            dgvNeedingMaintenance.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvNeedingMaintenance.Location = new Point(16, 226);
+            dgvNeedingMaintenance.Margin = new Padding(4, 5, 4, 5);
+            dgvNeedingMaintenance.Name = "dgvNeedingMaintenance";
+            dgvNeedingMaintenance.RowHeadersWidth = 51;
+            dgvNeedingMaintenance.Size = new Size(1013, 308);
+            dgvNeedingMaintenance.TabIndex = 12;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 14);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(39, 13);
-            this.label1.TabIndex = 13;
-            this.label1.Text = "Month";
+            label1.AutoSize = true;
+            label1.Location = new Point(16, 22);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(52, 20);
+            label1.TabIndex = 13;
+            label1.Text = "Month";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 40);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(29, 13);
-            this.label2.TabIndex = 14;
-            this.label2.Text = "Year";
+            label2.AutoSize = true;
+            label2.Location = new Point(16, 62);
+            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(37, 20);
+            label2.TabIndex = 14;
+            label2.Text = "Year";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 68);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(34, 13);
-            this.label3.TabIndex = 15;
-            this.label3.Text = "Area";
+            label3.AutoSize = true;
+            label3.Location = new Point(16, 105);
+            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(40, 20);
+            label3.TabIndex = 15;
+            label3.Text = "Area";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 95);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(32, 13);
-            this.label4.TabIndex = 16;
-            this.label4.Text = "Type";
+            label4.AutoSize = true;
+            label4.Location = new Point(16, 146);
+            label4.Margin = new Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(40, 20);
+            label4.TabIndex = 16;
+            label4.Text = "Type";
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 120);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(82, 13);
-            this.label5.TabIndex = 17;
-            this.label5.Text = "Days Threshold";
+            label5.AutoSize = true;
+            label5.Location = new Point(541, 26);
+            label5.Margin = new Padding(4, 0, 4, 0);
+            label5.Name = "label5";
+            label5.Size = new Size(110, 20);
+            label5.TabIndex = 17;
+            label5.Text = "Days Threshold";
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 131);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(122, 13);
-            this.label6.TabIndex = 18;
-            this.label6.Text = "Equipment Needing Maint:";
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI", 10F);
+            label6.Location = new Point(16, 198);
+            label6.Margin = new Padding(4, 0, 4, 0);
+            label6.Name = "label6";
+            label6.Size = new Size(216, 23);
+            label6.TabIndex = 18;
+            label6.Text = "Equipment Needing Maint:";
             // 
             // ReportsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 361);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.dgvNeedingMaintenance);
-            this.Controls.Add(this.btnNeedingMaintenance);
-            this.Controls.Add(this.numDays);
-            this.Controls.Add(this.lblValueByType);
-            this.Controls.Add(this.btnValueByType);
-            this.Controls.Add(this.cmbType);
-            this.Controls.Add(this.lblValueByArea);
-            this.Controls.Add(this.btnValueByArea);
-            this.Controls.Add(this.cmbArea);
-            this.Controls.Add(this.lblMaintenanceCost);
-            this.Controls.Add(this.btnMaintenanceCost);
-            this.Controls.Add(this.numYear);
-            this.Controls.Add(this.numMonth);
-            this.Name = "ReportsForm";
-            this.Text = "Reports";
-            ((System.ComponentModel.ISupportInitialize)(this.numMonth)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numYear)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numDays)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvNeedingMaintenance)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1045, 555);
+            Controls.Add(label6);
+            Controls.Add(label5);
+            Controls.Add(label4);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(dgvNeedingMaintenance);
+            Controls.Add(btnNeedingMaintenance);
+            Controls.Add(numDays);
+            Controls.Add(lblValueByType);
+            Controls.Add(btnValueByType);
+            Controls.Add(cmbType);
+            Controls.Add(lblValueByArea);
+            Controls.Add(btnValueByArea);
+            Controls.Add(cmbArea);
+            Controls.Add(lblMaintenanceCost);
+            Controls.Add(btnMaintenanceCost);
+            Controls.Add(numYear);
+            Controls.Add(numMonth);
+            Margin = new Padding(4, 5, 4, 5);
+            Name = "ReportsForm";
+            Text = "Reports";
+            ((System.ComponentModel.ISupportInitialize)numMonth).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numYear).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numDays).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvNeedingMaintenance).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
