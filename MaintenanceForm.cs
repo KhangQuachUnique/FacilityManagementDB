@@ -75,6 +75,13 @@ namespace FacilityManagementSystem
                     colMoTa.HeaderText = "Mô Tả";
                     colMoTa.Width = 200;
                 }
+                
+                var colTrangThai = dgvMaintenance.Columns["TrangThai"];
+                if (colTrangThai != null)
+                {
+                    colTrangThai.HeaderText = "Trạng Thái";
+                    colTrangThai.Width = 120;
+                }
             }
         }
 

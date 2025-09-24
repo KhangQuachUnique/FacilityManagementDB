@@ -22,6 +22,7 @@ namespace FacilityManagementSystem
             this.dtpDate = new System.Windows.Forms.DateTimePicker();
             this.numCost = new System.Windows.Forms.NumericUpDown();
             this.txtDescription = new System.Windows.Forms.TextBox();
+            this.cmbStatus = new System.Windows.Forms.ComboBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -29,6 +30,7 @@ namespace FacilityManagementSystem
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numCost)).BeginInit();
             this.SuspendLayout();
             // 
@@ -73,22 +75,31 @@ namespace FacilityManagementSystem
             this.txtDescription.Size = new System.Drawing.Size(220, 80);
             this.txtDescription.TabIndex = 4;
             // 
+            // cmbStatus
+            // 
+            this.cmbStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbStatus.FormattingEnabled = true;
+            this.cmbStatus.Location = new System.Drawing.Point(120, 215);
+            this.cmbStatus.Name = "cmbStatus";
+            this.cmbStatus.Size = new System.Drawing.Size(220, 21);
+            this.cmbStatus.TabIndex = 5;
+            // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(120, 220);
+            this.btnSave.Location = new System.Drawing.Point(120, 250);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 5;
+            this.btnSave.TabIndex = 6;
             this.btnSave.Text = "Lưu";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(265, 220);
+            this.btnCancel.Location = new System.Drawing.Point(265, 250);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 6;
+            this.btnCancel.TabIndex = 7;
             this.btnCancel.Text = "Hủy";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -138,11 +149,21 @@ namespace FacilityManagementSystem
             this.label5.TabIndex = 11;
             this.label5.Text = "Mô Tả";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 218);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(65, 13);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Trạng Thái";
+            // 
             // MaintenanceEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(370, 260);
+            this.ClientSize = new System.Drawing.Size(370, 290);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -150,6 +171,7 @@ namespace FacilityManagementSystem
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.cmbStatus);
             this.Controls.Add(this.txtDescription);
             this.Controls.Add(this.numCost);
             this.Controls.Add(this.dtpDate);
@@ -173,6 +195,7 @@ namespace FacilityManagementSystem
         private System.Windows.Forms.DateTimePicker dtpDate;
         private System.Windows.Forms.NumericUpDown numCost;
         private System.Windows.Forms.TextBox txtDescription;
+        private System.Windows.Forms.ComboBox cmbStatus;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label label1;
@@ -180,5 +203,6 @@ namespace FacilityManagementSystem
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
     }
 }

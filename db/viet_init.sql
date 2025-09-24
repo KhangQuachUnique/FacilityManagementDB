@@ -57,7 +57,7 @@ CREATE TABLE CoSoVatChat (
     Ten NVARCHAR(100) NOT NULL,
     MaLoai INT NOT NULL FOREIGN KEY REFERENCES LoaiCoSoVatChat(MaLoai),
     MaKhuVuc INT NOT NULL FOREIGN KEY REFERENCES KhuVuc(MaKhuVuc),
-    TrangThai NVARCHAR(50) NOT NULL, -- Ví dụ: 'Hoạt Động', 'Đang Bảo Trì', 'Hỏng'
+    TrangThai NVARCHAR(50) NOT NULL CHECK (TrangThai IN (N'Hoạt Động', N'Đang Bảo Trì', N'Hỏng', N'Ngừng Hoạt Động')),
     Gia DECIMAL(18,2) NOT NULL
 );
 GO
@@ -69,7 +69,8 @@ CREATE TABLE BaoTriCoSoVatChat (
     MaNhanVien INT NOT NULL FOREIGN KEY REFERENCES NhanVien(MaNhanVien),
     NgayBaoTri DATE NOT NULL,
     ChiPhi DECIMAL(18,2) NOT NULL,
-    MoTa NVARCHAR(MAX)
+    MoTa NVARCHAR(MAX),
+    TrangThai NVARCHAR(50) NOT NULL DEFAULT N'Chưa Hoàn Thành' CHECK (TrangThai IN (N'Chưa Hoàn Thành', N'Hoàn Thành'))
 );
 GO
 
@@ -385,11 +386,12 @@ CREATE PROCEDURE sp_ThemBaoTri
     @MaNhanVien INT,
     @NgayBaoTri DATE,
     @ChiPhi DECIMAL(18,2),
-    @MoTa NVARCHAR(MAX)
+    @MoTa NVARCHAR(MAX),
+    @TrangThai NVARCHAR(50) = N'Chưa Hoàn Thành'
 AS
 BEGIN
-    INSERT INTO BaoTriCoSoVatChat (MaCoSoVatChat, MaNhanVien, NgayBaoTri, ChiPhi, MoTa) 
-    VALUES (@MaCoSoVatChat, @MaNhanVien, @NgayBaoTri, @ChiPhi, @MoTa);
+    INSERT INTO BaoTriCoSoVatChat (MaCoSoVatChat, MaNhanVien, NgayBaoTri, ChiPhi, MoTa, TrangThai) 
+    VALUES (@MaCoSoVatChat, @MaNhanVien, @NgayBaoTri, @ChiPhi, @MoTa, @TrangThai);
 END
 GO
 
@@ -399,11 +401,12 @@ CREATE PROCEDURE sp_CapNhatBaoTri
     @MaNhanVien INT,
     @NgayBaoTri DATE,
     @ChiPhi DECIMAL(18,2),
-    @MoTa NVARCHAR(MAX)
+    @MoTa NVARCHAR(MAX),
+    @TrangThai NVARCHAR(50)
 AS
 BEGIN
     UPDATE BaoTriCoSoVatChat SET MaCoSoVatChat = @MaCoSoVatChat, MaNhanVien = @MaNhanVien, 
-    NgayBaoTri = @NgayBaoTri, ChiPhi = @ChiPhi, MoTa = @MoTa 
+    NgayBaoTri = @NgayBaoTri, ChiPhi = @ChiPhi, MoTa = @MoTa, TrangThai = @TrangThai 
     WHERE MaBaoTri = @MaBaoTri;
 END
 GO
@@ -420,7 +423,7 @@ CREATE PROCEDURE sp_LayTatCaBaoTri
 AS
 BEGIN
     SELECT m.MaBaoTri, e.Ten AS TenCoSoVatChat, emp.Ten AS TenNhanVien, 
-           m.NgayBaoTri, m.ChiPhi, m.MoTa
+           m.NgayBaoTri, m.ChiPhi, m.MoTa, m.TrangThai
     FROM BaoTriCoSoVatChat m 
     JOIN CoSoVatChat e ON m.MaCoSoVatChat = e.MaCoSoVatChat
     JOIN NhanVien emp ON m.MaNhanVien = emp.MaNhanVien;
@@ -431,7 +434,8 @@ CREATE PROCEDURE sp_LayBaoTriTheoBoLoc
     @MaCoSoVatChat INT = NULL,
     @MaNhanVien INT = NULL,
     @NgayBatDau DATE = NULL,
-    @NgayKetThuc DATE = NULL
+    @NgayKetThuc DATE = NULL,
+    @TrangThai NVARCHAR(50) = NULL
 AS
 BEGIN
     SELECT m.*, e.Ten AS TenCoSoVatChat, emp.Ten AS TenNhanVien 
@@ -441,7 +445,8 @@ BEGIN
     WHERE (@MaCoSoVatChat IS NULL OR m.MaCoSoVatChat = @MaCoSoVatChat)
     AND (@MaNhanVien IS NULL OR m.MaNhanVien = @MaNhanVien)
     AND (@NgayBatDau IS NULL OR m.NgayBaoTri >= @NgayBatDau)
-    AND (@NgayKetThuc IS NULL OR m.NgayBaoTri <= @NgayKetThuc);
+    AND (@NgayKetThuc IS NULL OR m.NgayBaoTri <= @NgayKetThuc)
+    AND (@TrangThai IS NULL OR m.TrangThai = @TrangThai);
 END
 GO
 
@@ -517,6 +522,41 @@ BEGIN
 END
 GO
 
+-- Trigger tự động cập nhật trạng thái thiết bị khi tạo bảo trì
+CREATE TRIGGER trg_TuDongCapNhatTrangThaiBaoTri
+ON BaoTriCoSoVatChat
+AFTER INSERT
+AS
+BEGIN
+    -- Cập nhật trạng thái thiết bị thành 'Đang Bảo Trì' khi tạo bảo trì mới
+    UPDATE CoSoVatChat 
+    SET TrangThai = N'Đang Bảo Trì'
+    WHERE MaCoSoVatChat IN (SELECT DISTINCT MaCoSoVatChat FROM inserted)
+    AND TrangThai != N'Đang Bảo Trì'; -- Chỉ cập nhật nếu chưa phải trạng thái bảo trì
+END
+GO
+
+-- Trigger cập nhật trạng thái thiết bị khi hoàn thành bảo trì
+CREATE TRIGGER trg_HoanThanhBaoTri
+ON BaoTriCoSoVatChat
+AFTER UPDATE
+AS
+BEGIN
+    IF UPDATE(TrangThai)
+    BEGIN
+        -- Khi bảo trì được đánh dấu hoàn thành, cập nhật thiết bị về trạng thái hoạt động
+        UPDATE CoSoVatChat 
+        SET TrangThai = N'Hoạt Động'
+        WHERE MaCoSoVatChat IN (
+            SELECT DISTINCT i.MaCoSoVatChat 
+            FROM inserted i 
+            INNER JOIN deleted d ON i.MaBaoTri = d.MaBaoTri
+            WHERE i.TrangThai = N'Hoàn Thành' AND d.TrangThai = N'Chưa Hoàn Thành'
+        );
+    END
+END
+GO
+
 -- Chèn Dữ Liệu Mẫu để Demo với Unicode Support cho Tiếng Việt
 INSERT INTO VaiTro (TenVaiTro) VALUES (N'Quản Trị Hệ Thống'), (N'Quản Lý Cấp Cao'), (N'Nhân Viên Kỹ Thuật');
 INSERT INTO NguoiDung (TenDangNhap, MatKhauHash, MaVaiTro, HoatDong) 
@@ -553,5 +593,43 @@ BEGIN
     WHERE e.Ten LIKE N'%' + @TuKhoa + N'%' 
     OR e.ChucVu LIKE N'%' + @TuKhoa + N'%'
     OR a.TenKhuVuc LIKE N'%' + @TuKhoa + N'%';
+END
+GO
+
+-- Thủ tục đánh dấu hoàn thành bảo trì
+CREATE PROCEDURE sp_HoanThanhBaoTri
+    @MaBaoTri INT
+AS
+BEGIN
+    UPDATE BaoTriCoSoVatChat 
+    SET TrangThai = N'Hoàn Thành'
+    WHERE MaBaoTri = @MaBaoTri AND TrangThai = N'Chưa Hoàn Thành';
+END
+GO
+
+-- Thủ tục lấy danh sách bảo trì chưa hoàn thành
+CREATE PROCEDURE sp_LayBaoTriChuaHoanThanh
+AS
+BEGIN
+    SELECT m.MaBaoTri, e.Ten AS TenCoSoVatChat, emp.Ten AS TenNhanVien, 
+           m.NgayBaoTri, m.ChiPhi, m.MoTa, m.TrangThai
+    FROM BaoTriCoSoVatChat m 
+    JOIN CoSoVatChat e ON m.MaCoSoVatChat = e.MaCoSoVatChat
+    JOIN NhanVien emp ON m.MaNhanVien = emp.MaNhanVien
+    WHERE m.TrangThai = N'Chưa Hoàn Thành'
+    ORDER BY m.NgayBaoTri DESC;
+END
+GO
+
+-- Thủ tục lấy danh sách thiết bị đang bảo trì
+CREATE PROCEDURE sp_LayThietBiDangBaoTri
+AS
+BEGIN
+    SELECT e.MaCoSoVatChat, e.Ten, t.TenLoai, a.TenKhuVuc, e.TrangThai, e.Gia 
+    FROM CoSoVatChat e 
+    JOIN LoaiCoSoVatChat t ON e.MaLoai = t.MaLoai
+    JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc
+    WHERE e.TrangThai = N'Đang Bảo Trì'
+    ORDER BY e.Ten;
 END
 GO

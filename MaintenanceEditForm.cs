@@ -15,16 +15,17 @@ namespace FacilityManagementSystem
             this.maintenanceID = maintenanceID;
             LoadEquipment();
             LoadEmployees();
+            LoadStatusOptions();
             if (maintenanceID.HasValue)
             {
                 LoadMaintenance(maintenanceID.Value);
-                this.Text = "Edit Maintenance";
-                btnSave.Text = "Update";
+                this.Text = "Chỉnh Sửa Bảo Trì";
+                btnSave.Text = "Cập Nhật";
             }
             else
             {
-                this.Text = "Add Maintenance";
-                btnSave.Text = "Add";
+                this.Text = "Thêm Bảo Trì";
+                btnSave.Text = "Thêm";
             }
         }
 
@@ -46,6 +47,14 @@ namespace FacilityManagementSystem
             cmbEmployee.SelectedIndex = -1;
         }
 
+        private void LoadStatusOptions()
+        {
+            cmbStatus.Items.Clear();
+            cmbStatus.Items.Add("Chưa Hoàn Thành");
+            cmbStatus.Items.Add("Hoàn Thành");
+            cmbStatus.SelectedIndex = 0; // Default to "Chưa Hoàn Thành"
+        }
+
         private void LoadMaintenance(int id)
         {
             SqlParameter[] parameters = { new SqlParameter("@MaBaoTri", id) };
@@ -60,6 +69,8 @@ namespace FacilityManagementSystem
                 if (row["ChiPhi"] != DBNull.Value)
                     numCost.Value = Convert.ToDecimal(row["ChiPhi"]);
                 txtDescription.Text = row["MoTa"].ToString();
+                if (row["TrangThai"] != DBNull.Value)
+                    cmbStatus.Text = row["TrangThai"].ToString();
             }
         }
 
@@ -67,12 +78,17 @@ namespace FacilityManagementSystem
         {
             if (cmbEquipment.SelectedIndex == -1)
             {
-                MessageBox.Show("Please select equipment.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn cơ sở vật chất.", "Lỗi Xác Thực", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (cmbEmployee.SelectedIndex == -1)
             {
-                MessageBox.Show("Please select employee.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn nhân viên.", "Lỗi Xác Thực", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (cmbStatus.SelectedIndex == -1)
+            {
+                MessageBox.Show("Vui lòng chọn trạng thái.", "Lỗi Xác Thực", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -81,7 +97,8 @@ namespace FacilityManagementSystem
                 new SqlParameter("@MaNhanVien", cmbEmployee.SelectedValue),
                 new SqlParameter("@NgayBaoTri", dtpDate.Value.Date),
                 new SqlParameter("@ChiPhi", numCost.Value),
-                new SqlParameter("@MoTa", txtDescription.Text)
+                new SqlParameter("@MoTa", txtDescription.Text),
+                new SqlParameter("@TrangThai", cmbStatus.Text)
             };
 
             if (maintenanceID.HasValue)
