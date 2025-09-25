@@ -11,6 +11,7 @@ namespace FacilityManagementSystem
         public LoginForm()
         {
             InitializeComponent();
+            ConfigureUI();
             
             // Cải thiện UX
             this.AcceptButton = btnLogin; // Nhấn Enter sẽ trigger login
@@ -18,6 +19,27 @@ namespace FacilityManagementSystem
             
             // Thêm KeyDown event cho password textbox
             txtPassword.KeyDown += TxtPassword_KeyDown;
+        }
+        
+        private void ConfigureUI()
+        {
+            // Cấu hình form
+            this.BackColor = UIHelper.BackgroundColor;
+            this.Font = UIHelper.StandardFont;
+            this.Size = new System.Drawing.Size(400, 300);
+            this.StartPosition = FormStartPosition.CenterScreen;
+            
+            // Cấu hình controls
+            UIHelper.ConfigureButton(btnLogin, true);
+            UIHelper.ConfigureTextBox(txtUsername);
+            UIHelper.ConfigureTextBox(txtPassword);
+            
+            // Cấu hình labels
+            foreach (Control control in this.Controls)
+            {
+                if (control is Label lbl)
+                    UIHelper.ConfigureLabel(lbl);
+            }
         }
 
         private void TxtPassword_KeyDown(object? sender, KeyEventArgs e)

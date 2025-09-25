@@ -12,6 +12,8 @@ namespace FacilityManagementSystem
         public EquipmentEditForm(int? equipmentID = null)
         {
             InitializeComponent();
+            UIHelper.ConfigureDialog(this);
+            
             this.equipmentID = equipmentID;
             LoadTypes();
             LoadAreas();
@@ -19,13 +21,13 @@ namespace FacilityManagementSystem
             if (equipmentID.HasValue)
             {
                 LoadEquipmentData(equipmentID.Value);
-                this.Text = "Edit Equipment";
-                btnSave.Text = "Update";
+                this.Text = "Chỉnh Sửa Thiết Bị";
+                btnSave.Text = "Cập Nhật";
             }
             else
             {
-                this.Text = "Add Equipment";
-                btnSave.Text = "Add";
+                this.Text = "Thêm Thiết Bị";
+                btnSave.Text = "Thêm";
             }
         }
 

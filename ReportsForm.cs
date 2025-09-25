@@ -16,6 +16,37 @@ namespace FacilityManagementSystem
         public ReportsForm()
         {
             InitializeComponent();
+            ConfigureUI();
+        }
+        
+        private void ConfigureUI()
+        {
+            UIHelper.ConfigureForm(this);
+            
+            // Configure all DataGridViews
+            UIHelper.ConfigureDataGridView(dgvMaintenanceCost);
+            UIHelper.ConfigureDataGridView(dgvAssetValue);
+            UIHelper.ConfigureDataGridView(dgvMaintenanceNeeded);
+            
+            // Configure buttons
+            UIHelper.ConfigureButton(btnViewMaintenanceCost, true);
+            UIHelper.ConfigureButton(btnRefreshStatus, true);
+            UIHelper.ConfigureButton(btnViewAssetValue, true);
+            UIHelper.ConfigureButton(btnRefreshMaintenanceNeeded, true);
+            
+            // Configure ComboBoxes
+            UIHelper.ConfigureComboBox(cmbMonth);
+            UIHelper.ConfigureComboBox(cmbYear);
+            UIHelper.ConfigureComboBox(cmbArea);
+            
+            // Configure Labels
+            UIHelper.ConfigureLabel(lblTotalCost, true);
+            UIHelper.ConfigureLabel(lblAreaTotalValue, true);
+            UIHelper.ConfigureLabel(lblMaintenanceCount, true);
+            UIHelper.ConfigureLabel(lblActive, true);
+            UIHelper.ConfigureLabel(lblMaintenance, true);
+            UIHelper.ConfigureLabel(lblBroken, true);
+            UIHelper.ConfigureLabel(lblStopped, true);
         }
 
         private void ReportsForm_Load(object sender, EventArgs e)

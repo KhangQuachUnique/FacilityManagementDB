@@ -16,11 +16,38 @@ namespace FacilityManagementSystem
         public MaintenanceForm()
         {
             InitializeComponent();
+            ConfigureUI();
             // Thêm event handler cho DataBindingComplete để áp dụng màu sắc
             dgvMaintenance.DataBindingComplete += DgvMaintenance_DataBindingComplete;
             LoadMaintenance();
             LoadEquipment();
             LoadEmployees();
+        }
+        
+        private void ConfigureUI()
+        {
+            UIHelper.ConfigureForm(this);
+            UIHelper.ConfigureDataGridView(dgvMaintenance);
+            
+            // Configure buttons
+            UIHelper.ConfigureButton(btnAdd, true);
+            UIHelper.ConfigureButton(btnUpdate);
+            UIHelper.ConfigureButton(btnDelete);
+            UIHelper.ConfigureButton(btnFilter);
+            UIHelper.ConfigureButton(btnResetFilter);
+            UIHelper.ConfigureButton(btnNext);
+            UIHelper.ConfigureButton(btnPrev);
+            
+            // Configure other controls
+            foreach (Control control in this.Controls)
+            {
+                if (control is TextBox txt)
+                    UIHelper.ConfigureTextBox(txt);
+                else if (control is ComboBox cmb)
+                    UIHelper.ConfigureComboBox(cmb);
+                else if (control is Label lbl)
+                    UIHelper.ConfigureLabel(lbl);
+            }
         }
 
         private void LoadMaintenance()

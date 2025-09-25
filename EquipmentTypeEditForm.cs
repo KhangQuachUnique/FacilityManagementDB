@@ -11,17 +11,19 @@ namespace FacilityManagementSystem
         public EquipmentTypeEditForm(int? typeID = null)
         {
             InitializeComponent();
+            UIHelper.ConfigureDialog(this);
+            
             this.typeID = typeID;
             if (typeID.HasValue)
             {
                 LoadType(typeID.Value);
-                this.Text = "Edit Equipment Type";
-                btnSave.Text = "Update";
+                this.Text = "Chỉnh Sửa Loại Thiết Bị";
+                btnSave.Text = "Cập Nhật";
             }
             else
             {
-                this.Text = "Add Equipment Type";
-                btnSave.Text = "Add";
+                this.Text = "Thêm Loại Thiết Bị";
+                btnSave.Text = "Thêm";
             }
         }
 

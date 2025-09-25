@@ -11,17 +11,19 @@ namespace FacilityManagementSystem
         public AreaEditForm(int? areaID = null)
         {
             InitializeComponent();
+            UIHelper.ConfigureDialog(this);
+            
             this.areaID = areaID;
             if (areaID.HasValue)
             {
                 LoadArea(areaID.Value);
-                this.Text = "Edit Area";
-                btnSave.Text = "Update";
+                this.Text = "Chỉnh Sửa Khu Vực";
+                btnSave.Text = "Cập Nhật";
             }
             else
             {
-                this.Text = "Add Area";
-                btnSave.Text = "Add";
+                this.Text = "Thêm Khu Vực";
+                btnSave.Text = "Thêm";
             }
         }
 

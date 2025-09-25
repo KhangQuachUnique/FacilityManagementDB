@@ -73,49 +73,54 @@ namespace FacilityManagementSystem
             // 
             // btnArea
             // 
+            this.btnArea.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular);
             this.btnArea.Location = new System.Drawing.Point(12, 12);
             this.btnArea.Name = "btnArea";
-            this.btnArea.Size = new System.Drawing.Size(150, 23);
+            this.btnArea.Size = new System.Drawing.Size(180, 35);
             this.btnArea.TabIndex = 3;
-            this.btnArea.Text = "Quản Lý Khu Vực";
+            this.btnArea.Text = "🏢 Quản Lý Khu Vực";
             this.btnArea.UseVisualStyleBackColor = true;
             this.btnArea.Click += new System.EventHandler(this.btnArea_Click);
             // 
             // btnEquipmentType
             // 
-            this.btnEquipmentType.Location = new System.Drawing.Point(12, 41);
+            this.btnEquipmentType.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular);
+            this.btnEquipmentType.Location = new System.Drawing.Point(12, 55);
             this.btnEquipmentType.Name = "btnEquipmentType";
-            this.btnEquipmentType.Size = new System.Drawing.Size(150, 23);
+            this.btnEquipmentType.Size = new System.Drawing.Size(180, 35);
             this.btnEquipmentType.TabIndex = 4;
-            this.btnEquipmentType.Text = "Quản Lý Loại Cơ Sở Vật Chất";
+            this.btnEquipmentType.Text = "🏷️ Quản Lý Loại Thiết Bị";
             this.btnEquipmentType.UseVisualStyleBackColor = true;
             this.btnEquipmentType.Click += new System.EventHandler(this.btnEquipmentType_Click);
             // 
             // btnEquipment
             // 
-            this.btnEquipment.Location = new System.Drawing.Point(12, 70);
+            this.btnEquipment.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular);
+            this.btnEquipment.Location = new System.Drawing.Point(12, 98);
             this.btnEquipment.Name = "btnEquipment";
-            this.btnEquipment.Size = new System.Drawing.Size(150, 23);
+            this.btnEquipment.Size = new System.Drawing.Size(180, 35);
             this.btnEquipment.TabIndex = 5;
-            this.btnEquipment.Text = "Quản Lý Cơ Sở Vật Chất";
+            this.btnEquipment.Text = "⚙️ Quản Lý Thiết Bị";
             this.btnEquipment.UseVisualStyleBackColor = true;
             this.btnEquipment.Click += new System.EventHandler(this.btnEquipment_Click);
             // 
             // btnMaintenance
             // 
-            this.btnMaintenance.Location = new System.Drawing.Point(12, 99);
+            this.btnMaintenance.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular);
+            this.btnMaintenance.Location = new System.Drawing.Point(12, 141);
             this.btnMaintenance.Name = "btnMaintenance";
-            this.btnMaintenance.Size = new System.Drawing.Size(150, 23);
+            this.btnMaintenance.Size = new System.Drawing.Size(180, 35);
             this.btnMaintenance.TabIndex = 6;
-            this.btnMaintenance.Text = "Quản Lý Bảo Trì";
+            this.btnMaintenance.Text = "🔧 Quản Lý Bảo Trì";
             this.btnMaintenance.UseVisualStyleBackColor = true;
             this.btnMaintenance.Click += new System.EventHandler(this.btnMaintenance_Click);
             // 
             // btnReports
             // 
-            this.btnReports.Location = new System.Drawing.Point(12, 128);
+            this.btnReports.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            this.btnReports.Location = new System.Drawing.Point(12, 184);
             this.btnReports.Name = "btnReports";
-            this.btnReports.Size = new System.Drawing.Size(150, 23);
+            this.btnReports.Size = new System.Drawing.Size(180, 35);
             this.btnReports.TabIndex = 7;
             this.btnReports.Text = "📊 Báo Cáo";
             this.btnReports.UseVisualStyleBackColor = true;
@@ -123,9 +128,10 @@ namespace FacilityManagementSystem
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(12, 157);
+            this.btnSearch.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular);
+            this.btnSearch.Location = new System.Drawing.Point(12, 227);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(150, 23);
+            this.btnSearch.Size = new System.Drawing.Size(180, 35);
             this.btnSearch.TabIndex = 8;
             this.btnSearch.Text = "🔍 Tìm Kiếm";
             this.btnSearch.UseVisualStyleBackColor = true;
@@ -133,9 +139,11 @@ namespace FacilityManagementSystem
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(174, 261);
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.ClientSize = new System.Drawing.Size(210, 300);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.btnReports);
             this.Controls.Add(this.btnMaintenance);

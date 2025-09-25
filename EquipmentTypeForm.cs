@@ -16,6 +16,8 @@ namespace FacilityManagementSystem
         public EquipmentTypeForm()
         {
             InitializeComponent();
+            UIHelper.ConfigureForm(this);
+            UIHelper.ConfigureDataGridView(dgvTypes);
             LoadTypes();
         }
 
@@ -28,21 +30,28 @@ namespace FacilityManagementSystem
 
         private void SetupColumnHeaders()
         {
-            if (dgvTypes.Columns.Count > 0)
+            try
             {
-                var colMa = dgvTypes.Columns["MaLoai"];
-                if (colMa != null)
+                if (dgvTypes.Columns.Count > 0)
                 {
-                    colMa.HeaderText = "Mã Loại";
-                    colMa.Width = 80;
+                    var colMa = dgvTypes.Columns["MaLoai"];
+                    if (colMa != null)
+                    {
+                        colMa.HeaderText = "Mã Loại";
+                        colMa.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                    }
+                    
+                    var colTen = dgvTypes.Columns["TenLoai"];
+                    if (colTen != null)
+                    {
+                        colTen.HeaderText = "Tên Loại";
+                        colTen.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    }
                 }
-                
-                var colTen = dgvTypes.Columns["TenLoai"];
-                if (colTen != null)
-                {
-                    colTen.HeaderText = "Tên Loại";
-                    colTen.Width = 250;
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi cấu hình cột: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

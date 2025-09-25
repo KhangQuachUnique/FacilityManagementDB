@@ -14,12 +14,39 @@ namespace FacilityManagementSystem
         public EquipmentForm()
         {
             InitializeComponent();
+            ConfigureUI();
             // Thêm event handler cho DataBindingComplete để áp dụng màu sắc
             dgvEquipment.DataBindingComplete += DgvEquipment_DataBindingComplete;
             LoadEquipment();
             LoadTypes();
             LoadAreas();
             LoadStatuses();
+        }
+        
+        private void ConfigureUI()
+        {
+            UIHelper.ConfigureForm(this);
+            UIHelper.ConfigureDataGridView(dgvEquipment);
+            
+            // Configure buttons
+            UIHelper.ConfigureButton(btnAdd, true);
+            UIHelper.ConfigureButton(btnUpdate);
+            UIHelper.ConfigureButton(btnDelete);
+            UIHelper.ConfigureButton(btnFilter);
+            UIHelper.ConfigureButton(btnResetFilter);
+            UIHelper.ConfigureButton(btnNext);
+            UIHelper.ConfigureButton(btnPrev);
+            
+            // Configure other controls (tìm các control khác trong form)
+            foreach (Control control in this.Controls)
+            {
+                if (control is TextBox txt)
+                    UIHelper.ConfigureTextBox(txt);
+                else if (control is ComboBox cmb)
+                    UIHelper.ConfigureComboBox(cmb);
+                else if (control is Label lbl)
+                    UIHelper.ConfigureLabel(lbl);
+            }
         }
 
         private void LoadEquipment()

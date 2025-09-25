@@ -12,6 +12,8 @@ namespace FacilityManagementSystem
         public MaintenanceEditForm(int? maintenanceID = null)
         {
             InitializeComponent();
+            UIHelper.ConfigureDialog(this);
+            
             this.maintenanceID = maintenanceID;
             LoadEquipment();
             LoadEmployees();

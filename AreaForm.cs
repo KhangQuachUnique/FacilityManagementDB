@@ -16,33 +16,77 @@ namespace FacilityManagementSystem
         public AreaForm()
         {
             InitializeComponent();
+            ConfigureUI();
             LoadAreas();
+        }
+        
+        private void ConfigureUI()
+        {
+            UIHelper.ConfigureForm(this);
+            UIHelper.ConfigureDataGridView(dgvAreas);
+            UIHelper.ConfigureButton(btnAdd, true);
+            UIHelper.ConfigureButton(btnUpdate);
+            UIHelper.ConfigureButton(btnDelete);
+            UIHelper.ConfigureButton(btnSearch);
+            UIHelper.ConfigureButton(btnClearSearch);
+            UIHelper.ConfigureButton(btnNext);
+            UIHelper.ConfigureButton(btnPrev);
+            UIHelper.ConfigureTextBox(txtAreaName);
+            UIHelper.ConfigureTextBox(txtSearch);
+            UIHelper.ConfigureLabel(label1, true);
+            UIHelper.ConfigureLabel(lblSearch);
+            UIHelper.ConfigureLabel(lblAreaNameValue);
         }
 
         private void LoadAreas()
         {
-            dtAreas = DatabaseHelper.ExecuteProcedure("sp_LayTatCaKhuVuc");
-            dgvAreas.DataSource = GetPagedData(dtAreas, currentPage);
-            SetupColumnHeaders();
+            try
+            {
+                dtAreas = DatabaseHelper.ExecuteProcedure("sp_LayTatCaKhuVuc");
+                if (dtAreas != null)
+                {
+                    dgvAreas.DataSource = GetPagedData(dtAreas, currentPage);
+                    SetupColumnHeaders();
+                }
+                else
+                {
+                    dgvAreas.DataSource = null;
+                    MessageBox.Show("Không thể tải dữ liệu khu vực. Vui lòng kiểm tra kết nối database.", 
+                                   "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tải dữ liệu khu vực: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dgvAreas.DataSource = null;
+            }
         }
 
         private void SetupColumnHeaders()
         {
-            if (dgvAreas.Columns.Count > 0)
+            try
             {
-                var colMa = dgvAreas.Columns["MaKhuVuc"];
-                if (colMa != null)
+                if (dgvAreas?.Columns != null && dgvAreas.Columns.Count > 0)
                 {
-                    colMa.HeaderText = "Mã Khu Vực";
-                    colMa.Width = 80;
+                    var colMa = dgvAreas.Columns["MaKhuVuc"];
+                    if (colMa != null)
+                    {
+                        colMa.HeaderText = "Mã Khu Vực";
+                        colMa.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                        colMa.Width = 100;
+                    }
+                    
+                    var colTen = dgvAreas.Columns["TenKhuVuc"];
+                    if (colTen != null)
+                    {
+                        colTen.HeaderText = "Tên Khu Vực";
+                        colTen.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    }
                 }
-                
-                var colTen = dgvAreas.Columns["TenKhuVuc"];
-                if (colTen != null)
-                {
-                    colTen.HeaderText = "Tên Khu Vực";
-                    colTen.Width = 250;
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi cấu hình column headers: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

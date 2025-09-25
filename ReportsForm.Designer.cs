@@ -82,7 +82,7 @@ namespace FacilityManagementSystem
             this.tabReports.Controls.Add(this.tabAssetValue);
             this.tabReports.Controls.Add(this.tabMaintenanceNeeded);
             this.tabReports.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabReports.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tabReports.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular);
             this.tabReports.Location = new System.Drawing.Point(0, 0);
             this.tabReports.Name = "tabReports";
             this.tabReports.SelectedIndex = 0;
@@ -106,15 +106,23 @@ namespace FacilityManagementSystem
             this.dgvMaintenanceCost.AllowUserToAddRows = false;
             this.dgvMaintenanceCost.AllowUserToDeleteRows = false;
             this.dgvMaintenanceCost.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvMaintenanceCost.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.dgvMaintenanceCost.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMaintenanceCost.BackgroundColor = System.Drawing.Color.White;
+            this.dgvMaintenanceCost.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dgvMaintenanceCost.ColumnHeadersHeight = 35;
+            this.dgvMaintenanceCost.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dgvMaintenanceCost.DefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.dgvMaintenanceCost.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
+            this.dgvMaintenanceCost.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.dgvMaintenanceCost.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvMaintenanceCost.Location = new System.Drawing.Point(3, 83);
+            this.dgvMaintenanceCost.GridColor = System.Drawing.Color.LightGray;
+            this.dgvMaintenanceCost.Location = new System.Drawing.Point(3, 90);
             this.dgvMaintenanceCost.MultiSelect = false;
             this.dgvMaintenanceCost.Name = "dgvMaintenanceCost";
             this.dgvMaintenanceCost.ReadOnly = true;
+            this.dgvMaintenanceCost.RowHeadersWidth = 25;
+            this.dgvMaintenanceCost.RowTemplate.Height = 28;
             this.dgvMaintenanceCost.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMaintenanceCost.Size = new System.Drawing.Size(786, 482);
+            this.dgvMaintenanceCost.Size = new System.Drawing.Size(786, 475);
             this.dgvMaintenanceCost.TabIndex = 1;
             // 
             // panel1
@@ -129,7 +137,7 @@ namespace FacilityManagementSystem
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(786, 80);
+            this.panel1.Size = new System.Drawing.Size(786, 87);
             this.panel1.TabIndex = 0;
             // 
             // lblTotalCost
@@ -146,10 +154,11 @@ namespace FacilityManagementSystem
             // btnViewMaintenanceCost
             // 
             this.btnViewMaintenanceCost.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnViewMaintenanceCost.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.btnViewMaintenanceCost.ForeColor = System.Drawing.Color.White;
             this.btnViewMaintenanceCost.Location = new System.Drawing.Point(280, 10);
             this.btnViewMaintenanceCost.Name = "btnViewMaintenanceCost";
-            this.btnViewMaintenanceCost.Size = new System.Drawing.Size(100, 30);
+            this.btnViewMaintenanceCost.Size = new System.Drawing.Size(120, 35);
             this.btnViewMaintenanceCost.TabIndex = 4;
             this.btnViewMaintenanceCost.Text = "Xem Báo Cáo";
             this.btnViewMaintenanceCost.UseVisualStyleBackColor = false;
@@ -331,15 +340,23 @@ namespace FacilityManagementSystem
             this.dgvAssetValue.AllowUserToAddRows = false;
             this.dgvAssetValue.AllowUserToDeleteRows = false;
             this.dgvAssetValue.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvAssetValue.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.dgvAssetValue.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAssetValue.BackgroundColor = System.Drawing.Color.White;
+            this.dgvAssetValue.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dgvAssetValue.ColumnHeadersHeight = 35;
+            this.dgvAssetValue.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dgvAssetValue.DefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.dgvAssetValue.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
+            this.dgvAssetValue.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.dgvAssetValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvAssetValue.Location = new System.Drawing.Point(3, 83);
+            this.dgvAssetValue.GridColor = System.Drawing.Color.LightGray;
+            this.dgvAssetValue.Location = new System.Drawing.Point(3, 90);
             this.dgvAssetValue.MultiSelect = false;
             this.dgvAssetValue.Name = "dgvAssetValue";
             this.dgvAssetValue.ReadOnly = true;
+            this.dgvAssetValue.RowHeadersWidth = 25;
+            this.dgvAssetValue.RowTemplate.Height = 28;
             this.dgvAssetValue.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAssetValue.Size = new System.Drawing.Size(786, 482);
+            this.dgvAssetValue.Size = new System.Drawing.Size(786, 475);
             this.dgvAssetValue.TabIndex = 1;
             // 
             // panel3
@@ -352,7 +369,7 @@ namespace FacilityManagementSystem
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(3, 3);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(786, 80);
+            this.panel3.Size = new System.Drawing.Size(786, 87);
             this.panel3.TabIndex = 0;
             // 
             // lblAreaTotalValue
@@ -412,15 +429,23 @@ namespace FacilityManagementSystem
             this.dgvMaintenanceNeeded.AllowUserToAddRows = false;
             this.dgvMaintenanceNeeded.AllowUserToDeleteRows = false;
             this.dgvMaintenanceNeeded.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvMaintenanceNeeded.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.dgvMaintenanceNeeded.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMaintenanceNeeded.BackgroundColor = System.Drawing.Color.White;
+            this.dgvMaintenanceNeeded.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dgvMaintenanceNeeded.ColumnHeadersHeight = 35;
+            this.dgvMaintenanceNeeded.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dgvMaintenanceNeeded.DefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.dgvMaintenanceNeeded.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.LightBlue;
+            this.dgvMaintenanceNeeded.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.dgvMaintenanceNeeded.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvMaintenanceNeeded.Location = new System.Drawing.Point(3, 83);
+            this.dgvMaintenanceNeeded.GridColor = System.Drawing.Color.LightGray;
+            this.dgvMaintenanceNeeded.Location = new System.Drawing.Point(3, 90);
             this.dgvMaintenanceNeeded.MultiSelect = false;
             this.dgvMaintenanceNeeded.Name = "dgvMaintenanceNeeded";
             this.dgvMaintenanceNeeded.ReadOnly = true;
+            this.dgvMaintenanceNeeded.RowHeadersWidth = 25;
+            this.dgvMaintenanceNeeded.RowTemplate.Height = 28;
             this.dgvMaintenanceNeeded.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMaintenanceNeeded.Size = new System.Drawing.Size(786, 482);
+            this.dgvMaintenanceNeeded.Size = new System.Drawing.Size(786, 475);
             this.dgvMaintenanceNeeded.TabIndex = 1;
             // 
             // panel4
@@ -431,7 +456,7 @@ namespace FacilityManagementSystem
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(3, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(786, 80);
+            this.panel4.Size = new System.Drawing.Size(786, 87);
             this.panel4.TabIndex = 0;
             // 
             // lblMaintenanceCount
