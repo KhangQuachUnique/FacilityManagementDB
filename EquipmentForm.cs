@@ -7,7 +7,7 @@ namespace FacilityManagementSystem
 {
     public partial class EquipmentForm : Form
     {
-        private DataTable dtEquipment;
+        private DataTable? dtEquipment;
         private int currentPage = 1;
         private const int pageSize = 50;
 
@@ -76,8 +76,10 @@ namespace FacilityManagementSystem
             }
         }
 
-        private DataTable GetPagedData(DataTable dt, int page)
+        private DataTable GetPagedData(DataTable? dt, int page)
         {
+            if (dt == null) return new DataTable();
+            
             DataTable paged = dt.Clone();
             int start = (page - 1) * pageSize;
             for (int i = start; i < start + pageSize && i < dt.Rows.Count; i++)
@@ -89,7 +91,7 @@ namespace FacilityManagementSystem
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            if (currentPage * pageSize < dtEquipment.Rows.Count)
+            if (dtEquipment != null && currentPage * pageSize < dtEquipment.Rows.Count)
             {
                 currentPage++;
                 dgvEquipment.DataSource = GetPagedData(dtEquipment, currentPage);

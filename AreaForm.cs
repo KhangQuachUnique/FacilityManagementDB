@@ -9,7 +9,7 @@ namespace FacilityManagementSystem
 {
     public partial class AreaForm : Form
     {
-        private DataTable dtAreas;
+        private DataTable? dtAreas;
         private int currentPage = 1;
         private const int pageSize = 50;
 
@@ -46,8 +46,10 @@ namespace FacilityManagementSystem
             }
         }
 
-        private DataTable GetPagedData(DataTable dt, int page)
+        private DataTable GetPagedData(DataTable? dt, int page)
         {
+            if (dt == null) return new DataTable();
+            
             DataTable paged = dt.Clone();
             int start = (page - 1) * pageSize;
             for (int i = start; i < start + pageSize && i < dt.Rows.Count; i++)
@@ -59,7 +61,7 @@ namespace FacilityManagementSystem
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            if (currentPage * pageSize < dtAreas.Rows.Count)
+            if (dtAreas != null && currentPage * pageSize < dtAreas.Rows.Count)
             {
                 currentPage++;
                 dgvAreas.DataSource = GetPagedData(dtAreas, currentPage);

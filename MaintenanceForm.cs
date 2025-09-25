@@ -9,7 +9,7 @@ namespace FacilityManagementSystem
 {
     public partial class MaintenanceForm : Form
     {
-        private DataTable dtMaintenance;
+        private DataTable? dtMaintenance;
         private int currentPage = 1;
         private const int pageSize = 50;
 
@@ -85,8 +85,10 @@ namespace FacilityManagementSystem
             }
         }
 
-        private DataTable GetPagedData(DataTable dt, int page)
+        private DataTable GetPagedData(DataTable? dt, int page)
         {
+            if (dt == null) return new DataTable();
+            
             DataTable paged = dt.Clone();
             int start = (page - 1) * pageSize;
             for (int i = start; i < start + pageSize && i < dt.Rows.Count; i++)
@@ -98,7 +100,7 @@ namespace FacilityManagementSystem
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            if (currentPage * pageSize < dtMaintenance.Rows.Count)
+            if (dtMaintenance != null && currentPage * pageSize < dtMaintenance.Rows.Count)
             {
                 currentPage++;
                 dgvMaintenance.DataSource = GetPagedData(dtMaintenance, currentPage);

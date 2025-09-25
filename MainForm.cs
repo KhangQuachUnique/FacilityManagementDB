@@ -18,7 +18,7 @@ namespace FacilityManagementSystem
         {
             this.roleID = roleID;
             InitializeComponent();
-            ApplyPermissions();
+            // ApplyPermissions();
             // Prepare a tab host area without changing Designer layout of buttons
             EnsureTabHost();
         }
@@ -99,39 +99,6 @@ namespace FacilityManagementSystem
             };
             form.Show();
         }
-
-        private void ApplyPermissions()
-        {
-            // Chỉ còn 2 roles được phép: Admin (AdminLogin) và KyThuatVien (KyThuatVienLogin)
-            // roleID = 1: QuanLyCuaHang (toàn quyền)
-            // roleID = 3: NhanVienKyThuat (quyền hạn chế)
-            // roleID = 0: Sử dụng từ SQL Server login (chỉ 2 loại trên được phép)
-            
-            // Ẩn các button user/role management nếu tồn tại (chỉ admin mới có)
-            var btnUserMgmt = this.Controls.OfType<Button>().FirstOrDefault(b => b.Name == "btnUserManagement");
-            var btnRoleMgmt = this.Controls.OfType<Button>().FirstOrDefault(b => b.Name == "btnRoleManagement");
-            if (btnUserMgmt != null) btnUserMgmt.Visible = false;
-            if (btnRoleMgmt != null) btnRoleMgmt.Visible = false;
-            
-            // Tất cả button khác đều hiện - quyền hạn được kiểm soát ở SQL Server level
-            // Không cần ẩn button nữa vì fallback pattern sẽ xử lý khi không có quyền
-        }
-
-        // private void btnUserManagement_Click(object sender, EventArgs e)
-        // {
-        //     OpenInTab("Users", () => new UserManagementForm());
-        // }
-
-        // private void btnRoleManagement_Click(object sender, EventArgs e)
-        // {
-        //     OpenInTab("Roles", () => new RoleManagementForm());
-        // }
-
-        // private void btnEmployee_Click(object sender, EventArgs e)
-        // {
-        //     OpenInTab("Employees", () => new EmployeeForm());
-        // }
-
         private void btnArea_Click(object sender, EventArgs e)
         {
             OpenInTab("Areas", () => new AreaForm());

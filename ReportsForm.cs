@@ -38,7 +38,7 @@ namespace FacilityManagementSystem
                 new SqlParameter("@Thang", numMonth.Value),
                 new SqlParameter("@Nam", numYear.Value)
             };
-            object result = DatabaseHelper.ExecuteScalar("sp_BaoCaoChiPhiBaoTriTheoThangNam", parameters);
+            object? result = DatabaseHelper.ExecuteScalar("sp_BaoCaoChiPhiBaoTriTheoThangNam", parameters);
             lblMaintenanceCost.Text = "Total Maintenance Cost: " + (result ?? "0").ToString();
         }
 
@@ -47,7 +47,7 @@ namespace FacilityManagementSystem
             SqlParameter[] parameters = {
                 new SqlParameter("@MaKhuVuc", cmbArea.SelectedValue)
             };
-            object result = DatabaseHelper.ExecuteScalar("sp_BaoCaoGiaTriCoSoVatChatTheoKhuVuc", parameters);
+            object? result = DatabaseHelper.ExecuteScalar("sp_BaoCaoGiaTriCoSoVatChatTheoKhuVuc", parameters);
             lblValueByArea.Text = "Total Value by Area: " + (result ?? "0").ToString();
         }
 
@@ -56,7 +56,7 @@ namespace FacilityManagementSystem
             SqlParameter[] parameters = {
                 new SqlParameter("@MaLoai", cmbType.SelectedValue)
             };
-            object result = DatabaseHelper.ExecuteScalar("sp_BaoCaoGiaTriCoSoVatChatTheoLoai", parameters);
+            object? result = DatabaseHelper.ExecuteScalar("sp_BaoCaoGiaTriCoSoVatChatTheoLoai", parameters);
             lblValueByType.Text = "Total Value by Type: " + (result ?? "0").ToString();
         }
 
