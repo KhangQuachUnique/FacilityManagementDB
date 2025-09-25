@@ -30,8 +30,8 @@ namespace FacilityManagementSystem
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            string username = txtUsername.Text;
-            string password = txtPassword.Text; // In real app, hash password
+            string username = txtUsername.Text.Trim();
+            string password = txtPassword.Text.Trim();
 
             // Kiểm tra thông tin đầu vào
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
@@ -40,42 +40,21 @@ namespace FacilityManagementSystem
                 return;
             }
 
-            SqlParameter[] parameters = {
-                new SqlParameter("@TenDangNhap", username)
-            };
-            var dt = DatabaseHelper.ExecuteProcedure("sp_LayNguoiDungTheoTenDangNhap", parameters);
-
-            if (dt.Rows.Count > 0)
+            // Sử dụng SQL Server Authentication
+            if (DatabaseHelper.LoginUser(username, password))
             {
-                string storedHash = dt.Rows[0]["MatKhauHash"].ToString() ?? "";
-                bool isActive = Convert.ToBoolean(dt.Rows[0]["HoatDong"]);
+                // Xác định role từ login name
+                UserRole role = CurrentUser.GetRoleFromLogin(username);
+                CurrentUser.SetUser(username, role);
                 
-                if (!isActive)
-                {
-                    MessageBox.Show("Tài khoản đã bị vô hiệu hóa. Vui lòng liên hệ quản trị viên.", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                MessageBox.Show($"Đăng nhập thành công!\nChào mừng {CurrentUser.GetRoleDisplayName(role)}.", 
+                              "Thành Công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 
-                if (password == storedHash) // Demo: plain text, replace with hash check
-                {
-                    int roleID = Convert.ToInt32(dt.Rows[0]["MaVaiTro"]);
-                    
-                    // Đăng nhập thành công - bỏ MFA, vào thẳng MainForm
-                    MessageBox.Show($"Đăng nhập thành công! Chào mừng {username}.", "Thành Công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    
-                    MainForm mainForm = new MainForm(roleID);
-                    mainForm.Show();
-                    this.Hide();
-                }
-                else
-                {
-                    MessageBox.Show("Mật khẩu không chính xác.", "Lỗi Đăng Nhập", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                MainForm mainForm = new MainForm();
+                mainForm.Show();
+                this.Hide();
             }
-            else
-            {
-                MessageBox.Show("Tên đăng nhập không tồn tại.", "Lỗi Đăng Nhập", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            // Nếu login thất bại, thông báo lỗi đã được hiển thị trong DatabaseHelper.LoginUser()
         }
     }
 }

@@ -11,6 +11,84 @@ namespace FacilityManagementSystem
     public class DatabaseHelper
     {
         private static string connectionString = "Server=localhost; Database=QuanLyCoSoVatChatDB; Trusted_Connection=True; TrustServerCertificate=True; MultipleActiveResultSets=True; Encrypt=False;";
+        
+        /// <summary>
+        /// Cập nhật connection string với thông tin đăng nhập SQL Server
+        /// </summary>
+        public static void SetConnectionString(string username, string password)
+        {
+            connectionString = $"Server=localhost; Database=QuanLyCoSoVatChatDB; User Id={username}; Password={password}; TrustServerCertificate=True; MultipleActiveResultSets=True; Encrypt=False;";
+        }
+        
+        /// <summary>
+        /// Kiểm tra đăng nhập SQL Server và quyền truy cập ứng dụng
+        /// </summary>
+        public static bool LoginUser(string username, string password)
+        {
+            try
+            {
+                string testConnectionString = $"Server=localhost; Database=QuanLyCoSoVatChatDB; User Id={username}; Password={password}; TrustServerCertificate=True; MultipleActiveResultSets=True; Encrypt=False;";
+                using (SqlConnection conn = new SqlConnection(testConnectionString))
+                {
+                    conn.Open();
+                    
+                    // Kiểm tra quyền truy cập ứng dụng - chỉ cho phép AdminLogin và KyThuatVienLogin
+                    if (!IsAuthorizedForApplication(username))
+                    {
+                        MessageBox.Show("Tài khoản của bạn không có quyền truy cập ứng dụng Quản Lý Cơ Sở Vật Chất!\n\n" +
+                                      "Chỉ có Quản Lý Cửa Hàng và Nhân Viên Kỹ Thuật mới được phép sử dụng ứng dụng này.", 
+                                      "Không có quyền truy cập", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
+                    
+                    // Nếu kết nối thành công và có quyền, cập nhật connection string
+                    SetConnectionString(username, password);
+                    return true;
+                }
+            }
+            catch (SqlException ex)
+            {
+                HandleSqlException(ex);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi kết nối: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+        
+        /// <summary>
+        /// Kiểm tra xem login có được phép truy cập ứng dụng hay không
+        /// </summary>
+        private static bool IsAuthorizedForApplication(string loginName)
+        {
+            string[] authorizedLogins = { "AdminLogin", "KyThuatVienLogin" };
+            return Array.Exists(authorizedLogins, login => 
+                string.Equals(login, loginName, StringComparison.OrdinalIgnoreCase));
+        }
+        
+        /// <summary>
+        /// Xử lý SQL Exception và hiển thị thông báo thân thiện
+        /// </summary>
+        public static void HandleSqlException(SqlException ex)
+        {
+            switch (ex.Number)
+            {
+                case 18456: // Login failed
+                    MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu!", "Lỗi đăng nhập", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    break;
+                case 229: // Permission denied
+                    MessageBox.Show("Bạn không có quyền thực hiện thao tác này!", "Không có quyền", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    break;
+                case 2: // Timeout
+                    MessageBox.Show("Kết nối đến database bị timeout!", "Lỗi kết nối", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                default:
+                    MessageBox.Show($"Lỗi SQL: {ex.Message}", "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+            }
+        }
 
         /// <summary>
         /// Executes a stored procedure and returns the result as DataTable.
@@ -34,6 +112,10 @@ namespace FacilityManagementSystem
                         }
                     }
                 }
+            }
+            catch (SqlException ex)
+            {
+                HandleSqlException(ex);
             }
             catch (Exception ex)
             {
@@ -63,6 +145,10 @@ namespace FacilityManagementSystem
                 }
                 MessageBox.Show("Operation successful.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            catch (SqlException ex)
+            {
+                HandleSqlException(ex);
+            }
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -73,9 +159,9 @@ namespace FacilityManagementSystem
         /// <summary>
         /// Executes a scalar stored procedure (e.g., for sums).
         /// </summary>
-        public static object ExecuteScalar(string procedureName, params SqlParameter[] parameters)
+        public static object? ExecuteScalar(string procedureName, params SqlParameter[] parameters)
         {
-            object result = null;
+            object? result = null;
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -89,6 +175,10 @@ namespace FacilityManagementSystem
                         result = cmd.ExecuteScalar();
                     }
                 }
+            }
+            catch (SqlException ex)
+            {
+                HandleSqlException(ex);
             }
             catch (Exception ex)
             {

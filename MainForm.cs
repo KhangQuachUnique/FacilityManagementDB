@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace FacilityManagementSystem
@@ -20,6 +21,10 @@ namespace FacilityManagementSystem
             ApplyPermissions();
             // Prepare a tab host area without changing Designer layout of buttons
             EnsureTabHost();
+        }
+        
+        public MainForm() : this(0) // Constructor mặc định - sử dụng CurrentUser.Role
+        {
         }
 
         private void EnsureTabHost()
@@ -97,20 +102,19 @@ namespace FacilityManagementSystem
 
         private void ApplyPermissions()
         {
-            // Admin (1): All
-            // Manager (2): All except User/Role
-            // Staff (3): Only Equipment, Maintenance, Reports
-            if (roleID != 1)
-            {
-                btnUserManagement.Visible = false;
-                btnRoleManagement.Visible = false;
-            }
-            if (roleID == 3)
-            {
-                btnEmployee.Visible = false;
-                btnArea.Visible = false;
-                btnEquipmentType.Visible = false;
-            }
+            // Chỉ còn 2 roles được phép: Admin (AdminLogin) và KyThuatVien (KyThuatVienLogin)
+            // roleID = 1: QuanLyCuaHang (toàn quyền)
+            // roleID = 3: NhanVienKyThuat (quyền hạn chế)
+            // roleID = 0: Sử dụng từ SQL Server login (chỉ 2 loại trên được phép)
+            
+            // Ẩn các button user/role management nếu tồn tại (chỉ admin mới có)
+            var btnUserMgmt = this.Controls.OfType<Button>().FirstOrDefault(b => b.Name == "btnUserManagement");
+            var btnRoleMgmt = this.Controls.OfType<Button>().FirstOrDefault(b => b.Name == "btnRoleManagement");
+            if (btnUserMgmt != null) btnUserMgmt.Visible = false;
+            if (btnRoleMgmt != null) btnRoleMgmt.Visible = false;
+            
+            // Tất cả button khác đều hiện - quyền hạn được kiểm soát ở SQL Server level
+            // Không cần ẩn button nữa vì fallback pattern sẽ xử lý khi không có quyền
         }
 
         // private void btnUserManagement_Click(object sender, EventArgs e)

@@ -10,22 +10,6 @@ USE QuanLyCoSoVatChatDB;
 GO
 
 -- Tạo Các Bảng
--- Bảng Vai Trò
-CREATE TABLE VaiTro (
-    MaVaiTro INT PRIMARY KEY IDENTITY(1,1),
-    TenVaiTro NVARCHAR(50) NOT NULL UNIQUE
-);
-GO
-
--- Bảng Người Dùng
-CREATE TABLE NguoiDung (
-    MaNguoiDung INT PRIMARY KEY IDENTITY(1,1),
-    TenDangNhap NVARCHAR(50) NOT NULL UNIQUE,
-    MatKhauHash NVARCHAR(255) NOT NULL,
-    MaVaiTro INT NOT NULL FOREIGN KEY REFERENCES VaiTro(MaVaiTro),
-    HoatDong BIT NOT NULL DEFAULT 1
-);
-GO
 
 -- Bảng Khu Vực
 CREATE TABLE KhuVuc (
@@ -56,7 +40,7 @@ CREATE TABLE CoSoVatChat (
     Ten NVARCHAR(100) NOT NULL,
     MaLoai INT NOT NULL FOREIGN KEY REFERENCES LoaiCoSoVatChat(MaLoai),
     MaKhuVuc INT NOT NULL FOREIGN KEY REFERENCES KhuVuc(MaKhuVuc),
-    TrangThai NVARCHAR(50) NOT NULL CHECK (TrangThai IN (N'Hoạt Động', N'Đang Bảo Trì', N'Hỏng', N'Ngừng Hoạt Động')),
+    TrangThai NVARCHAR(50) NOT NULL CHECK ( TrangThai IN (N'Hoạt Động', N'Đang Bảo Trì', N'Hỏng', N'Ngừng Hoạt Động')),
     Gia DECIMAL(18,2) NOT NULL
 );
 GO
@@ -69,7 +53,7 @@ CREATE TABLE BaoTriCoSoVatChat (
     NgayBaoTri DATE NOT NULL,
     ChiPhi DECIMAL(18,2) NOT NULL,
     MoTa NVARCHAR(MAX),
-    TrangThai NVARCHAR(50) NOT NULL DEFAULT N'Chưa Hoàn Thành' CHECK (TrangThai IN (N'Chưa Hoàn Thành', N'Hoàn Thành'))
+    TrangThai NVARCHAR(50) NOT NULL DEFAULT N'Chưa Hoàn Thành' CHECK ( TrangThai IN (N'Chưa Hoàn Thành', N'Hoàn Thành'))
 );
 GO
 
@@ -84,113 +68,6 @@ CREATE TABLE NhatKyTrangThaiCoSoVatChat (
 GO
 
 -- Thủ Tục Lưu Trữ (Stored Procedures)
-
--- Vai Trò
-CREATE PROCEDURE sp_ThemVaiTro
-    @TenVaiTro NVARCHAR(50)
-AS
-BEGIN
-    INSERT INTO VaiTro (TenVaiTro) VALUES (@TenVaiTro);
-END;
-GO
-
-CREATE PROCEDURE sp_CapNhatVaiTro
-    @MaVaiTro INT,
-    @TenVaiTro NVARCHAR(50)
-AS
-BEGIN
-    UPDATE VaiTro SET TenVaiTro = @TenVaiTro WHERE MaVaiTro = @MaVaiTro;
-END;
-GO
-
-CREATE PROCEDURE sp_XoaVaiTro
-    @MaVaiTro INT
-AS
-BEGIN
-    DELETE FROM VaiTro WHERE MaVaiTro = @MaVaiTro;
-END;
-GO
-
-CREATE PROCEDURE sp_LayTatCaVaiTro
-AS
-BEGIN
-    SELECT MaVaiTro, TenVaiTro FROM VaiTro;
-END;
-GO
-
-CREATE PROCEDURE sp_LayVaiTroTheoID
-    @MaVaiTro INT
-AS
-BEGIN
-    SELECT MaVaiTro, TenVaiTro FROM VaiTro WHERE MaVaiTro = @MaVaiTro;
-END;
-GO
-
--- Người Dùng
-CREATE PROCEDURE sp_ThemNguoiDung
-    @TenDangNhap NVARCHAR(50),
-    @MatKhauHash NVARCHAR(255),
-    @MaVaiTro INT,
-    @HoatDong BIT
-AS
-BEGIN
-    INSERT INTO NguoiDung (TenDangNhap, MatKhauHash, MaVaiTro, HoatDong) 
-    VALUES (@TenDangNhap, @MatKhauHash, @MaVaiTro, @HoatDong);
-END;
-GO
-
-CREATE PROCEDURE sp_CapNhatNguoiDung
-    @MaNguoiDung INT,
-    @TenDangNhap NVARCHAR(50),
-    @MatKhauHash NVARCHAR(255),
-    @MaVaiTro INT,
-    @HoatDong BIT
-AS
-BEGIN
-    UPDATE NguoiDung 
-    SET TenDangNhap = @TenDangNhap, MatKhauHash = @MatKhauHash, MaVaiTro = @MaVaiTro, HoatDong = @HoatDong 
-    WHERE MaNguoiDung = @MaNguoiDung;
-END;
-GO
-
-CREATE PROCEDURE sp_XoaNguoiDung
-    @MaNguoiDung INT
-AS
-BEGIN
-    DELETE FROM NguoiDung WHERE MaNguoiDung = @MaNguoiDung;
-END;
-GO
-
-CREATE PROCEDURE sp_LayTatCaNguoiDung
-AS
-BEGIN
-    SELECT u.MaNguoiDung, u.TenDangNhap, r.TenVaiTro, u.HoatDong 
-    FROM NguoiDung u 
-    JOIN VaiTro r ON u.MaVaiTro = r.MaVaiTro;
-END;
-GO
-
-CREATE PROCEDURE sp_LayNguoiDungTheoID
-    @MaNguoiDung INT
-AS
-BEGIN
-    SELECT u.MaNguoiDung, u.TenDangNhap, u.HoatDong, r.TenVaiTro 
-    FROM NguoiDung u 
-    JOIN VaiTro r ON u.MaVaiTro = r.MaVaiTro 
-    WHERE u.MaNguoiDung = @MaNguoiDung;
-END;
-GO
-
-CREATE PROCEDURE sp_LayNguoiDungTheoTenDangNhap
-    @TenDangNhap NVARCHAR(50)
-AS
-BEGIN
-    SELECT u.MaNguoiDung, u.TenDangNhap, u.MatKhauHash, u.MaVaiTro, u.HoatDong, r.TenVaiTro 
-    FROM NguoiDung u 
-    JOIN VaiTro r ON u.MaVaiTro = r.MaVaiTro 
-    WHERE u.TenDangNhap = @TenDangNhap;
-END;
-GO
 
 -- Khu Vực
 CREATE PROCEDURE sp_ThemKhuVuc
@@ -581,22 +458,94 @@ BEGIN
 END;
 GO
 
--- Tìm Kiếm (Phiên bản này đã được thay thế bởi phiên bản sau với parameter @TenCoSoVatChat)
-
+-- Tìm Kiếm
 CREATE PROCEDURE sp_TimKiemNhanVienTheoTen
-    @TuKhoa NVARCHAR(255)
+    @TenNhanVien NVARCHAR(255)
 AS
 BEGIN
-    SELECT e.MaNhanVien, e.Ten, e.ChucVu, a.TenKhuVuc 
-    FROM NhanVien e 
-    LEFT JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc 
-    WHERE e.Ten LIKE N'%' + @TuKhoa + N'%' 
-    OR e.ChucVu LIKE N'%' + @TuKhoa + N'%' 
-    OR a.TenKhuVuc LIKE N'%' + @TuKhoa + N'%';
+    SELECT nv.MaNhanVien, nv.Ten, nv.ChucVu, kv.TenKhuVuc
+    FROM NhanVien nv
+    LEFT JOIN KhuVuc kv ON nv.MaKhuVuc = kv.MaKhuVuc
+    WHERE nv.Ten LIKE N'%' + @TenNhanVien + N'%'
+    ORDER BY nv.Ten;
 END;
 GO
 
--- Quản Lý Bảo Trì
+CREATE PROCEDURE sp_TimKiemKhuVucTheoTen
+    @TenKhuVuc NVARCHAR(255)
+AS
+BEGIN
+    SELECT MaKhuVuc, TenKhuVuc
+    FROM KhuVuc
+    WHERE TenKhuVuc LIKE N'%' + @TenKhuVuc + N'%'
+    ORDER BY TenKhuVuc;
+END;
+GO
+
+CREATE PROCEDURE sp_TimKiemLoaiCoSoVatChatTheoTen
+    @TenLoai NVARCHAR(255)
+AS
+BEGIN
+    SELECT MaLoai, TenLoai
+    FROM LoaiCoSoVatChat
+    WHERE TenLoai LIKE N'%' + @TenLoai + N'%'
+    ORDER BY TenLoai;
+END;
+GO
+
+CREATE PROCEDURE sp_TimKiemCoSoVatChatTheoTen
+    @TenCoSoVatChat NVARCHAR(255)
+AS
+BEGIN
+    SELECT csvc.MaCoSoVatChat, csvc.Ten, csvc.MaLoai, lcsvc.TenLoai, csvc.MaKhuVuc, kv.TenKhuVuc, csvc.TrangThai, csvc.Gia
+    FROM CoSoVatChat csvc
+    JOIN LoaiCoSoVatChat lcsvc ON csvc.MaLoai = lcsvc.MaLoai
+    JOIN KhuVuc kv ON csvc.MaKhuVuc = kv.MaKhuVuc
+    WHERE csvc.Ten LIKE N'%' + @TenCoSoVatChat + N'%'
+    ORDER BY csvc.Ten;
+END;
+GO
+
+CREATE PROCEDURE sp_TimKiemBaoTriTheoTenCoSoVatChat
+    @TenCoSoVatChat NVARCHAR(255)
+AS
+BEGIN
+    SELECT bt.MaBaoTri, csvc.Ten AS TenCoSoVatChat, nv.Ten AS TenNhanVien, 
+           bt.NgayBaoTri, bt.ChiPhi, bt.MoTa, bt.TrangThai
+    FROM BaoTriCoSoVatChat bt
+    JOIN CoSoVatChat csvc ON bt.MaCoSoVatChat = csvc.MaCoSoVatChat
+    JOIN NhanVien nv ON bt.MaNhanVien = nv.MaNhanVien
+    WHERE csvc.Ten LIKE N'%' + @TenCoSoVatChat + N'%'
+    ORDER BY bt.NgayBaoTri DESC;
+END;
+GO
+
+CREATE PROCEDURE sp_TimKiemBaoTriTheoTenNhanVien
+    @TenNhanVien NVARCHAR(255)
+AS
+BEGIN
+    SELECT bt.MaBaoTri, csvc.Ten AS TenCoSoVatChat, nv.Ten AS TenNhanVien, 
+           bt.NgayBaoTri, bt.ChiPhi, bt.MoTa, bt.TrangThai
+    FROM BaoTriCoSoVatChat bt
+    JOIN CoSoVatChat csvc ON bt.MaCoSoVatChat = csvc.MaCoSoVatChat
+    JOIN NhanVien nv ON bt.MaNhanVien = nv.MaNhanVien
+    WHERE nv.Ten LIKE N'%' + @TenNhanVien + N'%'
+    ORDER BY bt.NgayBaoTri DESC;
+END;
+GO
+
+CREATE PROCEDURE sp_LayCoSoVatChatBiHong
+AS
+BEGIN
+    SELECT e.MaCoSoVatChat, e.Ten, e.MaLoai, t.TenLoai, e.MaKhuVuc, a.TenKhuVuc, e.TrangThai, e.Gia 
+    FROM CoSoVatChat e 
+    JOIN LoaiCoSoVatChat t ON e.MaLoai = t.MaLoai 
+    JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc 
+    WHERE e.TrangThai = N'Hỏng'
+    ORDER BY e.Ten;
+END;
+GO
+
 CREATE PROCEDURE sp_HoanThanhBaoTri
     @MaBaoTri INT
 AS
@@ -632,21 +581,50 @@ BEGIN
 END;
 GO
 
--- Chèn dữ liệu vào bảng VaiTro
-INSERT INTO VaiTro (TenVaiTro)
-VALUES 
-    (N'Quản Lý Cửa Hàng'),
-    (N'Nhân Viên Bán Hàng'),
-    (N'Kỹ Thuật Viên');
+-- Quản lý phân quyền ở mức server
+
+-- 1. Tạo các login cho người dùng
+CREATE LOGIN AdminLogin WITH PASSWORD = 'StrongPassword123!';
+CREATE LOGIN ThuNganLogin WITH PASSWORD = 'StrongPassword456!';
+CREATE LOGIN KyThuatVienLogin WITH PASSWORD = 'StrongPassword789!';
 GO
 
--- Chèn dữ liệu vào bảng NguoiDung
-INSERT INTO NguoiDung (TenDangNhap, MatKhauHash, MaVaiTro, HoatDong)
-VALUES 
-    (N'admin', N'123', 1, 1), -- Quản Lý
-    (N'nhanvien', N'123', 2, 1), -- Nhân Viên Bán Hàng
-    (N'kythuat1', N'hashed_password_3', 3, 1); -- Kỹ Thuật Viên
+-- 2. Tạo các user trong cơ sở dữ liệu và ánh xạ đến login
+USE QuanLyCoSoVatChatDB;
 GO
+
+CREATE USER AdminUser FOR LOGIN AdminLogin;
+CREATE USER ThuNganUser FOR LOGIN ThuNganLogin;
+CREATE USER KyThuatVienUser FOR LOGIN KyThuatVienLogin;
+GO
+
+-- 3. Tạo các database roles
+CREATE ROLE QuanLyCuaHang;
+CREATE ROLE ThuNgan;
+CREATE ROLE NhanVienKyThuat;
+GO
+
+-- 4. Gán user vào các role
+EXEC sp_addrolemember 'QuanLyCuaHang', 'AdminUser';
+EXEC sp_addrolemember 'ThuNgan', 'ThuNganUser';
+EXEC sp_addrolemember 'NhanVienKyThuat', 'KyThuatVienUser';
+GO
+
+-- 5. Phân quyền cho các role
+
+-- Quyền cho Quản Lý Cửa Hàng (toàn quyền trên tất cả bảng và stored procedures)
+GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::dbo TO QuanLyCuaHang;
+GRANT EXECUTE ON SCHEMA::dbo TO QuanLyCuaHang;
+GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::dbo TO NhanVienKyThuat;
+GRANT EXECUTE ON SCHEMA::dbo TO NhanVienKyThuat;
+GO
+
+-- Thu Ngân KHÔNG được quyền truy cập ứng dụng quản lý cơ sở vật chất
+-- Chỉ có QuanLyCuaHang và NhanVienKyThuat mới được phép đăng nhập vào ứng dụng
+-- Thu Ngân login sẽ bị từ chối ngay từ đầu
+GO
+
+-- Chèn dữ liệu mẫu
 
 -- Chèn dữ liệu vào bảng KhuVuc
 INSERT INTO KhuVuc (TenKhuVuc)
@@ -661,8 +639,8 @@ GO
 INSERT INTO NhanVien (Ten, ChucVu, MaKhuVuc)
 VALUES 
     (N'Nguyễn Thị Mai', N'Quản Lý Cửa Hàng', 4), -- Văn Phòng
-    (N'Trần Văn Hùng', N'Nhân Viên Bán Hàng', 1), -- Quầy Bán Hàng
-    (N'Lê Minh Tuấn', N'Kỹ Thuật Viên', 2); -- Kho Sách
+    (N'Trần Văn Hùng', N'Thu Ngân', 1), -- Quầy Bán Hàng
+    (N'Lê Minh Tuấn', N'Nhân Viên Kỹ Thuật', 2); -- Kho Sách
 GO
 
 -- Chèn dữ liệu vào bảng LoaiCoSoVatChat
@@ -701,127 +679,4 @@ VALUES
     (5, N'Hỏng', '2025-09-17 14:30:00', 3), -- Bàn Gỗ Văn Phòng
     (5, N'Hoạt Động', '2025-09-18 16:00:00', 3), -- Bàn Gỗ sau khi sửa
     (1, N'Hoạt Động', '2025-09-15 15:00:00', 3); -- Kệ Sách Gỗ
-GO
-
--- ============================================
--- STORED PROCEDURES TÌM KIẾM THEO TÊN CƠ BẢN
--- ============================================
-
--- Tìm kiếm Khu Vực theo tên
-CREATE PROCEDURE sp_TimKiemKhuVucTheoTen
-    @TenKhuVuc NVARCHAR(255)
-AS
-BEGIN
-    SELECT MaKhuVuc, TenKhuVuc
-    FROM KhuVuc
-    WHERE TenKhuVuc LIKE N'%' + @TenKhuVuc + N'%'
-    ORDER BY TenKhuVuc;
-END;
-GO
-
--- Tìm kiếm Nhân Viên theo tên
-CREATE PROCEDURE sp_TimKiemNhanVienTheoTen
-    @TenNhanVien NVARCHAR(255)
-AS
-BEGIN
-    SELECT nv.MaNhanVien, nv.Ten, nv.ChucVu, kv.TenKhuVuc
-    FROM NhanVien nv
-    LEFT JOIN KhuVuc kv ON nv.MaKhuVuc = kv.MaKhuVuc
-    WHERE nv.Ten LIKE N'%' + @TenNhanVien + N'%'
-    ORDER BY nv.Ten;
-END;
-GO
-
--- Tìm kiếm Loại Cơ Sở Vật Chất theo tên
-CREATE PROCEDURE sp_TimKiemLoaiCoSoVatChatTheoTen
-    @TenLoai NVARCHAR(255)
-AS
-BEGIN
-    SELECT MaLoai, TenLoai
-    FROM LoaiCoSoVatChat
-    WHERE TenLoai LIKE N'%' + @TenLoai + N'%'
-    ORDER BY TenLoai;
-END;
-GO
-
--- Tìm kiếm Cơ Sở Vật Chất theo tên
-CREATE PROCEDURE sp_TimKiemCoSoVatChatTheoTen
-    @TenCoSoVatChat NVARCHAR(255)
-AS
-BEGIN
-    SELECT csvc.MaCoSoVatChat, csvc.Ten, csvc.MaLoai, lcsvc.TenLoai, csvc.MaKhuVuc, kv.TenKhuVuc, csvc.TrangThai, csvc.Gia
-    FROM CoSoVatChat csvc
-    JOIN LoaiCoSoVatChat lcsvc ON csvc.MaLoai = lcsvc.MaLoai
-    JOIN KhuVuc kv ON csvc.MaKhuVuc = kv.MaKhuVuc
-    WHERE csvc.Ten LIKE N'%' + @TenCoSoVatChat + N'%'
-    ORDER BY csvc.Ten;
-END;
-GO
-
--- Tìm kiếm Bảo Trì theo tên cơ sở vật chất
-CREATE PROCEDURE sp_TimKiemBaoTriTheoTenCoSoVatChat
-    @TenCoSoVatChat NVARCHAR(255)
-AS
-BEGIN
-    SELECT bt.MaBaoTri, csvc.Ten AS TenCoSoVatChat, nv.Ten AS TenNhanVien, 
-           bt.NgayBaoTri, bt.ChiPhi, bt.MoTa, bt.TrangThai
-    FROM BaoTriCoSoVatChat bt
-    JOIN CoSoVatChat csvc ON bt.MaCoSoVatChat = csvc.MaCoSoVatChat
-    JOIN NhanVien nv ON bt.MaNhanVien = nv.MaNhanVien
-    WHERE csvc.Ten LIKE N'%' + @TenCoSoVatChat + N'%'
-    ORDER BY bt.NgayBaoTri DESC;
-END;
-GO
-
--- Tìm kiếm Bảo Trì theo tên nhân viên
-CREATE PROCEDURE sp_TimKiemBaoTriTheoTenNhanVien
-    @TenNhanVien NVARCHAR(255)
-AS
-BEGIN
-    SELECT bt.MaBaoTri, csvc.Ten AS TenCoSoVatChat, nv.Ten AS TenNhanVien, 
-           bt.NgayBaoTri, bt.ChiPhi, bt.MoTa, bt.TrangThai
-    FROM BaoTriCoSoVatChat bt
-    JOIN CoSoVatChat csvc ON bt.MaCoSoVatChat = csvc.MaCoSoVatChat
-    JOIN NhanVien nv ON bt.MaNhanVien = nv.MaNhanVien
-    WHERE nv.Ten LIKE N'%' + @TenNhanVien + N'%'
-    ORDER BY bt.NgayBaoTri DESC;
-END;
-GO
-
--- Tìm kiếm Vai Trò theo tên
-CREATE PROCEDURE sp_TimKiemVaiTroTheoTen
-    @TenVaiTro NVARCHAR(255)
-AS
-BEGIN
-    SELECT MaVaiTro, TenVaiTro
-    FROM VaiTro
-    WHERE TenVaiTro LIKE N'%' + @TenVaiTro + N'%'
-    ORDER BY TenVaiTro;
-END;
-GO
-
--- Tìm kiếm Người Dùng theo tên đăng nhập
-CREATE PROCEDURE sp_TimKiemNguoiDungTheoTenDangNhap
-    @TenDangNhap NVARCHAR(255)
-AS
-BEGIN
-    SELECT nd.MaNguoiDung, nd.TenDangNhap, vt.TenVaiTro, nd.HoatDong
-    FROM NguoiDung nd
-    JOIN VaiTro vt ON nd.MaVaiTro = vt.MaVaiTro
-    WHERE nd.TenDangNhap LIKE N'%' + @TenDangNhap + N'%'
-    ORDER BY nd.TenDangNhap;
-END;
-GO
-
--- Lấy danh sách Cơ Sở Vật Chất bị hỏng
-CREATE PROCEDURE sp_LayCoSoVatChatBiHong
-AS
-BEGIN
-    SELECT e.MaCoSoVatChat, e.Ten, e.MaLoai, t.TenLoai, e.MaKhuVuc, a.TenKhuVuc, e.TrangThai, e.Gia 
-    FROM CoSoVatChat e 
-    JOIN LoaiCoSoVatChat t ON e.MaLoai = t.MaLoai 
-    JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc 
-    WHERE e.TrangThai = N'Hỏng'
-    ORDER BY e.Ten;
-END;
 GO
