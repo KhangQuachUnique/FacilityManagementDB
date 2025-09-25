@@ -365,7 +365,7 @@ GO
 CREATE PROCEDURE sp_LayTatCaCoSoVatChat
 AS
 BEGIN
-    SELECT e.MaCoSoVatChat, e.Ten, t.TenLoai, a.TenKhuVuc, e.TrangThai, e.Gia 
+    SELECT e.MaCoSoVatChat, e.Ten, e.MaLoai, t.TenLoai, e.MaKhuVuc, a.TenKhuVuc, e.TrangThai, e.Gia 
     FROM CoSoVatChat e 
     JOIN LoaiCoSoVatChat t ON e.MaLoai = t.MaLoai 
     JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc;
@@ -378,7 +378,7 @@ CREATE PROCEDURE sp_LayCoSoVatChatTheoBoLoc
     @TrangThai NVARCHAR(50) = NULL
 AS
 BEGIN
-    SELECT e.MaCoSoVatChat, e.Ten, t.TenLoai, a.TenKhuVuc, e.TrangThai, e.Gia 
+    SELECT e.MaCoSoVatChat, e.Ten, e.MaLoai, t.TenLoai, e.MaKhuVuc, a.TenKhuVuc, e.TrangThai, e.Gia 
     FROM CoSoVatChat e 
     JOIN LoaiCoSoVatChat t ON e.MaLoai = t.MaLoai 
     JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc 
@@ -392,7 +392,7 @@ CREATE PROCEDURE sp_LayCoSoVatChatTheoID
     @MaCoSoVatChat INT
 AS
 BEGIN
-    SELECT e.MaCoSoVatChat, e.Ten, t.TenLoai, a.TenKhuVuc, e.TrangThai, e.Gia 
+    SELECT e.MaCoSoVatChat, e.Ten, e.MaLoai, t.TenLoai, e.MaKhuVuc, a.TenKhuVuc, e.TrangThai, e.Gia 
     FROM CoSoVatChat e 
     JOIN LoaiCoSoVatChat t ON e.MaLoai = t.MaLoai 
     JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc 
@@ -643,8 +643,8 @@ GO
 -- Chèn dữ liệu vào bảng NguoiDung
 INSERT INTO NguoiDung (TenDangNhap, MatKhauHash, MaVaiTro, HoatDong)
 VALUES 
-    (N'quanly', N'hashed_password_1', 1, 1), -- Quản Lý
-    (N'nhanvien1', N'hashed_password_2', 2, 1), -- Nhân Viên Bán Hàng
+    (N'admin', N'123', 1, 1), -- Quản Lý
+    (N'nhanvien', N'123', 2, 1), -- Nhân Viên Bán Hàng
     (N'kythuat1', N'hashed_password_3', 3, 1); -- Kỹ Thuật Viên
 GO
 
@@ -749,7 +749,7 @@ CREATE PROCEDURE sp_TimKiemCoSoVatChatTheoTen
     @TenCoSoVatChat NVARCHAR(255)
 AS
 BEGIN
-    SELECT csvc.MaCoSoVatChat, csvc.Ten, lcsvc.TenLoai, kv.TenKhuVuc, csvc.TrangThai, csvc.Gia
+    SELECT csvc.MaCoSoVatChat, csvc.Ten, csvc.MaLoai, lcsvc.TenLoai, csvc.MaKhuVuc, kv.TenKhuVuc, csvc.TrangThai, csvc.Gia
     FROM CoSoVatChat csvc
     JOIN LoaiCoSoVatChat lcsvc ON csvc.MaLoai = lcsvc.MaLoai
     JOIN KhuVuc kv ON csvc.MaKhuVuc = kv.MaKhuVuc
@@ -817,7 +817,7 @@ GO
 CREATE PROCEDURE sp_LayCoSoVatChatBiHong
 AS
 BEGIN
-    SELECT e.MaCoSoVatChat, e.Ten, t.TenLoai, a.TenKhuVuc, e.TrangThai, e.Gia 
+    SELECT e.MaCoSoVatChat, e.Ten, e.MaLoai, t.TenLoai, e.MaKhuVuc, a.TenKhuVuc, e.TrangThai, e.Gia 
     FROM CoSoVatChat e 
     JOIN LoaiCoSoVatChat t ON e.MaLoai = t.MaLoai 
     JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc 

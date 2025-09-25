@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FacilityManagementDB")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ff79ec8b0ceb94a4f002437fc93396c997b38b5a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9d105527b29c8174adb0f8047c81cf2d03aafa77")]
 [assembly: System.Reflection.AssemblyProductAttribute("FacilityManagementDB")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FacilityManagementDB")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
