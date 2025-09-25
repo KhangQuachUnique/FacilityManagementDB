@@ -746,59 +746,232 @@ GO
 -- Thu Ngân login sẽ bị từ chối ngay từ đầu
 GO
 
--- Chèn dữ liệu mẫu
+-- Chèn dữ liệu mẫu mở rộng
 
--- Chèn dữ liệu vào bảng KhuVuc
+-- 1. Chèn dữ liệu vào bảng KhuVuc
+-- Các khu vực trong cửa hàng bán sách offline
 INSERT INTO KhuVuc (TenKhuVuc)
 VALUES 
     (N'Quầy Bán Hàng'),
     (N'Kho Sách'),
     (N'Khu Vực Đọc Sách'),
-    (N'Văn Phòng');
+    (N'Văn Phòng'),
+    (N'Quầy Trưng Bày Sách Mới'),
+    (N'Khu Sách Thiếu Nhi'),
+    (N'Khu Sách Văn Học'),
+    (N'Khu Sách Kỹ Năng'),
+    (N'Khu Cafe Sách'),
+    (N'Khu Sự Kiện');
 GO
 
--- Chèn dữ liệu vào bảng NhanVien
+-- 2. Chèn dữ liệu vào bảng NhanVien
+-- Thêm nhiều nhân viên với các vai trò khác nhau trong cửa hàng
 INSERT INTO NhanVien (Ten, ChucVu, MaKhuVuc)
 VALUES 
     (N'Nguyễn Thị Mai', N'Quản Lý Cửa Hàng', 4), -- Văn Phòng
     (N'Trần Văn Hùng', N'Thu Ngân', 1), -- Quầy Bán Hàng
-    (N'Lê Minh Tuấn', N'Nhân Viên Kỹ Thuật', 2); -- Kho Sách
+    (N'Lê Minh Tuấn', N'Nhân Viên Kỹ Thuật', 2), -- Kho Sách
+    (N'Phạm Thị Lan', N'Thu Ngân', 1), -- Quầy Bán Hàng
+    (N'Hoàng Văn Nam', N'Nhân Viên Kỹ Thuật', 2), -- Kho Sách
+    (N'Nguyễn Văn An', N'Nhân Viên Bán Hàng', 5), -- Quầy Trưng Bày Sách Mới
+    (N'Trần Thị Hoa', N'Nhân Viên Bán Hàng', 6), -- Khu Sách Thiếu Nhi
+    (N'Lê Thị Hồng', N'Nhân Viên Bán Hàng', 7), -- Khu Sách Văn Học
+    (N'Vũ Minh Đức', N'Nhân Viên Bán Hàng', 8), -- Khu Sách Kỹ Năng
+    (N'Đỗ Thị Thảo', N'Nhân Viên Phục Vụ', 9), -- Khu Cafe Sách
+    (N'Nguyễn Quang Huy', N'Nhân Viên Sự Kiện', 10), -- Khu Sự Kiện
+    (N'Phan Thị Ngọc', N'Nhân Viên Bán Hàng', 6), -- Khu Sách Thiếu Nhi
+    (N'Trần Văn Long', N'Nhân Viên Kho', 2), -- Kho Sách
+    (N'Lê Thị Mai Anh', N'Nhân Viên Bán Hàng', 7), -- Khu Sách Văn Học
+    (N'Nguyễn Thị Thu', N'Nhân Viên Phục Vụ', 9), -- Khu Cafe Sách
+    (N'Võ Văn Tâm', N'Nhân Viên Kỹ Thuật', 2), -- Kho Sách
+    (N'Bùi Thị Hương', N'Nhân Viên Bán Hàng', 8), -- Khu Sách Kỹ Năng
+    (N'Đinh Văn Khải', N'Nhân Viên Sự Kiện', 10); -- Khu Sự Kiện
 GO
 
--- Chèn dữ liệu vào bảng LoaiCoSoVatChat
+-- 3. Chèn dữ liệu vào bảng LoaiCoSoVatChat
+-- Các loại cơ sở vật chất trong cửa hàng bán sách
 INSERT INTO LoaiCoSoVatChat (TenLoai)
 VALUES 
     (N'Kệ Sách'),
     (N'Máy Tính'),
     (N'Máy In Hóa Đơn'),
     (N'Đèn Chiếu Sáng'),
-    (N'Bàn Ghế');
+    (N'Bàn Ghế'),
+    (N'Máy Quét Mã Vạch'),
+    (N'Máy Lạnh'),
+    (N'Loa Âm Thanh'),
+    (N'Màn Hình Hiển Thị'),
+    (N'Tủ Kính Trưng Bày'),
+    (N'Máy Pha Cà Phê'),
+    (N'Quạt'),
+    (N'Bảng Hiệu'),
+    (N'Camera An Ninh'),
+    (N'Máy Chiếu');
 GO
 
--- Chèn dữ liệu vào bảng CoSoVatChat
+-- 4. Chèn dữ liệu vào bảng CoSoVatChat
+-- Thêm nhiều cơ sở vật chất ở các khu vực khác nhau
 INSERT INTO CoSoVatChat (Ten, MaLoai, MaKhuVuc, TrangThai, Gia)
 VALUES 
-    (N'Kệ Sách Gỗ Cao Cấp', 1, 3, N'Hoạt Động', 2500000.00), -- Khu Vực Đọc Sách
-    (N'Máy Tính Quầy Thu Ngân', 2, 1, N'Hoạt Động', 12000000.00), -- Quầy Bán Hàng
-    (N'Máy In Hóa Đơn EPSON', 3, 1, N'Đang Bảo Trì', 3500000.00), -- Quầy Bán Hàng
-    (N'Đèn LED Khu Đọc Sách', 4, 3, N'Hoạt Động', 500000.00), -- Khu Vực Đọc Sách
-    (N'Bàn Gỗ Văn Phòng', 5, 4, N'Hỏng', 1500000.00), -- Văn Phòng
-    (N'Kệ Sách Kim Loại', 1, 2, N'Hoạt Động', 1800000.00); -- Kho Sách
+    -- Khu Vực Quầy Bán Hàng (MaKhuVuc = 1)
+    (N'Máy Tính Quầy Thu Ngân 1', 2, 1, N'Hoạt Động', 12000000.00),
+    (N'Máy Tính Quầy Thu Ngân 2', 2, 1, N'Hoạt Động', 12000000.00),
+    (N'Máy In Hóa Đơn EPSON 1', 3, 1, N'Đang Bảo Trì', 3500000.00),
+    (N'Máy In Hóa Đơn EPSON 2', 3, 1, N'Hoạt Động', 3500000.00),
+    (N'Máy Quét Mã Vạch 1', 6, 1, N'Hoạt Động', 1500000.00),
+    (N'Máy Quét Mã Vạch 2', 6, 1, N'Hỏng', 1500000.00),
+    (N'Đèn LED Quầy Bán Hàng', 4, 1, N'Hoạt Động', 500000.00),
+    
+    -- Khu Vực Kho Sách (MaKhuVuc = 2)
+    (N'Kệ Sách Kim Loại 1', 1, 2, N'Hoạt Động', 1800000.00),
+    (N'Kệ Sách Kim Loại 2', 1, 2, N'Hoạt Động', 1800000.00),
+    (N'Kệ Sách Kim Loại 3', 1, 2, N'Hỏng', 1800000.00),
+    (N'Quạt Công Nghiệp Kho', 12, 2, N'Hoạt Động', 800000.00),
+    (N'Camera An Ninh Kho', 14, 2, N'Hoạt Động', 2000000.00),
+    
+    -- Khu Vực Đọc Sách (MaKhuVuc = 3)
+    (N'Kệ Sách Gỗ Cao Cấp 1', 1, 3, N'Hoạt Động', 2500000.00),
+    (N'Kệ Sách Gỗ Cao Cấp 2', 1, 3, N'Hoạt Động', 2500000.00),
+    (N'Bàn Ghế Đọc Sách 1', 5, 3, N'Hoạt Động', 1500000.00),
+    (N'Bàn Ghế Đọc Sách 2', 5, 3, N'Hoạt Động', 1500000.00),
+    (N'Đèn LED Khu Đọc Sách 1', 4, 3, N'Hoạt Động', 500000.00),
+    (N'Đèn LED Khu Đọc Sách 2', 4, 3, N'Hỏng', 500000.00),
+    
+    -- Khu Vực Văn Phòng (MaKhuVuc = 4)
+    (N'Bàn Gỗ Văn Phòng 1', 5, 4, N'Hỏng', 1500000.00),
+    (N'Bàn Gỗ Văn Phòng 2', 5, 4, N'Hoạt Động', 1500000.00),
+    (N'Máy Tính Văn Phòng 1', 2, 4, N'Hoạt Động', 10000000.00),
+    (N'Máy Tính Văn Phòng 2', 2, 4, N'Đang Bảo Trì', 10000000.00),
+    (N'Máy Lạnh Văn Phòng', 7, 4, N'Hoạt Động', 8000000.00),
+    
+    -- Quầy Trưng Bày Sách Mới (MaKhuVuc = 5)
+    (N'Tủ Kính Trưng Bày 1', 10, 5, N'Hoạt Động', 3000000.00),
+    (N'Tủ Kính Trưng Bày 2', 10, 5, N'Hoạt Động', 3000000.00),
+    (N'Đèn LED Trưng Bày', 4, 5, N'Hoạt Động', 600000.00),
+    
+    -- Khu Sách Thiếu Nhi (MaKhuVuc = 6)
+    (N'Kệ Sách Thiếu Nhi 1', 1, 6, N'Hoạt Động', 2000000.00),
+    (N'Kệ Sách Thiếu Nhi 2', 1, 6, N'Hoạt Động', 2000000.00),
+    (N'Bàn Ghế Thiếu Nhi', 5, 6, N'Hoạt Động', 1200000.00),
+    
+    -- Khu Sách Văn Học (MaKhuVuc = 7)
+    (N'Kệ Sách Văn Học 1', 1, 7, N'Hoạt Động', 2200000.00),
+    (N'Kệ Sách Văn Học 2', 1, 7, N'Hoạt Động', 2200000.00),
+    (N'Đèn LED Văn Học', 4, 7, N'Hoạt Động', 500000.00),
+    
+    -- Khu Sách Kỹ Năng (MaKhuVuc = 8)
+    (N'Kệ Sách Kỹ Năng 1', 1, 8, N'Hoạt Động', 2000000.00),
+    (N'Kệ Sách Kỹ Năng 2', 1, 8, N'Hỏng', 2000000.00),
+    
+    -- Khu Cafe Sách (MaKhuVuc = 9)
+    (N'Máy Pha Cà Phê 1', 11, 9, N'Hoạt Động', 15000000.00),
+    (N'Máy Pha Cà Phê 2', 11, 9, N'Đang Bảo Trì', 15000000.00),
+    (N'Bàn Ghế Cafe 1', 5, 9, N'Hoạt Động', 2000000.00),
+    (N'Bàn Ghế Cafe 2', 5, 9, N'Hoạt Động', 2000000.00),
+    (N'Máy Lạnh Cafe', 7, 9, N'Hoạt Động', 9000000.00),
+    
+    -- Khu Sự Kiện (MaKhuVuc = 10)
+    (N'Máy Chiếu Sự Kiện', 15, 10, N'Hoạt Động', 12000000.00),
+    (N'Loa Âm Thanh Sự Kiện', 8, 10, N'Hoạt Động', 3000000.00),
+    (N'Bàn Ghế Sự Kiện 1', 5, 10, N'Hoạt Động', 1500000.00),
+    (N'Bàn Ghế Sự Kiện 2', 5, 10, N'Hỏng', 1500000.00),
+    (N'Bảng Hiệu Sự Kiện', 13, 10, N'Hoạt Động', 1000000.00);
 GO
 
--- Chèn dữ liệu vào bảng BaoTriCoSoVatChat
+-- 5. Chèn dữ liệu vào bảng BaoTriCoSoVatChat
+-- Thêm nhiều bản ghi bảo trì cho các thiết bị
 INSERT INTO BaoTriCoSoVatChat (MaCoSoVatChat, MaNhanVien, NgayBaoTri, ChiPhi, MoTa, TrangThai)
 VALUES 
-    (3, 3, '2025-09-20', 300000.00, N'Sửa lỗi máy in không in được hóa đơn', N'Chưa Hoàn Thành'), -- Máy In Hóa Đơn
-    (5, 3, '2025-09-18', 200000.00, N'Thay chân bàn bị gãy', N'Hoàn Thành'), -- Bàn Gỗ Văn Phòng
-    (1, 3, '2025-09-15', 150000.00, N'Sơn lại kệ sách gỗ', N'Hoàn Thành'); -- Kệ Sách Gỗ
+    -- Bảo trì Máy In Hóa Đơn
+    (3, 3, '2025-09-20', 300000.00, N'Sửa lỗi máy in không in được hóa đơn', N'Chưa Hoàn Thành'),
+    (3, 3, '2025-08-15', 250000.00, N'Thay mực in cho máy in hóa đơn', N'Hoàn Thành'),
+    (4, 3, '2025-09-10', 200000.00, N'Vệ sinh máy in hóa đơn', N'Hoàn Thành'),
+    
+    -- Bảo trì Bàn Gỗ Văn Phòng
+    (19, 5, '2025-09-18', 200000.00, N'Thay chân bàn bị gãy', N'Hoàn Thành'),
+    (19, 5, '2025-08-20', 150000.00, N'Sơn lại mặt bàn', N'Hoàn Thành'),
+    
+    -- Bảo trì Kệ Sách
+    (13, 3, '2025-09-15', 150000.00, N'Sơn lại kệ sách gỗ', N'Hoàn Thành'),
+    (10, 5, '2025-09-22', 300000.00, N'Sửa kệ sách kim loại bị cong', N'Chưa Hoàn Thành'),
+    (28, 3, '2025-09-05', 120000.00, N'Vệ sinh kệ sách thiếu nhi', N'Hoàn Thành'),
+    
+    -- Bảo trì Máy Tính
+    (22, 5, '2025-09-17', 500000.00, N'Cài đặt lại phần mềm máy tính văn phòng', N'Chưa Hoàn Thành'),
+    (1, 3, '2025-09-01', 400000.00, N'Nâng cấp RAM máy tính quầy thu ngân', N'Hoàn Thành'),
+    
+    -- Bảo trì Máy Lạnh
+    (23, 5, '2025-09-12', 600000.00, N'Vệ sinh và nạp gas máy lạnh văn phòng', N'Hoàn Thành'),
+    (40, 3, '2025-09-19', 700000.00, N'Sửa máy lạnh khu cafe', N'Chưa Hoàn Thành'),
+    
+    -- Bảo trì Máy Quét Mã Vạch
+    (6, 3, '2025-09-21', 250000.00, N'Sửa lỗi máy quét mã vạch không nhận diện', N'Chưa Hoàn Thành'),
+    (6, 5, '2025-08-25', 200000.00, N'Thay pin máy quét mã vạch', N'Hoàn Thành'),
+    
+    -- Bảo trì Đèn LED
+    (18, 5, '2025-09-14', 100000.00, N'Thay bóng đèn LED khu đọc sách', N'Hoàn Thành'),
+    (26, 3, '2025-09-11', 120000.00, N'Thay đèn LED trưng bày', N'Hoàn Thành'),
+    
+    -- Bảo trì Máy Pha Cà Phê
+    (36, 5, '2025-09-23', 800000.00, N'Sửa máy pha cà phê khu cafe', N'Chưa Hoàn Thành'),
+    (36, 3, '2025-09-02', 500000.00, N'Vệ sinh máy pha cà phê', N'Hoàn Thành'),
+    
+    -- Bảo trì Máy Chiếu
+    (41, 5, '2025-09-16', 600000.00, N'Sửa lỗi máy chiếu không hiển thị', N'Hoàn Thành'),
+    (41, 3, '2025-08-30', 400000.00, N'Vệ sinh máy chiếu sự kiện', N'Hoàn Thành'),
+    
+    -- Bảo trì Loa Âm Thanh
+    (42, 5, '2025-09-20', 300000.00, N'Sửa loa âm thanh sự kiện bị rè', N'Chưa Hoàn Thành'),
+    (42, 3, '2025-09-05', 200000.00, N'Vệ sinh loa âm thanh', N'Hoàn Thành');
 GO
 
--- Chèn dữ liệu vào bảng NhatKyTrangThaiCoSoVatChat
+-- 6. Chèn dữ liệu vào bảng NhatKyTrangThaiCoSoVatChat
+-- Ghi lại lịch sử thay đổi trạng thái của các cơ sở vật chất
 INSERT INTO NhatKyTrangThaiCoSoVatChat (MaCoSoVatChat, TrangThai, NgayThayDoi, NguoiThayDoi)
 VALUES 
-    (3, N'Đang Bảo Trì', '2025-09-20 10:00:00', 3), -- Máy In Hóa Đơn
-    (5, N'Hỏng', '2025-09-17 14:30:00', 3), -- Bàn Gỗ Văn Phòng
-    (5, N'Hoạt Động', '2025-09-18 16:00:00', 3), -- Bàn Gỗ sau khi sửa
-    (1, N'Hoạt Động', '2025-09-15 15:00:00', 3); -- Kệ Sách Gỗ
+    -- Máy In Hóa Đơn
+    (3, N'Đang Bảo Trì', '2025-09-20 10:00:00', 3),
+    (3, N'Hoạt Động', '2025-08-15 14:00:00', 3),
+    (4, N'Hoạt Động', '2025-09-10 16:00:00', 3),
+    
+    -- Bàn Gỗ Văn Phòng
+    (19, N'Hỏng', '2025-09-17 14:30:00', 5),
+    (19, N'Hoạt Động', '2025-09-18 16:00:00', 5),
+    
+    -- Kệ Sách
+    (10, N'Hỏng', '2025-09-22 09:00:00', 5),
+    (13, N'Hoạt Động', '2025-09-15 15:00:00', 3),
+    (34, N'Hỏng', '2025-09-10 11:00:00', 3),
+    
+    -- Máy Tính
+    (22, N'Đang Bảo Trì', '2025-09-17 13:00:00', 5),
+    (1, N'Hoạt Động', '2025-09-01 17:00:00', 3),
+    
+    -- Máy Lạnh
+    (23, N'Hoạt Động', '2025-09-12 15:00:00', 5),
+    (40, N'Đang Bảo Trì', '2025-09-19 10:00:00', 3),
+    
+    -- Máy Quét Mã Vạch
+    (6, N'Hỏng', '2025-09-21 08:00:00', 3),
+    (6, N'Hoạt Động', '2025-08-25 16:00:00', 5),
+    
+    -- Đèn LED
+    (18, N'Hỏng', '2025-09-13 10:00:00', 5),
+    (18, N'Hoạt Động', '2025-09-14 14:00:00', 5),
+    (26, N'Hoạt Động', '2025-09-11 12:00:00', 3),
+    
+    -- Máy Pha Cà Phê
+    (36, N'Đang Bảo Trì', '2025-09-23 09:00:00', 5),
+    (36, N'Hoạt Động', '2025-09-02 15:00:00', 3),
+    
+    -- Máy Chiếu
+    (41, N'Hoạt Động', '2025-09-16 17:00:00', 5),
+    
+    -- Loa Âm Thanh
+    (42, N'Đang Bảo Trì', '2025-09-20 11:00:00', 5),
+    (42, N'Hoạt Động', '2025-09-05 14:00:00', 3),
+    
+    -- Bàn Ghế Sự Kiện
+    (44, N'Hỏng', '2025-09-15 10:00:00', 3),
+    (44, N'Hoạt Động', '2025-09-10 16:00:00', 3);
 GO

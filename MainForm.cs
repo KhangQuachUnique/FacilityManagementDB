@@ -18,6 +18,7 @@ namespace FacilityManagementSystem
         {
             this.roleID = roleID;
             InitializeComponent();
+            WindowState = FormWindowState.Maximized;       
             // ApplyPermissions();
             // Prepare a tab host area without changing Designer layout of buttons
             EnsureTabHost();
