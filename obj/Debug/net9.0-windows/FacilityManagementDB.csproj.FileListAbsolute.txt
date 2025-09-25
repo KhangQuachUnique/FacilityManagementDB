@@ -67,5 +67,4 @@ D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagemen
 D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementSystem.EquipmentForm.resources
 D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementSystem.EquipmentTypeForm.resources
 D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementSystem.MaintenanceForm.resources
-D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementSystem.ReportsForm.resources
 D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementDB.csproj.GenerateResource.cache

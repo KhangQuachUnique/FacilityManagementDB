@@ -14,6 +14,8 @@ namespace FacilityManagementSystem
         public EquipmentForm()
         {
             InitializeComponent();
+            // Thêm event handler cho DataBindingComplete để áp dụng màu sắc
+            dgvEquipment.DataBindingComplete += DgvEquipment_DataBindingComplete;
             LoadEquipment();
             LoadTypes();
             LoadAreas();
@@ -23,8 +25,8 @@ namespace FacilityManagementSystem
         private void LoadEquipment()
         {
             dtEquipment = DatabaseHelper.ExecuteProcedure("sp_LayTatCaCoSoVatChat");
-            dgvEquipment.DataSource = GetPagedData(dtEquipment, currentPage);
             SetupColumnHeaders();
+            UpdateDataGridView(dtEquipment, currentPage);
         }
 
         private void SetupColumnHeaders()
@@ -76,6 +78,59 @@ namespace FacilityManagementSystem
             }
         }
 
+        /// <summary>
+        /// Áp dụng color coding cho các row theo trạng thái:
+        /// - Hoạt Động: Xanh lá nhạt
+        /// - Đang Bảo Trì: Vàng nhạt  
+        /// - Hỏng: Đỏ nhạt
+        /// - Ngừng Hoạt Động: Xám nhạt
+        /// </summary>
+        private void ApplyStatusColorCoding()
+        {
+            try
+            {
+                foreach (DataGridViewRow row in dgvEquipment.Rows)
+                {
+                    if (row.Cells["TrangThai"]?.Value != null)
+                    {
+                        string status = row.Cells["TrangThai"].Value?.ToString() ?? "";
+                        
+                        switch (status)
+                        {
+                            case "Hoạt Động":
+                                row.DefaultCellStyle.BackColor = System.Drawing.Color.LightGreen;
+                                row.DefaultCellStyle.ForeColor = System.Drawing.Color.DarkGreen;
+                                break;
+                                
+                            case "Đang Bảo Trì":
+                                row.DefaultCellStyle.BackColor = System.Drawing.Color.LightYellow;
+                                row.DefaultCellStyle.ForeColor = System.Drawing.Color.DarkOrange;
+                                break;
+                                
+                            case "Hỏng":
+                                row.DefaultCellStyle.BackColor = System.Drawing.Color.LightCoral;
+                                row.DefaultCellStyle.ForeColor = System.Drawing.Color.DarkRed;
+                                break;
+                                
+                            case "Ngừng Hoạt Động":
+                                row.DefaultCellStyle.BackColor = System.Drawing.Color.LightGray;
+                                row.DefaultCellStyle.ForeColor = System.Drawing.Color.DimGray;
+                                break;
+                                
+                            default:
+                                // Giữ màu mặc định
+                                break;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi áp dụng color coding: {ex.Message}", "Lỗi", 
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
         private DataTable GetPagedData(DataTable? dt, int page)
         {
             if (dt == null) return new DataTable();
@@ -89,12 +144,32 @@ namespace FacilityManagementSystem
             return paged;
         }
 
+        /// <summary>
+        /// Event handler được gọi khi DataGridView hoàn thành data binding
+        /// </summary>
+        private void DgvEquipment_DataBindingComplete(object? sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            ApplyStatusColorCoding();
+        }
+
+        /// <summary>
+        /// Helper method để cập nhật DataSource và áp dụng color coding
+        /// </summary>
+        private void UpdateDataGridView(DataTable? data, int page = 1)
+        {
+            if (data != null)
+            {
+                dgvEquipment.DataSource = GetPagedData(data, page);
+                // Màu sắc sẽ được áp dụng tự động qua event DataBindingComplete
+            }
+        }
+
         private void btnNext_Click(object sender, EventArgs e)
         {
             if (dtEquipment != null && currentPage * pageSize < dtEquipment.Rows.Count)
             {
                 currentPage++;
-                dgvEquipment.DataSource = GetPagedData(dtEquipment, currentPage);
+                UpdateDataGridView(dtEquipment, currentPage);
             }
         }
 
@@ -103,7 +178,7 @@ namespace FacilityManagementSystem
             if (currentPage > 1)
             {
                 currentPage--;
-                dgvEquipment.DataSource = GetPagedData(dtEquipment, currentPage);
+                UpdateDataGridView(dtEquipment, currentPage);
             }
         }
 
@@ -140,7 +215,8 @@ namespace FacilityManagementSystem
                 new SqlParameter("@TrangThai", cmbFilterStatus.SelectedItem ?? (object)DBNull.Value)
             };
             dtEquipment = DatabaseHelper.ExecuteProcedure("sp_LayCoSoVatChatTheoBoLoc", parameters);
-            dgvEquipment.DataSource = GetPagedData(dtEquipment, currentPage = 1);
+            currentPage = 1;
+            UpdateDataGridView(dtEquipment, currentPage);
         }
 
         private void btnResetFilter_Click(object sender, EventArgs e)
@@ -242,9 +318,9 @@ namespace FacilityManagementSystem
             try
             {
                 dtEquipment = DatabaseHelper.SearchEquipmentByName(searchTerm);
-                dgvEquipment.DataSource = GetPagedData(dtEquipment, 1);
-                SetupColumnHeaders();
                 currentPage = 1;
+                UpdateDataGridView(dtEquipment, currentPage);
+                SetupColumnHeaders();
 
                 if (dtEquipment.Rows.Count == 0)
                 {
@@ -271,9 +347,9 @@ namespace FacilityManagementSystem
             try
             {
                 dtEquipment = DatabaseHelper.ExecuteProcedure("sp_LayCoSoVatChatBiHong");
-                dgvEquipment.DataSource = GetPagedData(dtEquipment, 1);
-                SetupColumnHeaders();
                 currentPage = 1;
+                UpdateDataGridView(dtEquipment, currentPage);
+                SetupColumnHeaders();
 
                 if (dtEquipment.Rows.Count == 0)
                 {
@@ -328,9 +404,9 @@ namespace FacilityManagementSystem
             try
             {
                 dtEquipment = DatabaseHelper.SearchEquipmentByName(searchTerm);
-                dgvEquipment.DataSource = GetPagedData(dtEquipment, 1); // Reset về trang đầu
-                SetupColumnHeaders();
                 currentPage = 1;
+                UpdateDataGridView(dtEquipment, currentPage);
+                SetupColumnHeaders();
 
                 if (dtEquipment.Rows.Count == 0)
                 {

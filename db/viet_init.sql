@@ -53,7 +53,7 @@ CREATE TABLE BaoTriCoSoVatChat (
     NgayBaoTri DATE NOT NULL,
     ChiPhi DECIMAL(18,2) NOT NULL,
     MoTa NVARCHAR(MAX),
-    TrangThai NVARCHAR(50) NOT NULL DEFAULT N'Chưa Hoàn Thành' CHECK ( TrangThai IN (N'Chưa Hoàn Thành', N'Hoàn Thành'))
+    TrangThai NVARCHAR(50) NOT NULL DEFAULT N'Chưa Hoàn Thành' CHECK ( TrangThai IN (N'Chưa Hoàn Thành', N'Hoàn Thành', N'Quá Hạn'))
 );
 GO
 

@@ -16,6 +16,8 @@ namespace FacilityManagementSystem
         public MaintenanceForm()
         {
             InitializeComponent();
+            // Thêm event handler cho DataBindingComplete để áp dụng màu sắc
+            dgvMaintenance.DataBindingComplete += DgvMaintenance_DataBindingComplete;
             LoadMaintenance();
             LoadEquipment();
             LoadEmployees();
@@ -24,8 +26,8 @@ namespace FacilityManagementSystem
         private void LoadMaintenance()
         {
             dtMaintenance = DatabaseHelper.ExecuteProcedure("sp_LayTatCaBaoTri");
-            dgvMaintenance.DataSource = GetPagedData(dtMaintenance, currentPage);
             SetupColumnHeaders();
+            UpdateDataGridView(dtMaintenance, currentPage);
         }
 
         private void SetupColumnHeaders()
@@ -98,12 +100,73 @@ namespace FacilityManagementSystem
             return paged;
         }
 
+        /// <summary>
+        /// Áp dụng màu sắc cho các dòng dựa trên trạng thái bảo trì
+        /// </summary>
+        private void ApplyStatusColorCoding()
+        {
+            foreach (DataGridViewRow row in dgvMaintenance.Rows)
+            {
+                if (row.Cells["TrangThai"].Value != null)
+                {
+                    string status = row.Cells["TrangThai"].Value?.ToString()?.Trim() ?? "";
+                    
+                    switch (status.ToLower())
+                    {
+                        case "hoàn thành":
+                            // Xanh lá - Bảo trì đã hoàn thành
+                            row.DefaultCellStyle.BackColor = System.Drawing.Color.LightGreen;
+                            row.DefaultCellStyle.ForeColor = System.Drawing.Color.DarkGreen;
+                            break;
+
+                        case "chưa hoàn thành":
+                            // Vàng - Đang thực hiện bảo trì
+                            row.DefaultCellStyle.BackColor = System.Drawing.Color.LightYellow;
+                            row.DefaultCellStyle.ForeColor = System.Drawing.Color.DarkOrange;
+                            break;
+
+                        case "quá hạn":
+                            // Đỏ - Quá hạn
+                            row.DefaultCellStyle.BackColor = System.Drawing.Color.LightCoral;
+                            row.DefaultCellStyle.ForeColor = System.Drawing.Color.DarkRed;
+                            break;
+                            
+                        default:
+                            // Trắng - Trạng thái khác
+                            row.DefaultCellStyle.BackColor = System.Drawing.Color.White;
+                            row.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
+                            break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Event handler được gọi khi DataGridView hoàn thành data binding
+        /// </summary>
+        private void DgvMaintenance_DataBindingComplete(object? sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            ApplyStatusColorCoding();
+        }
+
+        /// <summary>
+        /// Helper method để cập nhật DataSource và áp dụng color coding
+        /// </summary>
+        private void UpdateDataGridView(DataTable? data, int page = 1)
+        {
+            if (data != null)
+            {
+                dgvMaintenance.DataSource = GetPagedData(data, page);
+                // Màu sắc sẽ được áp dụng tự động qua event DataBindingComplete
+            }
+        }
+
         private void btnNext_Click(object sender, EventArgs e)
         {
             if (dtMaintenance != null && currentPage * pageSize < dtMaintenance.Rows.Count)
             {
                 currentPage++;
-                dgvMaintenance.DataSource = GetPagedData(dtMaintenance, currentPage);
+                UpdateDataGridView(dtMaintenance, currentPage);
             }
         }
 
@@ -112,7 +175,7 @@ namespace FacilityManagementSystem
             if (currentPage > 1)
             {
                 currentPage--;
-                dgvMaintenance.DataSource = GetPagedData(dtMaintenance, currentPage);
+                UpdateDataGridView(dtMaintenance, currentPage);
             }
         }
 
@@ -149,7 +212,8 @@ namespace FacilityManagementSystem
                 new SqlParameter("@NgayKetThuc", dtpEnd.Value.Date)
             };
             dtMaintenance = DatabaseHelper.ExecuteProcedure("sp_LayBaoTriTheoBoLoc", parameters);
-            dgvMaintenance.DataSource = GetPagedData(dtMaintenance, currentPage = 1);
+            currentPage = 1;
+            UpdateDataGridView(dtMaintenance, currentPage);
         }
 
         private void btnResetFilter_Click(object sender, EventArgs e)
@@ -251,9 +315,9 @@ namespace FacilityManagementSystem
             try
             {
                 dtMaintenance = DatabaseHelper.SearchMaintenanceByEquipmentName(equipmentName);
-                dgvMaintenance.DataSource = GetPagedData(dtMaintenance, 1);
-                SetupColumnHeaders();
                 currentPage = 1;
+                UpdateDataGridView(dtMaintenance, currentPage);
+                SetupColumnHeaders();
 
                 if (dtMaintenance.Rows.Count == 0)
                 {
@@ -286,9 +350,9 @@ namespace FacilityManagementSystem
             try
             {
                 dtMaintenance = DatabaseHelper.SearchMaintenanceByEmployeeName(employeeName);
-                dgvMaintenance.DataSource = GetPagedData(dtMaintenance, 1);
-                SetupColumnHeaders();
                 currentPage = 1;
+                UpdateDataGridView(dtMaintenance, currentPage);
+                SetupColumnHeaders();
 
                 if (dtMaintenance.Rows.Count == 0)
                 {
@@ -343,8 +407,8 @@ namespace FacilityManagementSystem
                 if (equipmentResult.Rows.Count > 0)
                 {
                     dtMaintenance = equipmentResult;
-                    dgvMaintenance.DataSource = GetPagedData(dtMaintenance, 1);
                     currentPage = 1;
+                    UpdateDataGridView(dtMaintenance, currentPage);
                     MessageBox.Show($"Tìm thấy {dtMaintenance.Rows.Count} bảo trì cho thiết bị có tên chứa '{searchTerm}'.", 
                                     "Kết Quả Tìm Kiếm", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
@@ -356,8 +420,8 @@ namespace FacilityManagementSystem
                 if (employeeResult.Rows.Count > 0)
                 {
                     dtMaintenance = employeeResult;
-                    dgvMaintenance.DataSource = GetPagedData(dtMaintenance, 1);
                     currentPage = 1;
+                    UpdateDataGridView(dtMaintenance, currentPage);
                     MessageBox.Show($"Tìm thấy {dtMaintenance.Rows.Count} bảo trì được thực hiện bởi nhân viên có tên chứa '{searchTerm}'.", 
                                     "Kết Quả Tìm Kiếm", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
