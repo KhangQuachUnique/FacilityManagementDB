@@ -476,7 +476,8 @@ CREATE PROCEDURE sp_LayBaoTriTheoID
     @MaBaoTri INT
 AS
 BEGIN
-    SELECT m.MaBaoTri, e.Ten AS TenCoSoVatChat, emp.Ten AS TenNhanVien, 
+    SELECT m.MaBaoTri, m.MaCoSoVatChat, m.MaNhanVien,
+           e.Ten AS TenCoSoVatChat, emp.Ten AS TenNhanVien, 
            m.NgayBaoTri, m.ChiPhi, m.MoTa, m.TrangThai 
     FROM BaoTriCoSoVatChat m 
     JOIN CoSoVatChat e ON m.MaCoSoVatChat = e.MaCoSoVatChat 
