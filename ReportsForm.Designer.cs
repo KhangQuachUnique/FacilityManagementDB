@@ -172,7 +172,7 @@ namespace FacilityManagementSystem
             btnNeedingMaintenance.Name = "btnNeedingMaintenance";
             btnNeedingMaintenance.Size = new Size(200, 35);
             btnNeedingMaintenance.TabIndex = 11;
-            btnNeedingMaintenance.Text = "Xem Cần Bảo Trì";
+            btnNeedingMaintenance.Text = "Xem CSVC Bị Hỏng";
             btnNeedingMaintenance.UseVisualStyleBackColor = true;
             btnNeedingMaintenance.Click += btnNeedingMaintenance_Click;
             // 

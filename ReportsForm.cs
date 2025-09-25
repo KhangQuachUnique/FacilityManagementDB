@@ -62,9 +62,21 @@ namespace FacilityManagementSystem
 
         private void btnNeedingMaintenance_Click(object sender, EventArgs e)
         {
-            // Vì schema mới không có LastMaintenanceDate, ta sẽ tạo báo cáo tổng số cơ sở vật chất
-            DataTable dt = DatabaseHelper.ExecuteProcedure("sp_LayTatCaCoSoVatChat");
+            // Hiển thị danh sách các cơ sở vật chất bị hỏng
+            DataTable dt = DatabaseHelper.ExecuteProcedure("sp_LayCoSoVatChatBiHong");
             dgvNeedingMaintenance.DataSource = dt;
+            
+            // Cập nhật tiêu đề hoặc thông báo
+            if (dt.Rows.Count == 0)
+            {
+                MessageBox.Show("Không có cơ sở vật chất nào bị hỏng.", "Thông Báo", 
+                               MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show($"Tìm thấy {dt.Rows.Count} cơ sở vật chất bị hỏng cần sửa chữa.", 
+                               "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }

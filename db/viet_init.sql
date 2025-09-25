@@ -812,3 +812,16 @@ BEGIN
     ORDER BY nd.TenDangNhap;
 END;
 GO
+
+-- Lấy danh sách Cơ Sở Vật Chất bị hỏng
+CREATE PROCEDURE sp_LayCoSoVatChatBiHong
+AS
+BEGIN
+    SELECT e.MaCoSoVatChat, e.Ten, t.TenLoai, a.TenKhuVuc, e.TrangThai, e.Gia 
+    FROM CoSoVatChat e 
+    JOIN LoaiCoSoVatChat t ON e.MaLoai = t.MaLoai 
+    JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc 
+    WHERE e.TrangThai = N'Hỏng'
+    ORDER BY e.Ten;
+END;
+GO

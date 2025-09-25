@@ -261,6 +261,35 @@ namespace FacilityManagementSystem
             }
         }
 
+        /// <summary>
+        /// Hiển thị danh sách cơ sở vật chất bị hỏng (gọi từ các form khác)
+        /// </summary>
+        public void SearchBrokenEquipment()
+        {
+            try
+            {
+                dtEquipment = DatabaseHelper.ExecuteProcedure("sp_LayCoSoVatChatBiHong");
+                dgvEquipment.DataSource = GetPagedData(dtEquipment, 1);
+                SetupColumnHeaders();
+                currentPage = 1;
+
+                if (dtEquipment.Rows.Count == 0)
+                {
+                    MessageBox.Show("Không có cơ sở vật chất nào bị hỏng.", 
+                                    "Không Tìm Thấy", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"Tìm thấy {dtEquipment.Rows.Count} cơ sở vật chất bị hỏng cần sửa chữa.", 
+                                    "Kết Quả Tìm Kiếm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         // ============================================
         // CÁC PHƯƠNG THỨC TÌM KIẾM UI
         // ============================================
