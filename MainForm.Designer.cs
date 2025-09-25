@@ -117,9 +117,9 @@ namespace FacilityManagementSystem
             this.btnReports.Name = "btnReports";
             this.btnReports.Size = new System.Drawing.Size(150, 23);
             this.btnReports.TabIndex = 7;
-            this.btnReports.Text = "Báo Cáo";
+            this.btnReports.Text = "📊 Báo Cáo";
             this.btnReports.UseVisualStyleBackColor = true;
-            // Event handler removed - Reports functionality disabled
+            this.btnReports.Click += new System.EventHandler(this.btnReports_Click);
             // 
             // btnSearch
             // 

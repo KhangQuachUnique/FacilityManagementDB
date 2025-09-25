@@ -363,39 +363,161 @@ BEGIN
 END;
 GO
 
--- Báo Cáo
-CREATE PROCEDURE sp_BaoCaoChiPhiBaoTriTheoThangNam
+-- =======================================================
+-- STORED PROCEDURES CHO BÁO CÁO
+-- =======================================================
+
+-- 1. Báo cáo chi phí bảo trì theo tháng (chi tiết)
+CREATE PROCEDURE sp_BaoCaoChiPhiBaoTriTheoThang
     @Thang INT,
     @Nam INT
 AS
 BEGIN
-    SELECT SUM(ChiPhi) AS TongChiPhi 
-    FROM BaoTriCoSoVatChat 
-    WHERE MONTH(NgayBaoTri) = @Thang AND YEAR(NgayBaoTri) = @Nam;
+    SELECT 
+        c.Ten AS TenCoSoVatChat,
+        kv.TenKhuVuc,
+        bt.NgayBaoTri,
+        bt.ChiPhi,
+        nv.Ten AS TenNhanVien,
+        bt.MoTa,
+        bt.TrangThai
+    FROM BaoTriCoSoVatChat bt
+    INNER JOIN CoSoVatChat c ON bt.MaCoSoVatChat = c.MaCoSoVatChat
+    INNER JOIN KhuVuc kv ON c.MaKhuVuc = kv.MaKhuVuc
+    INNER JOIN NhanVien nv ON bt.MaNhanVien = nv.MaNhanVien
+    WHERE MONTH(bt.NgayBaoTri) = @Thang 
+      AND YEAR(bt.NgayBaoTri) = @Nam
+    ORDER BY bt.NgayBaoTri DESC, bt.ChiPhi DESC;
 END;
 GO
 
-CREATE PROCEDURE sp_BaoCaoGiaTriCoSoVatChatTheoKhuVuc
+-- 2. Báo cáo thiết bị theo trạng thái
+CREATE PROCEDURE sp_BaoCaoThietBiTheoTrangThai
+AS
+BEGIN
+    SELECT 
+        TrangThai,
+        COUNT(*) AS SoLuong
+    FROM CoSoVatChat
+    GROUP BY TrangThai
+    ORDER BY TrangThai;
+END;
+GO
+
+-- 3. Báo cáo giá trị tài sản theo khu vực (chi tiết từng thiết bị)
+CREATE PROCEDURE sp_BaoCaoGiaTriTaiSanTheoKhuVuc
     @MaKhuVuc INT
 AS
 BEGIN
-    SELECT a.TenKhuVuc, SUM(e.Gia) AS TongGiaTri 
-    FROM CoSoVatChat e 
-    JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc 
-    WHERE e.MaKhuVuc = @MaKhuVuc 
-    GROUP BY a.TenKhuVuc;
+    SELECT 
+        c.Ten AS TenCoSoVatChat,
+        l.TenLoai,
+        c.TrangThai,
+        c.Gia
+    FROM CoSoVatChat c
+    INNER JOIN LoaiCoSoVatChat l ON c.MaLoai = l.MaLoai
+    WHERE c.MaKhuVuc = @MaKhuVuc
+    ORDER BY c.Gia DESC, c.Ten;
 END;
 GO
 
-CREATE PROCEDURE sp_BaoCaoGiaTriCoSoVatChatTheoLoai
-    @MaLoai INT
+-- 4. Báo cáo thiết bị cần bảo trì
+CREATE PROCEDURE sp_BaoCaoThietBiCanBaoTri
+AS  
+BEGIN
+    SELECT 
+        c.Ten AS TenCoSoVatChat,
+        kv.TenKhuVuc,
+        l.TenLoai,
+        c.TrangThai,
+        c.Gia,
+        -- Lấy ngày bảo trì gần nhất (nếu có)
+        (SELECT TOP 1 bt1.NgayBaoTri 
+         FROM BaoTriCoSoVatChat bt1 
+         WHERE bt1.MaCoSoVatChat = c.MaCoSoVatChat 
+         ORDER BY bt1.NgayBaoTri DESC) AS NgayBaoTri,
+        -- Lấy trạng thái bảo trì gần nhất (nếu có)
+        (SELECT TOP 1 bt2.TrangThai 
+         FROM BaoTriCoSoVatChat bt2 
+         WHERE bt2.MaCoSoVatChat = c.MaCoSoVatChat 
+         ORDER BY bt2.NgayBaoTri DESC) AS TrangThaiBaoTri,
+        -- Thêm cột cho ORDER BY
+        CASE c.TrangThai 
+            WHEN N'Hỏng' THEN 1 
+            WHEN N'Đang Bảo Trì' THEN 2 
+            ELSE 3 
+        END AS ThuTuUuTien
+    FROM CoSoVatChat c
+    INNER JOIN KhuVuc kv ON c.MaKhuVuc = kv.MaKhuVuc
+    INNER JOIN LoaiCoSoVatChat l ON c.MaLoai = l.MaLoai
+    WHERE c.TrangThai IN (N'Hỏng', N'Đang Bảo Trì')
+       OR EXISTS (
+           SELECT 1 FROM BaoTriCoSoVatChat bt3 
+           WHERE bt3.MaCoSoVatChat = c.MaCoSoVatChat 
+             AND bt3.TrangThai = N'Chưa Hoàn Thành'
+       )
+    ORDER BY ThuTuUuTien, c.Gia DESC;
+END;
+GO
+
+-- 5. Thống kê tổng quan hệ thống
+CREATE PROCEDURE sp_ThongKeTongQuan
 AS
 BEGIN
-    SELECT t.TenLoai, SUM(e.Gia) AS TongGiaTri 
-    FROM CoSoVatChat e 
-    JOIN LoaiCoSoVatChat t ON e.MaLoai = t.MaLoai 
-    WHERE e.MaLoai = @MaLoai 
-    GROUP BY t.TenLoai;
+    SELECT 
+        'Thiết Bị' AS LoaiThongKe,
+        COUNT(*) AS TongSo,
+        SUM(Gia) AS TongGiaTri
+    FROM CoSoVatChat
+    
+    UNION ALL
+    
+    SELECT 
+        'Khu Vực' AS LoaiThongKe,
+        COUNT(*) AS TongSo,
+        0 AS TongGiaTri
+    FROM KhuVuc
+    
+    UNION ALL
+    
+    SELECT 
+        'Nhân Viên' AS LoaiThongKe,
+        COUNT(*) AS TongSo,
+        0 AS TongGiaTri
+    FROM NhanVien
+    
+    UNION ALL
+    
+    SELECT 
+        'Bảo Trì Tháng Này' AS LoaiThongKe,
+        COUNT(*) AS TongSo,
+        SUM(ChiPhi) AS TongGiaTri
+    FROM BaoTriCoSoVatChat
+    WHERE MONTH(NgayBaoTri) = MONTH(GETDATE()) 
+      AND YEAR(NgayBaoTri) = YEAR(GETDATE());
+END;
+GO
+
+-- 6. Top thiết bị chi phí bảo trì cao nhất
+CREATE PROCEDURE sp_TopThietBiChiPhiBaoTriCao
+    @SoLuong INT = 10
+AS
+BEGIN
+    SELECT TOP (@SoLuong)
+        c.Ten AS TenCoSoVatChat,
+        kv.TenKhuVuc,
+        l.TenLoai,
+        c.TrangThai,
+        SUM(bt.ChiPhi) AS TongChiPhiBaoTri,
+        COUNT(bt.MaBaoTri) AS SoLanBaoTri,
+        AVG(bt.ChiPhi) AS ChiPhiTrungBinh,
+        MAX(bt.NgayBaoTri) AS LanBaoTriGanNhat
+    FROM CoSoVatChat c
+    INNER JOIN KhuVuc kv ON c.MaKhuVuc = kv.MaKhuVuc
+    INNER JOIN LoaiCoSoVatChat l ON c.MaLoai = l.MaLoai
+    INNER JOIN BaoTriCoSoVatChat bt ON c.MaCoSoVatChat = bt.MaCoSoVatChat
+    GROUP BY c.MaCoSoVatChat, c.Ten, kv.TenKhuVuc, l.TenLoai, c.TrangThai
+    ORDER BY TongChiPhiBaoTri DESC;
 END;
 GO
 

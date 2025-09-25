@@ -119,6 +119,11 @@ namespace FacilityManagementSystem
             OpenInTab("Maintenance", () => new MaintenanceForm());
         }
 
+        private void btnReports_Click(object sender, EventArgs e)
+        {
+            OpenInTab("Reports", () => new ReportsForm());
+        }
+
         // ============================================
         // CHỨC NĂNG TÌM KIẾM
         // ============================================
