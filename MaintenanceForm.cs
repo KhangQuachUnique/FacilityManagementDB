@@ -4,6 +4,7 @@ using System;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace FacilityManagementSystem
 {
@@ -11,12 +12,18 @@ namespace FacilityManagementSystem
     {
         private DataTable? dtMaintenance;
         private int currentPage = 1;
-        private const int pageSize = 50;
+        private const int pageSize = 15;
+
+        private TableLayoutPanel? layout;
+        private FlowLayoutPanel? topPanel;
+        private FlowLayoutPanel? bottomPanel;
+        private Label? lblPageInfo;
 
         public MaintenanceForm()
         {
             InitializeComponent();
             ConfigureUI();
+            BuildBasicLayout();
             // Thêm event handler cho DataBindingComplete để áp dụng màu sắc
             dgvMaintenance.DataBindingComplete += DgvMaintenance_DataBindingComplete;
             LoadMaintenance();
@@ -26,28 +33,69 @@ namespace FacilityManagementSystem
         
         private void ConfigureUI()
         {
-            UIHelper.ConfigureForm(this);
-            UIHelper.ConfigureDataGridView(dgvMaintenance);
-            
-            // Configure buttons
-            UIHelper.ConfigureButton(btnAdd, true);
-            UIHelper.ConfigureButton(btnUpdate);
-            UIHelper.ConfigureButton(btnDelete);
-            UIHelper.ConfigureButton(btnFilter);
-            UIHelper.ConfigureButton(btnResetFilter);
-            UIHelper.ConfigureButton(btnNext);
-            UIHelper.ConfigureButton(btnPrev);
-            
-            // Configure other controls
-            foreach (Control control in this.Controls)
+            this.BackColor = Color.WhiteSmoke;
+            this.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
+            this.StartPosition = FormStartPosition.CenterScreen;
+
+            dgvMaintenance.BackgroundColor = Color.White;
+            dgvMaintenance.BorderStyle = BorderStyle.Fixed3D;
+            dgvMaintenance.ReadOnly = true;
+            dgvMaintenance.AllowUserToAddRows = false;
+            dgvMaintenance.AllowUserToDeleteRows = false;
+            dgvMaintenance.MultiSelect = false;
+            dgvMaintenance.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvMaintenance.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvMaintenance.RowTemplate.Height = 28;
+            dgvMaintenance.Dock = DockStyle.Fill;
+
+            foreach (var btn in new[] { btnAdd, btnUpdate, btnDelete, btnFilter, btnResetFilter, btnNext, btnPrev })
             {
-                if (control is TextBox txt)
-                    UIHelper.ConfigureTextBox(txt);
-                else if (control is ComboBox cmb)
-                    UIHelper.ConfigureComboBox(cmb);
-                else if (control is Label lbl)
-                    UIHelper.ConfigureLabel(lbl);
+                btn.Height = 32;
             }
+        }
+
+        private void BuildBasicLayout()
+        {
+            layout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 3,
+            };
+            layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+            topPanel = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = true,
+                AutoSize = true,
+                Padding = new Padding(10),
+            };
+            // Assuming designer contains filter controls: labels and combos/datepickers and buttons
+            topPanel.Controls.AddRange(new Control[] { cmbFilterEquipment, cmbFilterEmployee, dtpStart, dtpEnd, btnFilter, btnResetFilter });
+
+            bottomPanel = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = true,
+                AutoSize = true,
+                Padding = new Padding(10),
+            };
+            lblPageInfo = new Label { AutoSize = true, Margin = new Padding(10, 8, 10, 0) };
+            bottomPanel.Controls.AddRange(new Control[] { btnAdd, btnUpdate, btnDelete, btnPrev, btnNext, lblPageInfo });
+
+            foreach (Control c in new Control[] { dgvMaintenance, cmbFilterEquipment, cmbFilterEmployee, dtpStart, dtpEnd, btnFilter, btnResetFilter, btnAdd, btnUpdate, btnDelete, btnPrev, btnNext })
+            {
+                this.Controls.Remove(c);
+            }
+            layout.Controls.Add(topPanel, 0, 0);
+            layout.Controls.Add(dgvMaintenance, 0, 1);
+            layout.Controls.Add(bottomPanel, 0, 2);
+            this.Controls.Add(layout);
         }
 
         private void LoadMaintenance()
@@ -55,6 +103,7 @@ namespace FacilityManagementSystem
             dtMaintenance = DatabaseHelper.ExecuteProcedure("sp_LayTatCaBaoTri");
             SetupColumnHeaders();
             UpdateDataGridView(dtMaintenance, currentPage);
+            UpdatePagingInfo();
         }
 
         private void SetupColumnHeaders()
@@ -185,6 +234,7 @@ namespace FacilityManagementSystem
             {
                 dgvMaintenance.DataSource = GetPagedData(data, page);
                 // Màu sắc sẽ được áp dụng tự động qua event DataBindingComplete
+                UpdatePagingInfo();
             }
         }
 
@@ -345,6 +395,7 @@ namespace FacilityManagementSystem
                 currentPage = 1;
                 UpdateDataGridView(dtMaintenance, currentPage);
                 SetupColumnHeaders();
+                UpdatePagingInfo();
 
                 if (dtMaintenance.Rows.Count == 0)
                 {
@@ -380,6 +431,7 @@ namespace FacilityManagementSystem
                 currentPage = 1;
                 UpdateDataGridView(dtMaintenance, currentPage);
                 SetupColumnHeaders();
+                UpdatePagingInfo();
 
                 if (dtMaintenance.Rows.Count == 0)
                 {
@@ -462,6 +514,24 @@ namespace FacilityManagementSystem
             {
                 MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void UpdatePagingInfo()
+        {
+            if (dtMaintenance == null)
+            {
+                if (lblPageInfo != null) lblPageInfo.Text = string.Empty;
+                btnPrev.Enabled = btnNext.Enabled = false;
+                return;
+            }
+            int total = dtMaintenance.Rows.Count;
+            int totalPages = Math.Max(1, (int)Math.Ceiling(total / (double)pageSize));
+            int start = total == 0 ? 0 : (currentPage - 1) * pageSize + 1;
+            int end = Math.Min(currentPage * pageSize, total);
+            if (lblPageInfo != null)
+                lblPageInfo.Text = $"Hiển thị {start}-{end}/{total} (Trang {currentPage}/{totalPages})";
+            btnPrev.Enabled = currentPage > 1;
+            btnNext.Enabled = currentPage < totalPages;
         }
     }
 }

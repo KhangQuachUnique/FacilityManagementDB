@@ -12,7 +12,13 @@ namespace FacilityManagementSystem
         public MaintenanceEditForm(int? maintenanceID = null)
         {
             InitializeComponent();
-            UIHelper.ConfigureDialog(this);
+            // Basic dialog config (replacing UIHelper.ConfigureDialog)
+            this.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.StartPosition = FormStartPosition.CenterParent;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             
             this.maintenanceID = maintenanceID;
             LoadEquipment();

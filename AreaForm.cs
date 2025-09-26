@@ -4,6 +4,7 @@ using System;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace FacilityManagementSystem
 {
@@ -11,31 +12,138 @@ namespace FacilityManagementSystem
     {
         private DataTable? dtAreas;
         private int currentPage = 1;
-        private const int pageSize = 50;
+        private const int pageSize = 15;
+
+        // Runtime-only UI elements
+        private TableLayoutPanel? layout;
+        private FlowLayoutPanel? topPanel;
+        private FlowLayoutPanel? bottomPanel;
+        private Label? lblPageInfo;
 
         public AreaForm()
         {
             InitializeComponent();
             ConfigureUI();
+            BuildBasicLayout();
             LoadAreas();
         }
         
         private void ConfigureUI()
         {
-            UIHelper.ConfigureForm(this);
-            UIHelper.ConfigureDataGridView(dgvAreas);
-            UIHelper.ConfigureButton(btnAdd, true);
-            UIHelper.ConfigureButton(btnUpdate);
-            UIHelper.ConfigureButton(btnDelete);
-            UIHelper.ConfigureButton(btnSearch);
-            UIHelper.ConfigureButton(btnClearSearch);
-            UIHelper.ConfigureButton(btnNext);
-            UIHelper.ConfigureButton(btnPrev);
-            UIHelper.ConfigureTextBox(txtAreaName);
-            UIHelper.ConfigureTextBox(txtSearch);
-            UIHelper.ConfigureLabel(label1, true);
-            UIHelper.ConfigureLabel(lblSearch);
-            UIHelper.ConfigureLabel(lblAreaNameValue);
+            // Form basics
+            this.BackColor = Color.WhiteSmoke;
+            this.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
+            this.StartPosition = FormStartPosition.CenterScreen;
+
+            // DataGridView basic config
+            dgvAreas.BackgroundColor = Color.White;
+            dgvAreas.BorderStyle = BorderStyle.Fixed3D;
+            dgvAreas.ReadOnly = true;
+            dgvAreas.AllowUserToAddRows = false;
+            dgvAreas.AllowUserToDeleteRows = false;
+            dgvAreas.MultiSelect = false;
+            dgvAreas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvAreas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvAreas.RowTemplate.Height = 28;
+            dgvAreas.Dock = DockStyle.Fill;
+
+            // Buttons basic size
+            foreach (var btn in new[] { btnAdd, btnUpdate, btnDelete, btnSearch, btnClearSearch, btnNext, btnPrev })
+            {
+                btn.Height = 32;
+            }
+            // Inputs
+            txtSearch.Height = 28;
+            txtAreaName.Height = 28;
+        }
+
+        private void BuildBasicLayout()
+        {
+            // Remove ALL current controls and rebuild brand new, minimal UI
+            this.Controls.Clear();
+
+            // Create new instances and assign to existing fields to keep code-behind working
+            lblSearch = new Label { Text = "Tìm Kiếm:", AutoSize = true };
+            txtSearch = new TextBox { Width = 300 };
+            btnSearch = new Button { Text = "Tìm Kiếm", Height = 32, Width = 100 };
+            btnClearSearch = new Button { Text = "Xóa Tìm", Height = 32, Width = 100 };
+            btnSearch.Click += btnSearch_Click;
+            btnClearSearch.Click += btnClearSearch_Click;
+            txtSearch.KeyDown += txtSearch_KeyDown;
+
+            dgvAreas = new DataGridView();
+            dgvAreas.ReadOnly = true;
+            dgvAreas.AllowUserToAddRows = false;
+            dgvAreas.AllowUserToDeleteRows = false;
+            dgvAreas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvAreas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvAreas.RowTemplate.Height = 28;
+            dgvAreas.Dock = DockStyle.Fill;
+            dgvAreas.SelectionChanged += dgvAreas_SelectionChanged;
+
+            label1 = new Label { Text = "Tên Khu Vực:", AutoSize = true };
+            lblAreaNameValue = new Label
+            {
+                BorderStyle = BorderStyle.FixedSingle,
+                AutoSize = false,
+                Width = 300,
+                Height = 27,
+                TextAlign = ContentAlignment.MiddleLeft
+            };
+
+            btnAdd = new Button { Text = "Thêm", Height = 32, Width = 100 };
+            btnUpdate = new Button { Text = "Cập Nhật", Height = 32, Width = 100 };
+            btnDelete = new Button { Text = "Xóa", Height = 32, Width = 100 };
+            btnPrev = new Button { Text = "Trước", Height = 32, Width = 100 };
+            btnNext = new Button { Text = "Tiếp", Height = 32, Width = 100 };
+            btnAdd.Click += btnAdd_Click;
+            btnUpdate.Click += btnUpdate_Click;
+            btnDelete.Click += btnDelete_Click;
+            btnPrev.Click += btnPrev_Click;
+            btnNext.Click += btnNext_Click;
+
+            lblPageInfo = new Label { AutoSize = true, Margin = new Padding(10, 8, 10, 0) };
+
+            // Compose layout
+            layout = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 3 };
+            layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+            topPanel = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = true,
+                AutoSize = true,
+                Padding = new Padding(10)
+            };
+            topPanel.Controls.Add(lblSearch);
+            topPanel.Controls.Add(txtSearch);
+            topPanel.Controls.Add(btnSearch);
+            topPanel.Controls.Add(btnClearSearch);
+
+            bottomPanel = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = true,
+                AutoSize = true,
+                Padding = new Padding(10)
+            };
+            bottomPanel.Controls.Add(label1);
+            bottomPanel.Controls.Add(lblAreaNameValue);
+            bottomPanel.Controls.Add(btnAdd);
+            bottomPanel.Controls.Add(btnUpdate);
+            bottomPanel.Controls.Add(btnDelete);
+            bottomPanel.Controls.Add(btnPrev);
+            bottomPanel.Controls.Add(btnNext);
+            bottomPanel.Controls.Add(lblPageInfo);
+
+            layout.Controls.Add(topPanel, 0, 0);
+            layout.Controls.Add(dgvAreas, 0, 1);
+            layout.Controls.Add(bottomPanel, 0, 2);
+            this.Controls.Add(layout);
         }
 
         private void LoadAreas()
@@ -47,6 +155,7 @@ namespace FacilityManagementSystem
                 {
                     dgvAreas.DataSource = GetPagedData(dtAreas, currentPage);
                     SetupColumnHeaders();
+                    UpdatePagingInfo();
                 }
                 else
                 {
@@ -109,6 +218,7 @@ namespace FacilityManagementSystem
             {
                 currentPage++;
                 dgvAreas.DataSource = GetPagedData(dtAreas, currentPage);
+                UpdatePagingInfo();
             }
         }
 
@@ -118,6 +228,7 @@ namespace FacilityManagementSystem
             {
                 currentPage--;
                 dgvAreas.DataSource = GetPagedData(dtAreas, currentPage);
+                UpdatePagingInfo();
             }
         }
 
@@ -213,6 +324,7 @@ namespace FacilityManagementSystem
                 dgvAreas.DataSource = GetPagedData(dtAreas, 1); // Reset về trang đầu
                 SetupColumnHeaders();
                 currentPage = 1;
+                UpdatePagingInfo();
 
                 if (dtAreas.Rows.Count == 0)
                 {
@@ -224,6 +336,26 @@ namespace FacilityManagementSystem
             {
                 MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void UpdatePagingInfo()
+        {
+            if (dtAreas == null)
+            {
+                if (lblPageInfo != null) lblPageInfo.Text = "";
+                btnPrev.Enabled = btnNext.Enabled = false;
+                return;
+            }
+            int total = dtAreas.Rows.Count;
+            int totalPages = Math.Max(1, (int)Math.Ceiling(total / (double)pageSize));
+            if (lblPageInfo != null)
+            {
+                int start = total == 0 ? 0 : (currentPage - 1) * pageSize + 1;
+                int end = Math.Min(currentPage * pageSize, total);
+                lblPageInfo.Text = $"Hiển thị {start}-{end}/{total} (Trang {currentPage}/{totalPages})";
+            }
+            btnPrev.Enabled = currentPage > 1;
+            btnNext.Enabled = currentPage < totalPages;
         }
     }
 }

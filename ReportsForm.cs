@@ -13,40 +13,132 @@ namespace FacilityManagementSystem
         private DataTable? dtAssetValue;
         private DataTable? dtMaintenanceNeeded;
 
+        // Paging
+        private const int pageSize = 15;
+        private int pageMaintenanceCost = 1;
+        private int pageAssetValue = 1;
+        private int pageMaintenanceNeeded = 1;
+
+        private FlowLayoutPanel? pagerMaintenanceCost;
+        private FlowLayoutPanel? pagerAssetValue;
+        private FlowLayoutPanel? pagerMaintenanceNeeded;
+        private Label? lblPageInfoMaintenanceCost;
+        private Label? lblPageInfoAssetValue;
+        private Label? lblPageInfoMaintenanceNeeded;
+        private Button? btnPrevMaintenanceCost;
+        private Button? btnNextMaintenanceCost;
+        private Button? btnPrevAssetValue;
+        private Button? btnNextAssetValue;
+        private Button? btnPrevMaintenanceNeeded;
+        private Button? btnNextMaintenanceNeeded;
+
         public ReportsForm()
         {
             InitializeComponent();
             ConfigureUI();
+            BuildPagers();
         }
         
         private void ConfigureUI()
         {
-            UIHelper.ConfigureForm(this);
-            
-            // Configure all DataGridViews
-            UIHelper.ConfigureDataGridView(dgvMaintenanceCost);
-            UIHelper.ConfigureDataGridView(dgvAssetValue);
-            UIHelper.ConfigureDataGridView(dgvMaintenanceNeeded);
-            
-            // Configure buttons
-            UIHelper.ConfigureButton(btnViewMaintenanceCost, true);
-            UIHelper.ConfigureButton(btnRefreshStatus, true);
-            UIHelper.ConfigureButton(btnViewAssetValue, true);
-            UIHelper.ConfigureButton(btnRefreshMaintenanceNeeded, true);
-            
-            // Configure ComboBoxes
-            UIHelper.ConfigureComboBox(cmbMonth);
-            UIHelper.ConfigureComboBox(cmbYear);
-            UIHelper.ConfigureComboBox(cmbArea);
-            
-            // Configure Labels
-            UIHelper.ConfigureLabel(lblTotalCost, true);
-            UIHelper.ConfigureLabel(lblAreaTotalValue, true);
-            UIHelper.ConfigureLabel(lblMaintenanceCount, true);
-            UIHelper.ConfigureLabel(lblActive, true);
-            UIHelper.ConfigureLabel(lblMaintenance, true);
-            UIHelper.ConfigureLabel(lblBroken, true);
-            UIHelper.ConfigureLabel(lblStopped, true);
+            // Basic form and controls configuration (replacing UIHelper)
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.StartPosition = FormStartPosition.CenterScreen;
+
+            foreach (var dgv in new DataGridView[] { dgvMaintenanceCost, dgvAssetValue, dgvMaintenanceNeeded })
+            {
+                dgv.BackgroundColor = System.Drawing.Color.White;
+                dgv.BorderStyle = BorderStyle.Fixed3D;
+                dgv.ReadOnly = true;
+                dgv.AllowUserToAddRows = false;
+                dgv.AllowUserToDeleteRows = false;
+                dgv.MultiSelect = false;
+                dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dgv.RowTemplate.Height = 28;
+            }
+
+            foreach (var btn in new Button[] { btnViewMaintenanceCost, btnRefreshStatus, btnViewAssetValue, btnRefreshMaintenanceNeeded })
+            {
+                btn.Height = 32;
+            }
+
+            foreach (var cmb in new ComboBox[] { cmbMonth, cmbYear, cmbArea })
+            {
+                cmb.Height = 28;
+            }
+        }
+
+        private void BuildPagers()
+        {
+            // 1) Maintenance Cost tab pager
+            pagerMaintenanceCost = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Bottom,
+                AutoSize = true,
+                Padding = new Padding(10)
+            };
+            btnPrevMaintenanceCost = new Button { Text = "Trước", Height = 32 };
+            btnNextMaintenanceCost = new Button { Text = "Tiếp", Height = 32 };
+            lblPageInfoMaintenanceCost = new Label { AutoSize = true, Margin = new Padding(10, 8, 10, 0) };
+            btnPrevMaintenanceCost.Click += (s, e) => { if (pageMaintenanceCost > 1) { pageMaintenanceCost--; BindMaintenanceCostPaged(); } };
+            btnNextMaintenanceCost.Click += (s, e) => { if (dtMaintenanceCost != null && pageMaintenanceCost * pageSize < dtMaintenanceCost.Rows.Count) { pageMaintenanceCost++; BindMaintenanceCostPaged(); } };
+            pagerMaintenanceCost.Controls.AddRange(new Control[] { btnPrevMaintenanceCost, btnNextMaintenanceCost, lblPageInfoMaintenanceCost });
+            this.tabMaintenanceCost.Controls.Add(pagerMaintenanceCost);
+
+            // 2) Asset Value tab pager
+            pagerAssetValue = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Bottom,
+                AutoSize = true,
+                Padding = new Padding(10)
+            };
+            btnPrevAssetValue = new Button { Text = "Trước", Height = 32 };
+            btnNextAssetValue = new Button { Text = "Tiếp", Height = 32 };
+            lblPageInfoAssetValue = new Label { AutoSize = true, Margin = new Padding(10, 8, 10, 0) };
+            btnPrevAssetValue.Click += (s, e) => { if (pageAssetValue > 1) { pageAssetValue--; BindAssetValuePaged(); } };
+            btnNextAssetValue.Click += (s, e) => { if (dtAssetValue != null && pageAssetValue * pageSize < dtAssetValue.Rows.Count) { pageAssetValue++; BindAssetValuePaged(); } };
+            pagerAssetValue.Controls.AddRange(new Control[] { btnPrevAssetValue, btnNextAssetValue, lblPageInfoAssetValue });
+            this.tabAssetValue.Controls.Add(pagerAssetValue);
+
+            // 3) Maintenance Needed tab pager
+            pagerMaintenanceNeeded = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Bottom,
+                AutoSize = true,
+                Padding = new Padding(10)
+            };
+            btnPrevMaintenanceNeeded = new Button { Text = "Trước", Height = 32 };
+            btnNextMaintenanceNeeded = new Button { Text = "Tiếp", Height = 32 };
+            lblPageInfoMaintenanceNeeded = new Label { AutoSize = true, Margin = new Padding(10, 8, 10, 0) };
+            btnPrevMaintenanceNeeded.Click += (s, e) => { if (pageMaintenanceNeeded > 1) { pageMaintenanceNeeded--; BindMaintenanceNeededPaged(); } };
+            btnNextMaintenanceNeeded.Click += (s, e) => { if (dtMaintenanceNeeded != null && pageMaintenanceNeeded * pageSize < dtMaintenanceNeeded.Rows.Count) { pageMaintenanceNeeded++; BindMaintenanceNeededPaged(); } };
+            pagerMaintenanceNeeded.Controls.AddRange(new Control[] { btnPrevMaintenanceNeeded, btnNextMaintenanceNeeded, lblPageInfoMaintenanceNeeded });
+            this.tabMaintenanceNeeded.Controls.Add(pagerMaintenanceNeeded);
+        }
+
+        private DataTable GetPagedData(DataTable? dt, int page)
+        {
+            if (dt == null) return new DataTable();
+            var paged = dt.Clone();
+            int start = (page - 1) * pageSize;
+            for (int i = start; i < start + pageSize && i < dt.Rows.Count; i++)
+                paged.ImportRow(dt.Rows[i]);
+            return paged;
+        }
+
+        private void UpdatePagerInfo(Label? lbl, Button? prev, Button? next, DataTable? dt, int page)
+        {
+            if (lbl == null || prev == null || next == null)
+                return;
+            int total = dt?.Rows.Count ?? 0;
+            int totalPages = Math.Max(1, (int)Math.Ceiling(total / (double)pageSize));
+            int start = total == 0 ? 0 : (page - 1) * pageSize + 1;
+            int end = Math.Min(page * pageSize, total);
+            lbl.Text = $"Hiển thị {start}-{end}/{total} (Trang {page}/{totalPages})";
+            prev.Enabled = page > 1;
+            next.Enabled = page < totalPages;
         }
 
         private void ReportsForm_Load(object sender, EventArgs e)
@@ -162,7 +254,8 @@ namespace FacilityManagementSystem
                 };
 
                 dtMaintenanceCost = DatabaseHelper.ExecuteProcedure("sp_BaoCaoChiPhiBaoTriTheoThang", parameters);
-                dgvMaintenanceCost.DataSource = dtMaintenanceCost;
+                pageMaintenanceCost = 1;
+                BindMaintenanceCostPaged();
 
                 SetupMaintenanceCostHeaders();
                 CalculateTotalMaintenanceCost();
@@ -171,6 +264,12 @@ namespace FacilityManagementSystem
             {
                 MessageBox.Show($"Lỗi khi tải báo cáo chi phí bảo trì: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void BindMaintenanceCostPaged()
+        {
+            dgvMaintenanceCost.DataSource = GetPagedData(dtMaintenanceCost, pageMaintenanceCost);
+            UpdatePagerInfo(lblPageInfoMaintenanceCost, btnPrevMaintenanceCost, btnNextMaintenanceCost, dtMaintenanceCost, pageMaintenanceCost);
         }
 
         private void SetupMaintenanceCostHeaders()
@@ -323,7 +422,8 @@ namespace FacilityManagementSystem
                 };
 
                 dtAssetValue = DatabaseHelper.ExecuteProcedure("sp_BaoCaoGiaTriTaiSanTheoKhuVuc", parameters);
-                dgvAssetValue.DataSource = dtAssetValue;
+                pageAssetValue = 1;
+                BindAssetValuePaged();
 
                 SetupAssetValueHeaders();
                 CalculateTotalAssetValue();
@@ -332,6 +432,12 @@ namespace FacilityManagementSystem
             {
                 MessageBox.Show($"Lỗi khi tải báo cáo giá trị tài sản: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void BindAssetValuePaged()
+        {
+            dgvAssetValue.DataSource = GetPagedData(dtAssetValue, pageAssetValue);
+            UpdatePagerInfo(lblPageInfoAssetValue, btnPrevAssetValue, btnNextAssetValue, dtAssetValue, pageAssetValue);
         }
 
         private void SetupAssetValueHeaders()
@@ -397,7 +503,8 @@ namespace FacilityManagementSystem
             try
             {
                 dtMaintenanceNeeded = DatabaseHelper.ExecuteProcedure("sp_BaoCaoThietBiCanBaoTri");
-                
+                pageMaintenanceNeeded = 1;
+                BindMaintenanceNeededPaged();
                 if (dtMaintenanceNeeded != null)
                 {
                     dgvMaintenanceNeeded.DataSource = dtMaintenanceNeeded;
@@ -419,6 +526,12 @@ namespace FacilityManagementSystem
                 dgvMaintenanceNeeded.DataSource = null;
                 lblMaintenanceCount.Text = "Tổng số thiết bị cần bảo trì: 0";
             }
+        }
+
+        private void BindMaintenanceNeededPaged()
+        {
+            dgvMaintenanceNeeded.DataSource = GetPagedData(dtMaintenanceNeeded, pageMaintenanceNeeded);
+            UpdatePagerInfo(lblPageInfoMaintenanceNeeded, btnPrevMaintenanceNeeded, btnNextMaintenanceNeeded, dtMaintenanceNeeded, pageMaintenanceNeeded);
         }
 
         private void SetupMaintenanceNeededHeaders()

@@ -23,23 +23,17 @@ namespace FacilityManagementSystem
         
         private void ConfigureUI()
         {
-            // Cấu hình form
-            this.BackColor = UIHelper.BackgroundColor;
-            this.Font = UIHelper.StandardFont;
+            // Cấu hình form (replacing UIHelper usage)
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.Size = new System.Drawing.Size(400, 300);
             this.StartPosition = FormStartPosition.CenterScreen;
             
-            // Cấu hình controls
-            UIHelper.ConfigureButton(btnLogin, true);
-            UIHelper.ConfigureTextBox(txtUsername);
-            UIHelper.ConfigureTextBox(txtPassword);
+            // Cấu hình controls cơ bản
+            btnLogin.Height = 32; btnLogin.Width = 100;
+            txtUsername.Height = 28; txtPassword.Height = 28;
             
-            // Cấu hình labels
-            foreach (Control control in this.Controls)
-            {
-                if (control is Label lbl)
-                    UIHelper.ConfigureLabel(lbl);
-            }
+            // Labels giữ nguyên font từ form
         }
 
         private void TxtPassword_KeyDown(object? sender, KeyEventArgs e)

@@ -2,6 +2,7 @@ using System;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace FacilityManagementSystem
 {
@@ -9,12 +10,18 @@ namespace FacilityManagementSystem
     {
         private DataTable? dtEquipment;
         private int currentPage = 1;
-        private const int pageSize = 50;
+        private const int pageSize = 15;
+
+        private TableLayoutPanel? layout;
+        private FlowLayoutPanel? topPanel;
+        private FlowLayoutPanel? bottomPanel;
+        private Label? lblPageInfo;
 
         public EquipmentForm()
         {
             InitializeComponent();
             ConfigureUI();
+            BuildBasicLayout();
             // Thêm event handler cho DataBindingComplete để áp dụng màu sắc
             dgvEquipment.DataBindingComplete += DgvEquipment_DataBindingComplete;
             LoadEquipment();
@@ -25,28 +32,106 @@ namespace FacilityManagementSystem
         
         private void ConfigureUI()
         {
-            UIHelper.ConfigureForm(this);
-            UIHelper.ConfigureDataGridView(dgvEquipment);
-            
-            // Configure buttons
-            UIHelper.ConfigureButton(btnAdd, true);
-            UIHelper.ConfigureButton(btnUpdate);
-            UIHelper.ConfigureButton(btnDelete);
-            UIHelper.ConfigureButton(btnFilter);
-            UIHelper.ConfigureButton(btnResetFilter);
-            UIHelper.ConfigureButton(btnNext);
-            UIHelper.ConfigureButton(btnPrev);
-            
-            // Configure other controls (tìm các control khác trong form)
-            foreach (Control control in this.Controls)
+            this.BackColor = Color.WhiteSmoke;
+            this.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
+            this.StartPosition = FormStartPosition.CenterScreen;
+
+            dgvEquipment.BackgroundColor = Color.White;
+            dgvEquipment.BorderStyle = BorderStyle.Fixed3D;
+            dgvEquipment.ReadOnly = true;
+            dgvEquipment.AllowUserToAddRows = false;
+            dgvEquipment.AllowUserToDeleteRows = false;
+            dgvEquipment.MultiSelect = false;
+            dgvEquipment.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvEquipment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvEquipment.RowTemplate.Height = 28;
+            dgvEquipment.Dock = DockStyle.Fill;
+
+            foreach (var btn in new[] { btnAdd, btnUpdate, btnDelete, btnFilter, btnResetFilter, btnNext, btnPrev, btnSearch, btnClearSearch })
             {
-                if (control is TextBox txt)
-                    UIHelper.ConfigureTextBox(txt);
-                else if (control is ComboBox cmb)
-                    UIHelper.ConfigureComboBox(cmb);
-                else if (control is Label lbl)
-                    UIHelper.ConfigureLabel(lbl);
+                btn.Height = 32;
             }
+            txtSearch.Height = 28;
+        }
+
+        private void BuildBasicLayout()
+        {
+            layout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 3,
+            };
+            layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+            // Top search/filter panel
+            topPanel = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = true,
+                AutoSize = true,
+                Padding = new Padding(10),
+            };
+            topPanel.Controls.Add(lblSearch);
+            topPanel.Controls.Add(txtSearch);
+            topPanel.Controls.Add(btnSearch);
+            topPanel.Controls.Add(btnClearSearch);
+            topPanel.Controls.Add(label8);
+            topPanel.Controls.Add(cmbFilterArea);
+            topPanel.Controls.Add(label9);
+            topPanel.Controls.Add(cmbFilterType);
+            topPanel.Controls.Add(label10);
+            topPanel.Controls.Add(cmbFilterStatus);
+            topPanel.Controls.Add(btnFilter);
+            topPanel.Controls.Add(btnResetFilter);
+
+            // Bottom details/actions/paging
+            bottomPanel = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = true,
+                AutoSize = true,
+                Padding = new Padding(10),
+            };
+            lblPageInfo = new Label { AutoSize = true, Margin = new Padding(10, 8, 10, 0) };
+
+            // Detail labels
+            bottomPanel.Controls.Add(label1);
+            bottomPanel.Controls.Add(lblName);
+            bottomPanel.Controls.Add(label2);
+            bottomPanel.Controls.Add(lblType);
+            bottomPanel.Controls.Add(label3);
+            bottomPanel.Controls.Add(lblArea);
+            bottomPanel.Controls.Add(label4);
+            bottomPanel.Controls.Add(lblStatus);
+            bottomPanel.Controls.Add(label5);
+            bottomPanel.Controls.Add(lblQuantity);
+            bottomPanel.Controls.Add(label6);
+            bottomPanel.Controls.Add(lblPrice);
+            bottomPanel.Controls.Add(label7);
+            bottomPanel.Controls.Add(lblLastMaintenance);
+
+            // Actions
+            bottomPanel.Controls.Add(btnAdd);
+            bottomPanel.Controls.Add(btnUpdate);
+            bottomPanel.Controls.Add(btnDelete);
+            bottomPanel.Controls.Add(btnPrev);
+            bottomPanel.Controls.Add(btnNext);
+            bottomPanel.Controls.Add(lblPageInfo);
+
+            // Remove existing absolute-positioning from root and rebuild
+            foreach (Control c in new Control[] { dgvEquipment, lblSearch, txtSearch, btnSearch, btnClearSearch, label8, cmbFilterArea, label9, cmbFilterType, label10, cmbFilterStatus, btnFilter, btnResetFilter, label1, lblName, label2, lblType, label3, lblArea, label4, lblStatus, label5, lblQuantity, label6, lblPrice, label7, lblLastMaintenance, btnAdd, btnUpdate, btnDelete, btnPrev, btnNext })
+            {
+                this.Controls.Remove(c);
+            }
+            layout.Controls.Add(topPanel, 0, 0);
+            layout.Controls.Add(dgvEquipment, 0, 1);
+            layout.Controls.Add(bottomPanel, 0, 2);
+            this.Controls.Add(layout);
         }
 
         private void LoadEquipment()
@@ -54,6 +139,7 @@ namespace FacilityManagementSystem
             dtEquipment = DatabaseHelper.ExecuteProcedure("sp_LayTatCaCoSoVatChat");
             SetupColumnHeaders();
             UpdateDataGridView(dtEquipment, currentPage);
+            UpdatePagingInfo();
         }
 
         private void SetupColumnHeaders()
@@ -188,6 +274,7 @@ namespace FacilityManagementSystem
             {
                 dgvEquipment.DataSource = GetPagedData(data, page);
                 // Màu sắc sẽ được áp dụng tự động qua event DataBindingComplete
+                UpdatePagingInfo();
             }
         }
 
@@ -348,6 +435,7 @@ namespace FacilityManagementSystem
                 currentPage = 1;
                 UpdateDataGridView(dtEquipment, currentPage);
                 SetupColumnHeaders();
+                UpdatePagingInfo();
 
                 if (dtEquipment.Rows.Count == 0)
                 {
@@ -377,6 +465,7 @@ namespace FacilityManagementSystem
                 currentPage = 1;
                 UpdateDataGridView(dtEquipment, currentPage);
                 SetupColumnHeaders();
+                UpdatePagingInfo();
 
                 if (dtEquipment.Rows.Count == 0)
                 {
@@ -393,6 +482,24 @@ namespace FacilityManagementSystem
             {
                 MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void UpdatePagingInfo()
+        {
+            if (dtEquipment == null)
+            {
+                if (lblPageInfo != null) lblPageInfo.Text = string.Empty;
+                btnPrev.Enabled = btnNext.Enabled = false;
+                return;
+            }
+            int total = dtEquipment.Rows.Count;
+            int totalPages = Math.Max(1, (int)Math.Ceiling(total / (double)pageSize));
+            int start = total == 0 ? 0 : (currentPage - 1) * pageSize + 1;
+            int end = Math.Min(currentPage * pageSize, total);
+            if (lblPageInfo != null)
+                lblPageInfo.Text = $"Hiển thị {start}-{end}/{total} (Trang {currentPage}/{totalPages})";
+            btnPrev.Enabled = currentPage > 1;
+            btnNext.Enabled = currentPage < totalPages;
         }
 
         // ============================================
