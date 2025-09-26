@@ -72,9 +72,7 @@ namespace FacilityManagementSystem
                 cmbType.SelectedValue = row["MaLoai"];
                 cmbArea.SelectedValue = row["MaKhuVuc"];
                 cmbStatus.SelectedItem = row["TrangThai"].ToString();
-                numQuantity.Value = 1; // Không có Quantity trong schema mới
                 numPrice.Value = Convert.ToDecimal(row["Gia"]);
-                // Không có LastMaintenanceDate trong schema mới
             }
         }
 
