@@ -47,6 +47,7 @@ namespace FacilityManagementSystem
             dgvMaintenance.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvMaintenance.RowTemplate.Height = 28;
             dgvMaintenance.Dock = DockStyle.Fill;
+            dgvMaintenance.RowHeadersVisible = false;
 
             foreach (var btn in new[] { btnAdd, btnUpdate, btnDelete, btnFilter, btnResetFilter, btnNext, btnPrev })
             {

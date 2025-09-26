@@ -46,6 +46,7 @@ namespace FacilityManagementSystem
             dgvAreas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvAreas.RowTemplate.Height = 28;
             dgvAreas.Dock = DockStyle.Fill;
+            dgvAreas.RowHeadersVisible = false;
 
             // Buttons basic size
             foreach (var btn in new[] { btnAdd, btnUpdate, btnDelete, btnSearch, btnClearSearch, btnNext, btnPrev })
@@ -59,78 +60,50 @@ namespace FacilityManagementSystem
 
         private void BuildBasicLayout()
         {
-            // Remove ALL current controls and rebuild brand new, minimal UI
-            this.Controls.Clear();
-
-            // Create new instances and assign to existing fields to keep code-behind working
-            lblSearch = new Label { Text = "Tìm Kiếm:", AutoSize = true };
-            txtSearch = new TextBox { Width = 300 };
-            btnSearch = new Button { Text = "Tìm Kiếm", Height = 32, Width = 100 };
-            btnClearSearch = new Button { Text = "Xóa Tìm", Height = 32, Width = 100 };
-            btnSearch.Click += btnSearch_Click;
-            btnClearSearch.Click += btnClearSearch_Click;
-            txtSearch.KeyDown += txtSearch_KeyDown;
-
-            dgvAreas = new DataGridView();
-            dgvAreas.ReadOnly = true;
-            dgvAreas.AllowUserToAddRows = false;
-            dgvAreas.AllowUserToDeleteRows = false;
-            dgvAreas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvAreas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvAreas.RowTemplate.Height = 28;
-            dgvAreas.Dock = DockStyle.Fill;
-            dgvAreas.SelectionChanged += dgvAreas_SelectionChanged;
-
-            label1 = new Label { Text = "Tên Khu Vực:", AutoSize = true };
-            lblAreaNameValue = new Label
+            // Create layout container: Top (auto), Middle grid (fill), Bottom (auto)
+            layout = new TableLayoutPanel
             {
-                BorderStyle = BorderStyle.FixedSingle,
-                AutoSize = false,
-                Width = 300,
-                Height = 27,
-                TextAlign = ContentAlignment.MiddleLeft
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 3,
             };
-
-            btnAdd = new Button { Text = "Thêm", Height = 32, Width = 100 };
-            btnUpdate = new Button { Text = "Cập Nhật", Height = 32, Width = 100 };
-            btnDelete = new Button { Text = "Xóa", Height = 32, Width = 100 };
-            btnPrev = new Button { Text = "Trước", Height = 32, Width = 100 };
-            btnNext = new Button { Text = "Tiếp", Height = 32, Width = 100 };
-            btnAdd.Click += btnAdd_Click;
-            btnUpdate.Click += btnUpdate_Click;
-            btnDelete.Click += btnDelete_Click;
-            btnPrev.Click += btnPrev_Click;
-            btnNext.Click += btnNext_Click;
-
-            lblPageInfo = new Label { AutoSize = true, Margin = new Padding(10, 8, 10, 0) };
-
-            // Compose layout
-            layout = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 3 };
             layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
             layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 
+            // Top panel for search
             topPanel = new FlowLayoutPanel
             {
                 Dock = DockStyle.Fill,
                 FlowDirection = FlowDirection.LeftToRight,
                 WrapContents = true,
                 AutoSize = true,
-                Padding = new Padding(10)
+                Padding = new Padding(10),
             };
+
+            // Move existing search controls to top panel
             topPanel.Controls.Add(lblSearch);
             topPanel.Controls.Add(txtSearch);
             topPanel.Controls.Add(btnSearch);
             topPanel.Controls.Add(btnClearSearch);
 
+            // Bottom panel for actions and paging
             bottomPanel = new FlowLayoutPanel
             {
                 Dock = DockStyle.Fill,
                 FlowDirection = FlowDirection.LeftToRight,
                 WrapContents = true,
                 AutoSize = true,
-                Padding = new Padding(10)
+                Padding = new Padding(10),
             };
+
+            lblPageInfo = new Label
+            {
+                AutoSize = true,
+                Margin = new Padding(10, 8, 10, 0),
+            };
+
+            // Move action/info controls to bottom panel
             bottomPanel.Controls.Add(label1);
             bottomPanel.Controls.Add(lblAreaNameValue);
             bottomPanel.Controls.Add(btnAdd);
@@ -140,8 +113,23 @@ namespace FacilityManagementSystem
             bottomPanel.Controls.Add(btnNext);
             bottomPanel.Controls.Add(lblPageInfo);
 
+            // Clear current root Controls order and rebuild
+            var grid = dgvAreas;
+            this.Controls.Remove(dgvAreas);
+            this.Controls.Remove(lblSearch);
+            this.Controls.Remove(txtSearch);
+            this.Controls.Remove(btnSearch);
+            this.Controls.Remove(btnClearSearch);
+            this.Controls.Remove(label1);
+            this.Controls.Remove(lblAreaNameValue);
+            this.Controls.Remove(btnAdd);
+            this.Controls.Remove(btnUpdate);
+            this.Controls.Remove(btnDelete);
+            this.Controls.Remove(btnPrev);
+            this.Controls.Remove(btnNext);
+
             layout.Controls.Add(topPanel, 0, 0);
-            layout.Controls.Add(dgvAreas, 0, 1);
+            layout.Controls.Add(grid, 0, 1);
             layout.Controls.Add(bottomPanel, 0, 2);
             this.Controls.Add(layout);
         }

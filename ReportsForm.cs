@@ -57,6 +57,7 @@ namespace FacilityManagementSystem
                 dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                 dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 dgv.RowTemplate.Height = 28;
+                dgv.RowHeadersVisible = false;
             }
 
             foreach (var btn in new Button[] { btnViewMaintenanceCost, btnRefreshStatus, btnViewAssetValue, btnRefreshMaintenanceNeeded })
