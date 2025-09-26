@@ -12,15 +12,15 @@ namespace FacilityManagementSystem
         {
             InitializeComponent();
             ConfigureUI();
-            
+
             // Cải thiện UX
             this.AcceptButton = btnLogin; // Nhấn Enter sẽ trigger login
             txtUsername.Focus(); // Focus vào username khi mở form
-            
+
             // Thêm KeyDown event cho password textbox
             txtPassword.KeyDown += TxtPassword_KeyDown;
         }
-        
+
         private void ConfigureUI()
         {
             // Cấu hình form (replacing UIHelper usage)
@@ -28,11 +28,11 @@ namespace FacilityManagementSystem
             this.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.Size = new System.Drawing.Size(400, 300);
             this.StartPosition = FormStartPosition.CenterScreen;
-            
+
             // Cấu hình controls cơ bản
             btnLogin.Height = 32; btnLogin.Width = 100;
             txtUsername.Height = 28; txtPassword.Height = 28;
-            
+
             // Labels giữ nguyên font từ form
         }
 
@@ -62,15 +62,20 @@ namespace FacilityManagementSystem
                 // Xác định role từ login name
                 UserRole role = CurrentUser.GetRoleFromLogin(username);
                 CurrentUser.SetUser(username, role);
-                
-                MessageBox.Show($"Đăng nhập thành công!\nChào mừng {CurrentUser.GetRoleDisplayName(role)}.", 
+
+                MessageBox.Show($"Đăng nhập thành công!\nChào mừng {CurrentUser.GetRoleDisplayName(role)}.",
                               "Thành Công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                
+
                 MainForm mainForm = new MainForm();
                 mainForm.Show();
                 this.Hide();
             }
             // Nếu login thất bại, thông báo lỗi đã được hiển thị trong DatabaseHelper.LoginUser()
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -69,15 +69,17 @@ namespace FacilityManagementSystem
             ((System.ComponentModel.ISupportInitialize)numCost).BeginInit();
             SuspendLayout();
             // 
-            // lblSearch
+            // dgvMaintenance
             // 
-            lblSearch.AutoSize = true;
-            lblSearch.Location = new Point(16, 18);
-            lblSearch.Margin = new Padding(4, 0, 4, 0);
-            lblSearch.Name = "lblSearch";
-            lblSearch.Size = new Size(77, 20);
-            lblSearch.TabIndex = 25;
-            lblSearch.Text = "Tìm kiếm:";
+            dgvMaintenance.BackgroundColor = SystemColors.Control;
+            dgvMaintenance.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvMaintenance.Location = new Point(16, 53);
+            dgvMaintenance.Margin = new Padding(4, 5, 4, 5);
+            dgvMaintenance.Name = "dgvMaintenance";
+            dgvMaintenance.RowHeadersWidth = 51;
+            dgvMaintenance.Size = new Size(1013, 273);
+            dgvMaintenance.TabIndex = 0;
+            dgvMaintenance.SelectionChanged += dgvMaintenance_SelectionChanged;
             // 
             // txtSearch
             // 
@@ -111,16 +113,15 @@ namespace FacilityManagementSystem
             btnClearSearch.UseVisualStyleBackColor = true;
             btnClearSearch.Click += btnClearSearch_Click;
             // 
-            // dgvMaintenance
+            // lblSearch
             // 
-            dgvMaintenance.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvMaintenance.Location = new Point(16, 53);
-            dgvMaintenance.Margin = new Padding(4, 5, 4, 5);
-            dgvMaintenance.Name = "dgvMaintenance";
-            dgvMaintenance.RowHeadersWidth = 51;
-            dgvMaintenance.Size = new Size(1013, 273);
-            dgvMaintenance.TabIndex = 0;
-            dgvMaintenance.SelectionChanged += dgvMaintenance_SelectionChanged;
+            lblSearch.AutoSize = true;
+            lblSearch.Location = new Point(16, 18);
+            lblSearch.Margin = new Padding(4, 0, 4, 0);
+            lblSearch.Name = "lblSearch";
+            lblSearch.Size = new Size(73, 20);
+            lblSearch.TabIndex = 25;
+            lblSearch.Text = "Tìm kiếm:";
             // 
             // cmbEquipment
             // 
@@ -157,8 +158,7 @@ namespace FacilityManagementSystem
             numCost.DecimalPlaces = 2;
             numCost.Location = new Point(133, 497);
             numCost.Margin = new Padding(4, 5, 4, 5);
-            numCost.Maximum = new decimal(new int[] { -1486618624, 232830643, 0, 0 }); // 10 tỷ VND
-            numCost.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
+            numCost.Maximum = new decimal(new int[] { -1486618624, 232830643, 0, 0 });
             numCost.Name = "numCost";
             numCost.Size = new Size(200, 27);
             numCost.TabIndex = 4;
@@ -280,7 +280,7 @@ namespace FacilityManagementSystem
             label1.Location = new Point(16, 378);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(81, 20);
+            label1.Size = new Size(108, 20);
             label1.TabIndex = 11;
             label1.Text = "Cơ Sở Vật Chất";
             // 
@@ -290,7 +290,7 @@ namespace FacilityManagementSystem
             label2.Location = new Point(16, 420);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(75, 20);
+            label2.Size = new Size(77, 20);
             label2.TabIndex = 12;
             label2.Text = "Nhân Viên";
             // 
@@ -300,7 +300,7 @@ namespace FacilityManagementSystem
             label3.Location = new Point(16, 461);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new Size(41, 20);
+            label3.Size = new Size(44, 20);
             label3.TabIndex = 13;
             label3.Text = "Ngày";
             // 
@@ -310,7 +310,7 @@ namespace FacilityManagementSystem
             label4.Location = new Point(16, 501);
             label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
-            label4.Size = new Size(38, 20);
+            label4.Size = new Size(54, 20);
             label4.TabIndex = 14;
             label4.Text = "Chi Phí";
             // 
@@ -320,14 +320,14 @@ namespace FacilityManagementSystem
             label5.Location = new Point(16, 541);
             label5.Margin = new Padding(4, 0, 4, 0);
             label5.Name = "label5";
-            label5.Size = new Size(85, 20);
+            label5.Size = new Size(51, 20);
             label5.TabIndex = 15;
             label5.Text = "Mô Tả";
             // 
             // cmbFilterEquipment
             // 
             cmbFilterEquipment.FormattingEnabled = true;
-            cmbFilterEquipment.Location = new Point(667, 455);
+            cmbFilterEquipment.Location = new Point(675, 486);
             cmbFilterEquipment.Margin = new Padding(4, 5, 4, 5);
             cmbFilterEquipment.Name = "cmbFilterEquipment";
             cmbFilterEquipment.Size = new Size(199, 28);
@@ -336,7 +336,7 @@ namespace FacilityManagementSystem
             // cmbFilterEmployee
             // 
             cmbFilterEmployee.FormattingEnabled = true;
-            cmbFilterEmployee.Location = new Point(667, 497);
+            cmbFilterEmployee.Location = new Point(675, 528);
             cmbFilterEmployee.Margin = new Padding(4, 5, 4, 5);
             cmbFilterEmployee.Name = "cmbFilterEmployee";
             cmbFilterEmployee.Size = new Size(199, 28);
@@ -345,7 +345,7 @@ namespace FacilityManagementSystem
             // dtpStart
             // 
             dtpStart.Format = DateTimePickerFormat.Short;
-            dtpStart.Location = new Point(667, 538);
+            dtpStart.Location = new Point(675, 569);
             dtpStart.Margin = new Padding(4, 5, 4, 5);
             dtpStart.Name = "dtpStart";
             dtpStart.Size = new Size(199, 27);
@@ -354,7 +354,7 @@ namespace FacilityManagementSystem
             // dtpEnd
             // 
             dtpEnd.Format = DateTimePickerFormat.Short;
-            dtpEnd.Location = new Point(667, 578);
+            dtpEnd.Location = new Point(675, 609);
             dtpEnd.Margin = new Padding(4, 5, 4, 5);
             dtpEnd.Name = "dtpEnd";
             dtpEnd.Size = new Size(199, 27);
@@ -362,7 +362,7 @@ namespace FacilityManagementSystem
             // 
             // btnFilter
             // 
-            btnFilter.Location = new Point(888, 510);
+            btnFilter.Location = new Point(896, 541);
             btnFilter.Margin = new Padding(4, 5, 4, 5);
             btnFilter.Name = "btnFilter";
             btnFilter.Size = new Size(100, 35);
@@ -373,7 +373,7 @@ namespace FacilityManagementSystem
             // 
             // btnResetFilter
             // 
-            btnResetFilter.Location = new Point(888, 555);
+            btnResetFilter.Location = new Point(896, 586);
             btnResetFilter.Margin = new Padding(4, 5, 4, 5);
             btnResetFilter.Name = "btnResetFilter";
             btnResetFilter.Size = new Size(100, 35);
@@ -385,40 +385,40 @@ namespace FacilityManagementSystem
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(550, 460);
+            label6.Location = new Point(528, 489);
             label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
-            label6.Size = new Size(118, 20);
+            label6.Size = new Size(135, 20);
             label6.TabIndex = 21;
             label6.Text = "Lọc Cơ Sở Vật Chất";
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(550, 501);
+            label7.Location = new Point(528, 530);
             label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
-            label7.Size = new Size(112, 20);
+            label7.Size = new Size(104, 20);
             label7.TabIndex = 22;
             label7.Text = "Lọc Nhân Viên";
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(550, 543);
+            label8.Location = new Point(528, 572);
             label8.Margin = new Padding(4, 0, 4, 0);
             label8.Name = "label8";
-            label8.Size = new Size(76, 20);
+            label8.Size = new Size(101, 20);
             label8.TabIndex = 23;
             label8.Text = "Ngày Bắt Đầu";
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(550, 583);
+            label9.Location = new Point(528, 612);
             label9.Margin = new Padding(4, 0, 4, 0);
             label9.Name = "label9";
-            label9.Size = new Size(70, 20);
+            label9.Size = new Size(105, 20);
             label9.TabIndex = 24;
             label9.Text = "Ngày Kết Thúc";
             // 

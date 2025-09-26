@@ -30,188 +30,188 @@ namespace FacilityManagementSystem
         /// </summary>
         private void InitializeComponent()
         {
-            this.dgvAreas = new System.Windows.Forms.DataGridView();
-            this.txtAreaName = new System.Windows.Forms.TextBox();
-            this.lblAreaNameValue = new System.Windows.Forms.Label();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.btnUpdate = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnNext = new System.Windows.Forms.Button();
-            this.btnPrev = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtSearch = new System.Windows.Forms.TextBox();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.btnClearSearch = new System.Windows.Forms.Button();
-            this.lblSearch = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAreas)).BeginInit();
-            this.SuspendLayout();
+            dgvAreas = new DataGridView();
+            lblAreaNameValue = new Label();
+            btnAdd = new Button();
+            btnUpdate = new Button();
+            btnDelete = new Button();
+            btnNext = new Button();
+            btnPrev = new Button();
+            label1 = new Label();
+            txtSearch = new TextBox();
+            btnSearch = new Button();
+            btnClearSearch = new Button();
+            lblSearch = new Label();
+            ((System.ComponentModel.ISupportInitialize)dgvAreas).BeginInit();
+            SuspendLayout();
             // 
             // dgvAreas
             // 
-            this.dgvAreas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAreas.Location = new System.Drawing.Point(20, 60);
-            this.dgvAreas.Name = "dgvAreas";
-            this.dgvAreas.Size = new System.Drawing.Size(920, 280);
-            this.dgvAreas.TabIndex = 0;
-            this.dgvAreas.SelectionChanged += new System.EventHandler(this.dgvAreas_SelectionChanged);
-            // 
-            // lblSearch
-            // 
-            this.lblSearch.AutoSize = true;
-            this.lblSearch.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.lblSearch.Location = new System.Drawing.Point(20, 20);
-            this.lblSearch.Name = "lblSearch";
-            this.lblSearch.Size = new System.Drawing.Size(78, 20);
-            this.lblSearch.TabIndex = 10;
-            this.lblSearch.Text = "Tìm Kiếm:";
-            // 
-            // txtSearch
-            // 
-            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.txtSearch.Location = new System.Drawing.Point(110, 17);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(300, 27);
-            this.txtSearch.TabIndex = 11;
-            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.btnSearch.Location = new System.Drawing.Point(430, 15);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(100, 30);
-            this.btnSearch.TabIndex = 12;
-            this.btnSearch.Text = "Tìm Kiếm";
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            // 
-            // btnClearSearch
-            // 
-            this.btnClearSearch.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.btnClearSearch.Location = new System.Drawing.Point(540, 15);
-            this.btnClearSearch.Name = "btnClearSearch";
-            this.btnClearSearch.Size = new System.Drawing.Size(100, 30);
-            this.btnClearSearch.TabIndex = 13;
-            this.btnClearSearch.Text = "Xóa Tìm";
-            this.btnClearSearch.UseVisualStyleBackColor = true;
-            this.btnClearSearch.Click += new System.EventHandler(this.btnClearSearch_Click);
-            // 
-            // txtAreaName (hidden, replaced by label)
-            // 
-            this.txtAreaName.Location = new System.Drawing.Point(100, 220);
-            this.txtAreaName.Name = "txtAreaName";
-            this.txtAreaName.Size = new System.Drawing.Size(150, 20);
-            this.txtAreaName.TabIndex = 1;
-            this.txtAreaName.Visible = false;
-
+            dgvAreas.BackgroundColor = SystemColors.Control;
+            dgvAreas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvAreas.Location = new Point(23, 80);
+            dgvAreas.Margin = new Padding(3, 4, 3, 4);
+            dgvAreas.Name = "dgvAreas";
+            dgvAreas.RowHeadersWidth = 51;
+            dgvAreas.Size = new Size(1051, 373);
+            dgvAreas.TabIndex = 0;
+            dgvAreas.SelectionChanged += dgvAreas_SelectionChanged;
             // 
             // lblAreaNameValue
             // 
-            this.lblAreaNameValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblAreaNameValue.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.lblAreaNameValue.Location = new System.Drawing.Point(120, 360);
-            this.lblAreaNameValue.Name = "lblAreaNameValue";
-            this.lblAreaNameValue.Size = new System.Drawing.Size(300, 27);
-            this.lblAreaNameValue.TabIndex = 8;
-            this.lblAreaNameValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            lblAreaNameValue.BorderStyle = BorderStyle.FixedSingle;
+            lblAreaNameValue.Font = new Font("Segoe UI", 11F);
+            lblAreaNameValue.Location = new Point(149, 481);
+            lblAreaNameValue.Name = "lblAreaNameValue";
+            lblAreaNameValue.Size = new Size(343, 35);
+            lblAreaNameValue.TabIndex = 8;
+            lblAreaNameValue.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // btnAdd
             // 
-            this.btnAdd.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.btnAdd.Location = new System.Drawing.Point(450, 358);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(100, 32);
-            this.btnAdd.TabIndex = 2;
-            this.btnAdd.Text = "Thêm";
-            this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            btnAdd.Font = new Font("Segoe UI", 11F);
+            btnAdd.Location = new Point(514, 477);
+            btnAdd.Margin = new Padding(3, 4, 3, 4);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(114, 43);
+            btnAdd.TabIndex = 2;
+            btnAdd.Text = "Thêm";
+            btnAdd.UseVisualStyleBackColor = true;
+            btnAdd.Click += btnAdd_Click;
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.btnUpdate.Location = new System.Drawing.Point(560, 358);
-            this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(100, 32);
-            this.btnUpdate.TabIndex = 3;
-            this.btnUpdate.Text = "Cập Nhật";
-            this.btnUpdate.UseVisualStyleBackColor = true;
-            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            btnUpdate.Font = new Font("Segoe UI", 11F);
+            btnUpdate.Location = new Point(640, 477);
+            btnUpdate.Margin = new Padding(3, 4, 3, 4);
+            btnUpdate.Name = "btnUpdate";
+            btnUpdate.Size = new Size(114, 43);
+            btnUpdate.TabIndex = 3;
+            btnUpdate.Text = "Cập Nhật";
+            btnUpdate.UseVisualStyleBackColor = true;
+            btnUpdate.Click += btnUpdate_Click;
             // 
             // btnDelete
             // 
-            this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.btnDelete.Location = new System.Drawing.Point(670, 358);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(100, 32);
-            this.btnDelete.TabIndex = 4;
-            this.btnDelete.Text = "Xóa";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            btnDelete.Font = new Font("Segoe UI", 11F);
+            btnDelete.Location = new Point(766, 477);
+            btnDelete.Margin = new Padding(3, 4, 3, 4);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(114, 43);
+            btnDelete.TabIndex = 4;
+            btnDelete.Text = "Xóa";
+            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
             // 
             // btnNext
             // 
-            this.btnNext.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.btnNext.Location = new System.Drawing.Point(840, 358);
-            this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(100, 32);
-            this.btnNext.TabIndex = 5;
-            this.btnNext.Text = "Tiếp";
-            this.btnNext.UseVisualStyleBackColor = true;
-            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
+            btnNext.Font = new Font("Segoe UI", 11F);
+            btnNext.Location = new Point(960, 17);
+            btnNext.Margin = new Padding(3, 4, 3, 4);
+            btnNext.Name = "btnNext";
+            btnNext.Size = new Size(114, 43);
+            btnNext.TabIndex = 5;
+            btnNext.Text = "Tiếp";
+            btnNext.UseVisualStyleBackColor = true;
+            btnNext.Click += btnNext_Click;
             // 
             // btnPrev
             // 
-            this.btnPrev.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.btnPrev.Location = new System.Drawing.Point(730, 358);
-            this.btnPrev.Name = "btnPrev";
-            this.btnPrev.Size = new System.Drawing.Size(100, 32);
-            this.btnPrev.TabIndex = 6;
-            this.btnPrev.Text = "Trước";
-            this.btnPrev.UseVisualStyleBackColor = true;
-            this.btnPrev.Click += new System.EventHandler(this.btnPrev_Click);
+            btnPrev.Font = new Font("Segoe UI", 11F);
+            btnPrev.Location = new Point(834, 17);
+            btnPrev.Margin = new Padding(3, 4, 3, 4);
+            btnPrev.Name = "btnPrev";
+            btnPrev.Size = new Size(114, 43);
+            btnPrev.TabIndex = 6;
+            btnPrev.Text = "Trước";
+            btnPrev.UseVisualStyleBackColor = true;
+            btnPrev.Click += btnPrev_Click;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.label1.Location = new System.Drawing.Point(20, 363);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(92, 20);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Tên Khu Vực:";
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 11F);
+            label1.Location = new Point(23, 484);
+            label1.Name = "label1";
+            label1.Size = new Size(120, 25);
+            label1.TabIndex = 7;
+            label1.Text = "Tên Khu Vực:";
+            // 
+            // txtSearch
+            // 
+            txtSearch.Font = new Font("Segoe UI", 11F);
+            txtSearch.Location = new Point(126, 23);
+            txtSearch.Margin = new Padding(3, 4, 3, 4);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(342, 32);
+            txtSearch.TabIndex = 11;
+            txtSearch.KeyDown += txtSearch_KeyDown;
+            // 
+            // btnSearch
+            // 
+            btnSearch.Font = new Font("Segoe UI", 11F);
+            btnSearch.Location = new Point(491, 20);
+            btnSearch.Margin = new Padding(3, 4, 3, 4);
+            btnSearch.Name = "btnSearch";
+            btnSearch.Size = new Size(114, 40);
+            btnSearch.TabIndex = 12;
+            btnSearch.Text = "Tìm Kiếm";
+            btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.Click += btnSearch_Click;
+            // 
+            // btnClearSearch
+            // 
+            btnClearSearch.Font = new Font("Segoe UI", 11F);
+            btnClearSearch.Location = new Point(617, 20);
+            btnClearSearch.Margin = new Padding(3, 4, 3, 4);
+            btnClearSearch.Name = "btnClearSearch";
+            btnClearSearch.Size = new Size(114, 40);
+            btnClearSearch.TabIndex = 13;
+            btnClearSearch.Text = "Xóa Tìm";
+            btnClearSearch.UseVisualStyleBackColor = true;
+            btnClearSearch.Click += btnClearSearch_Click;
+            // 
+            // lblSearch
+            // 
+            lblSearch.AutoSize = true;
+            lblSearch.Font = new Font("Segoe UI", 11F);
+            lblSearch.Location = new Point(23, 27);
+            lblSearch.Name = "lblSearch";
+            lblSearch.Size = new Size(94, 25);
+            lblSearch.TabIndex = 10;
+            lblSearch.Text = "Tìm Kiếm:";
             // 
             // AreaForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(960, 420);
-            this.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.Controls.Add(this.btnClearSearch);
-            this.Controls.Add(this.btnSearch);
-            this.Controls.Add(this.txtSearch);
-            this.Controls.Add(this.lblSearch);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.lblAreaNameValue);
-            this.Controls.Add(this.btnPrev);
-            this.Controls.Add(this.btnNext);
-            this.Controls.Add(this.btnDelete);
-            this.Controls.Add(this.btnUpdate);
-            this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.txtAreaName);
-            this.Controls.Add(this.dgvAreas);
-            this.Name = "AreaForm";
-            this.Text = "Quản Lý Khu Vực";
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAreas)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.WhiteSmoke;
+            ClientSize = new Size(1097, 560);
+            Controls.Add(btnClearSearch);
+            Controls.Add(btnSearch);
+            Controls.Add(txtSearch);
+            Controls.Add(lblSearch);
+            Controls.Add(label1);
+            Controls.Add(lblAreaNameValue);
+            Controls.Add(btnPrev);
+            Controls.Add(btnNext);
+            Controls.Add(btnDelete);
+            Controls.Add(btnUpdate);
+            Controls.Add(btnAdd);
+            Controls.Add(dgvAreas);
+            Font = new Font("Segoe UI", 9F);
+            Margin = new Padding(3, 4, 3, 4);
+            Name = "AreaForm";
+            Text = "Quản Lý Khu Vực";
+            ((System.ComponentModel.ISupportInitialize)dgvAreas).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.DataGridView dgvAreas;
-        private System.Windows.Forms.TextBox txtAreaName;
     private System.Windows.Forms.Label lblAreaNameValue;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnUpdate;
