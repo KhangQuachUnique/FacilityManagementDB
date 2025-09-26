@@ -218,10 +218,18 @@ namespace FacilityManagementSystem
         {
             if (dgvTypes.SelectedRows.Count > 0)
             {
+                string name = dgvTypes.SelectedRows[0].Cells["TenLoai"].Value?.ToString() ?? "";
+                var confirm = MessageBox.Show($"Bạn có chắc muốn xóa Loại: '{name}'?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirm != DialogResult.Yes) return;
+
                 int typeID = Convert.ToInt32(dgvTypes.SelectedRows[0].Cells["MaLoai"].Value);
                 SqlParameter[] parameters = { new SqlParameter("@MaLoai", typeID) };
                 DatabaseHelper.ExecuteNonQuery("sp_XoaLoaiCoSoVatChat", parameters);
                 LoadTypes();
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn một hàng để xóa.", "Chưa Chọn", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

@@ -379,6 +379,10 @@ namespace FacilityManagementSystem
         {
             if (dgvEquipment.SelectedRows.Count > 0)
             {
+                string name = dgvEquipment.SelectedRows[0].Cells["Ten"].Value?.ToString() ?? "";
+                var confirm = MessageBox.Show($"Bạn có chắc muốn xóa Thiết Bị: '{name}'?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirm != DialogResult.Yes) return;
+
                 int equipmentID = Convert.ToInt32(dgvEquipment.SelectedRows[0].Cells["MaCoSoVatChat"].Value);
                 SqlParameter[] parameters = { new SqlParameter("@MaCoSoVatChat", equipmentID) };
                 DatabaseHelper.ExecuteNonQuery("sp_XoaCoSoVatChat", parameters);

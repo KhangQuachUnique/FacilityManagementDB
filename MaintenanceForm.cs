@@ -340,10 +340,18 @@ namespace FacilityManagementSystem
         {
             if (dgvMaintenance.SelectedRows.Count > 0)
             {
+                string equipment = dgvMaintenance.SelectedRows[0].Cells["TenCoSoVatChat"]?.Value?.ToString() ?? "";
+                var confirm = MessageBox.Show($"Bạn có chắc muốn xóa mục bảo trì của '{equipment}'?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirm != DialogResult.Yes) return;
+
                 int maintenanceID = Convert.ToInt32(dgvMaintenance.SelectedRows[0].Cells["MaBaoTri"].Value);
                 SqlParameter[] parameters = { new SqlParameter("@MaBaoTri", maintenanceID) };
                 DatabaseHelper.ExecuteNonQuery("sp_XoaBaoTri", parameters);
                 LoadMaintenance();
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn một hàng để xóa.", "Chưa Chọn", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

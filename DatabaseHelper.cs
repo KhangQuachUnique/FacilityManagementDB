@@ -75,6 +75,15 @@ namespace FacilityManagementSystem
         {
             switch (ex.Number)
             {
+                case 547: // Foreign key constraint violation
+                    MessageBox.Show("Không thể xóa bản ghi do đang được tham chiếu bởi dữ liệu khác.\n\nVui lòng xóa/sửa các bản ghi liên quan trước (ví dụ: Nhân Viên thuộc Khu Vực, Thiết Bị thuộc Loại, Bảo Trì thuộc Thiết Bị).", 
+                                  "Không thể xóa", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    break;
+                case 2627: // Unique constraint error
+                case 2601: // Duplicated key row error
+                    MessageBox.Show("Dữ liệu trùng lặp hoặc vi phạm ràng buộc. Vui lòng kiểm tra và thử lại.", 
+                                  "Vi phạm ràng buộc", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    break;
                 case 18456: // Login failed
                     MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu!", "Lỗi đăng nhập", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     break;

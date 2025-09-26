@@ -254,10 +254,18 @@ namespace FacilityManagementSystem
         {
             if (dgvAreas.SelectedRows.Count > 0)
             {
+                string name = dgvAreas.SelectedRows[0].Cells["TenKhuVuc"].Value?.ToString() ?? "";
+                var confirm = MessageBox.Show($"Bạn có chắc muốn xóa Khu Vực: '{name}'?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirm != DialogResult.Yes) return;
+
                 int areaID = Convert.ToInt32(dgvAreas.SelectedRows[0].Cells["MaKhuVuc"].Value);
                 SqlParameter[] parameters = { new SqlParameter("@MaKhuVuc", areaID) };
                 DatabaseHelper.ExecuteNonQuery("sp_XoaKhuVuc", parameters);
                 LoadAreas();
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn một hàng để xóa.", "Chưa Chọn", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
