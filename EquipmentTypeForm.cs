@@ -1,38 +1,54 @@
-// File: EquipmentTypeForm.cs
-
 using System;
 using System.Data;
-using Microsoft.Data.SqlClient;
-using System.Windows.Forms;
 using System.Drawing;
+using System.Windows.Forms;
+using Microsoft.Data.SqlClient;
 
 namespace FacilityManagementSystem
 {
     public partial class EquipmentTypeForm : Form
     {
-        private DataTable? dtTypes;
-        private int currentPage = 1;
-        private const int pageSize = 15;
+        private const int PageSize = 15;
+        private DataTable? _typeData;
+        private int _currentPage = 1;
 
-        private TableLayoutPanel? layout;
-        private FlowLayoutPanel? topPanel;
-        private FlowLayoutPanel? bottomPanel;
-        private Label? lblPageInfo;
+        private readonly TableLayoutPanel _mainLayout;
+        private readonly FlowLayoutPanel _searchPanel;
+        private readonly FlowLayoutPanel _actionPanel;
+        private readonly Label _pageInfoLabel;
+        private readonly Label _selectedSummaryLabel;
 
         public EquipmentTypeForm()
         {
             InitializeComponent();
+            _mainLayout = new TableLayoutPanel();
+            _searchPanel = new FlowLayoutPanel();
+            _actionPanel = new FlowLayoutPanel();
+            _pageInfoLabel = new Label { AutoSize = true, Margin = new Padding(10, 8, 10, 0) };
+            _selectedSummaryLabel = new Label { AutoSize = true, Margin = new Padding(10, 8, 20, 0) };
+
             ConfigureUI();
-            BuildBasicLayout();
+            BuildLayout();
+            RegisterEventHandlers();
             LoadTypes();
         }
 
         private void ConfigureUI()
         {
-            this.BackColor = Color.WhiteSmoke;
-            this.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
-            this.StartPosition = FormStartPosition.CenterScreen;
+            BackColor = Color.WhiteSmoke;
+            Font = new Font("Segoe UI", 10F, FontStyle.Regular);
+            StartPosition = FormStartPosition.CenterScreen;
+            Size = new Size(1000, 600);
+            Text = "Quản Lý Loại Cơ Sở Vật Chất";
 
+            ConfigureDataGridView();
+            ConfigureButtons();
+            ConfigureTextBox();
+            ConfigureLabels();
+        }
+
+        private void ConfigureDataGridView()
+        {
             dgvTypes.BackgroundColor = Color.White;
             dgvTypes.BorderStyle = BorderStyle.Fixed3D;
             dgvTypes.ReadOnly = true;
@@ -44,217 +60,287 @@ namespace FacilityManagementSystem
             dgvTypes.RowTemplate.Height = 28;
             dgvTypes.Dock = DockStyle.Fill;
             dgvTypes.RowHeadersVisible = false;
-
-            foreach (var btn in new[] { btnAdd, btnUpdate, btnDelete, btnSearch, btnClearSearch, btnNext, btnPrev })
-            {
-                btn.Height = 32;
-            }
-            txtSearch.Height = 28;
-            txtTypeName.Height = 28;
         }
 
-        private void BuildBasicLayout()
+        private void ConfigureButtons()
         {
-            layout = new TableLayoutPanel
+            foreach (var button in new[] { btnAdd, btnUpdate, btnDelete, btnSearch, btnClearSearch, btnNext, btnPrev })
             {
-                Dock = DockStyle.Fill,
-                ColumnCount = 1,
-                RowCount = 3,
-            };
-            layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-            layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                button.Height = 32;
+                button.Width = 80;
+                button.FlatStyle = FlatStyle.Flat;
+                button.BackColor = Color.FromArgb(0, 120, 215);
+                button.ForeColor = Color.White;
+                button.Margin = new Padding(5);
+            }
+        }
 
-            topPanel = new FlowLayoutPanel
+        private void ConfigureTextBox()
+        {
+            txtSearch.Height = 28;
+            txtSearch.Width = 200;
+            txtSearch.Margin = new Padding(5);
+            txtSearch.PlaceholderText = "Nhập tên loại để tìm kiếm...";
+        }
+
+        private void ConfigureLabels()
+        {
+            lblSearch.AutoSize = true;
+            lblSearch.Text = "Tìm kiếm:";
+            lblSearch.Margin = new Padding(5, 8, 5, 0);
+        }
+
+        private void BuildLayout()
+        {
+            ConfigureMainLayout();
+            ConfigureSearchPanel();
+            ConfigureActionPanel();
+            RemoveLegacyControls();
+            AddControlsToLayout();
+            Controls.Add(_mainLayout);
+        }
+
+        private void ConfigureMainLayout()
+        {
+            _mainLayout.Dock = DockStyle.Fill;
+            _mainLayout.ColumnCount = 1;
+            _mainLayout.RowCount = 3;
+            _mainLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            _mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            _mainLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            _mainLayout.Padding = new Padding(10);
+        }
+
+        private void ConfigureSearchPanel()
+        {
+            _searchPanel.Dock = DockStyle.Fill;
+            _searchPanel.FlowDirection = FlowDirection.LeftToRight;
+            _searchPanel.AutoSize = true;
+            _searchPanel.Padding = new Padding(5);
+            _searchPanel.Controls.AddRange(new Control[]
             {
-                Dock = DockStyle.Fill,
-                FlowDirection = FlowDirection.LeftToRight,
-                WrapContents = true,
-                AutoSize = true,
-                Padding = new Padding(10),
-            };
-            topPanel.Controls.Add(lblSearch);
-            topPanel.Controls.Add(txtSearch);
-            topPanel.Controls.Add(btnSearch);
-            topPanel.Controls.Add(btnClearSearch);
+                lblSearch,
+                txtSearch,
+                btnSearch,
+                btnClearSearch
+            });
+        }
 
-            bottomPanel = new FlowLayoutPanel
+        private void ConfigureActionPanel()
+        {
+            _actionPanel.Dock = DockStyle.Fill;
+            _actionPanel.FlowDirection = FlowDirection.LeftToRight;
+            _actionPanel.AutoSize = true;
+            _actionPanel.Padding = new Padding(5);
+            _actionPanel.Controls.AddRange(new Control[]
             {
-                Dock = DockStyle.Fill,
-                FlowDirection = FlowDirection.LeftToRight,
-                WrapContents = true,
-                AutoSize = true,
-                Padding = new Padding(10),
-            };
-            lblPageInfo = new Label { AutoSize = true, Margin = new Padding(10, 8, 10, 0) };
-            bottomPanel.Controls.Add(label1);
-            bottomPanel.Controls.Add(lblTypeNameValue);
-            bottomPanel.Controls.Add(btnAdd);
-            bottomPanel.Controls.Add(btnUpdate);
-            bottomPanel.Controls.Add(btnDelete);
-            bottomPanel.Controls.Add(btnPrev);
-            bottomPanel.Controls.Add(btnNext);
-            bottomPanel.Controls.Add(lblPageInfo);
+                _selectedSummaryLabel,
+                btnAdd,
+                btnUpdate,
+                btnDelete,
+                btnPrev,
+                btnNext,
+                _pageInfoLabel
+            });
+        }
 
-            var grid = dgvTypes;
-            this.Controls.Remove(dgvTypes);
-            this.Controls.Remove(lblSearch);
-            this.Controls.Remove(txtSearch);
-            this.Controls.Remove(btnSearch);
-            this.Controls.Remove(btnClearSearch);
-            this.Controls.Remove(label1);
-            this.Controls.Remove(lblTypeNameValue);
-            this.Controls.Remove(btnAdd);
-            this.Controls.Remove(btnUpdate);
-            this.Controls.Remove(btnDelete);
-            this.Controls.Remove(btnPrev);
-            this.Controls.Remove(btnNext);
+        private void RemoveLegacyControls()
+        {
+            Controls.Remove(dgvTypes);
+            Controls.Remove(lblSearch);
+            Controls.Remove(txtSearch);
+            Controls.Remove(btnSearch);
+            Controls.Remove(btnClearSearch);
+            Controls.Remove(label1);
+            Controls.Remove(lblTypeNameValue);
+            Controls.Remove(btnAdd);
+            Controls.Remove(btnUpdate);
+            Controls.Remove(btnDelete);
+            Controls.Remove(btnPrev);
+            Controls.Remove(btnNext);
+        }
 
-            layout.Controls.Add(topPanel, 0, 0);
-            layout.Controls.Add(grid, 0, 1);
-            layout.Controls.Add(bottomPanel, 0, 2);
-            this.Controls.Add(layout);
+        private void AddControlsToLayout()
+        {
+            _mainLayout.Controls.Add(_searchPanel, 0, 0);
+            _mainLayout.Controls.Add(dgvTypes, 0, 1);
+            _mainLayout.Controls.Add(_actionPanel, 0, 2);
+        }
+
+        private void RegisterEventHandlers()
+        {
+            dgvTypes.SelectionChanged += DgvTypes_SelectionChanged;
+            btnSearch.Click += btnSearch_Click;
+            btnClearSearch.Click += btnClearSearch_Click;
+            txtSearch.KeyDown += txtSearch_KeyDown;
+            btnAdd.Click += btnAdd_Click;
+            btnUpdate.Click += btnUpdate_Click;
+            btnDelete.Click += btnDelete_Click;
+            btnNext.Click += btnNext_Click;
+            btnPrev.Click += btnPrev_Click;
         }
 
         private void LoadTypes()
         {
-            dtTypes = DatabaseHelper.ExecuteProcedure("sp_LayTatCaLoaiCoSoVatChat");
-            dgvTypes.DataSource = GetPagedData(dtTypes, currentPage);
-            SetupColumnHeaders();
-            UpdatePagingInfo();
+            try
+            {
+                _typeData = DatabaseHelper.ExecuteProcedure("sp_LayTatCaLoaiCoSoVatChat");
+                if (_typeData != null)
+                {
+                    UpdateDataGridView(_typeData, 1);
+                    SetupColumnHeaders();
+                }
+                else
+                {
+                    dgvTypes.DataSource = null;
+                    ShowWarning("Không thể tải dữ liệu loại cơ sở vật chất. Vui lòng kiểm tra kết nối database.");
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowError("Lỗi khi tải dữ liệu loại cơ sở vật chất", ex);
+                dgvTypes.DataSource = null;
+            }
         }
 
         private void SetupColumnHeaders()
         {
             try
             {
-                if (dgvTypes.Columns.Count > 0)
-                {
-                    var colMa = dgvTypes.Columns["MaLoai"];
-                    if (colMa != null)
-                    {
-                        colMa.HeaderText = "Mã Loại";
-                        colMa.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                    }
-                    
-                    var colTen = dgvTypes.Columns["TenLoai"];
-                    if (colTen != null)
-                    {
-                        colTen.HeaderText = "Tên Loại";
-                        colTen.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    }
-                }
+                if (dgvTypes.Columns.Count == 0) return;
+
+                ConfigureColumn("MaLoai", "Mã Loại", 100);
+                ConfigureColumn("TenLoai", "Tên Loại", 0, DataGridViewAutoSizeColumnMode.Fill);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi cấu hình cột: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowError("Lỗi khi cấu hình tiêu đề cột", ex);
             }
         }
 
-        private DataTable GetPagedData(DataTable? dt, int page)
+        private void ConfigureColumn(string columnName, string headerText, int width, DataGridViewAutoSizeColumnMode autoSizeMode = DataGridViewAutoSizeColumnMode.None)
         {
-            if (dt == null) return new DataTable();
-            
-            DataTable paged = dt.Clone();
-            int start = (page - 1) * pageSize;
-            for (int i = start; i < start + pageSize && i < dt.Rows.Count; i++)
+            if (dgvTypes.Columns[columnName] is DataGridViewColumn column)
             {
-                paged.ImportRow(dt.Rows[i]);
+                column.HeaderText = headerText;
+                column.AutoSizeMode = autoSizeMode;
+                if (width > 0)
+                {
+                    column.Width = width;
+                }
+            }
+        }
+
+        private DataTable GetPagedData(DataTable? data, int page)
+        {
+            if (data == null) return new DataTable();
+
+            var paged = data.Clone();
+            int start = (page - 1) * PageSize;
+            for (int i = start; i < start + PageSize && i < data.Rows.Count; i++)
+            {
+                paged.ImportRow(data.Rows[i]);
             }
             return paged;
         }
 
-        private void btnNext_Click(object sender, EventArgs e)
+        private void UpdateDataGridView(DataTable? data, int page = 1)
         {
-            if (dtTypes != null && currentPage * pageSize < dtTypes.Rows.Count)
+            if (data == null) return;
+
+            _currentPage = page;
+            dgvTypes.DataSource = GetPagedData(data, page);
+            UpdatePagingInfo();
+        }
+
+        private void btnNext_Click(object? sender, EventArgs e)
+        {
+            if (_typeData != null && _currentPage * PageSize < _typeData.Rows.Count)
             {
-                currentPage++;
-                dgvTypes.DataSource = GetPagedData(dtTypes, currentPage);
-                UpdatePagingInfo();
+                UpdateDataGridView(_typeData, _currentPage + 1);
             }
         }
 
-        private void btnPrev_Click(object sender, EventArgs e)
+        private void btnPrev_Click(object? sender, EventArgs e)
         {
-            if (currentPage > 1)
+            if (_currentPage > 1)
             {
-                currentPage--;
-                dgvTypes.DataSource = GetPagedData(dtTypes, currentPage);
-                UpdatePagingInfo();
+                UpdateDataGridView(_typeData, _currentPage - 1);
             }
         }
 
-        private void btnAdd_Click(object sender, EventArgs e)
+        private void btnAdd_Click(object? sender, EventArgs e)
         {
-            using (var editForm = new EquipmentTypeEditForm())
+            using var editForm = new EquipmentTypeEditForm();
+            if (editForm.ShowDialog() == DialogResult.OK)
             {
-                if (editForm.ShowDialog() == DialogResult.OK)
-                {
-                    LoadTypes();
-                }
+                LoadTypes();
             }
         }
 
-        private void btnUpdate_Click(object sender, EventArgs e)
+        private void btnUpdate_Click(object? sender, EventArgs e)
         {
-            if (dgvTypes.SelectedRows.Count > 0)
+            if (dgvTypes.SelectedRows.Count == 0)
             {
-                int typeID = Convert.ToInt32(dgvTypes.SelectedRows[0].Cells["MaLoai"].Value);
-                using (var editForm = new EquipmentTypeEditForm(typeID))
-                {
-                    if (editForm.ShowDialog() == DialogResult.OK)
-                    {
-                        LoadTypes();
-                    }
-                }
+                ShowWarning("Vui lòng chọn một hàng để cập nhật.");
+                return;
             }
-            else
+
+            int typeId = Convert.ToInt32(dgvTypes.SelectedRows[0].Cells["MaLoai"].Value);
+            using var editForm = new EquipmentTypeEditForm(typeId);
+            if (editForm.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show("Vui lòng chọn một hàng để cập nhật.", "Chưa Chọn", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                LoadTypes();
             }
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        private void btnDelete_Click(object? sender, EventArgs e)
         {
-            if (dgvTypes.SelectedRows.Count > 0)
+            if (dgvTypes.SelectedRows.Count == 0)
             {
-                string name = dgvTypes.SelectedRows[0].Cells["TenLoai"].Value?.ToString() ?? "";
-                var confirm = MessageBox.Show($"Bạn có chắc muốn xóa Loại: '{name}'?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (confirm != DialogResult.Yes) return;
+                ShowWarning("Vui lòng chọn một hàng để xóa.");
+                return;
+            }
 
-                int typeID = Convert.ToInt32(dgvTypes.SelectedRows[0].Cells["MaLoai"].Value);
-                SqlParameter[] parameters = { new SqlParameter("@MaLoai", typeID) };
+            string name = dgvTypes.SelectedRows[0].Cells["TenLoai"].Value?.ToString() ?? "";
+            if (MessageBox.Show($"Bạn có chắc muốn xóa loại: '{name}'?", "Xác nhận xóa",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            try
+            {
+                int typeId = Convert.ToInt32(dgvTypes.SelectedRows[0].Cells["MaLoai"].Value);
+                var parameters = new SqlParameter[] { new SqlParameter("@MaLoai", typeId) };
                 DatabaseHelper.ExecuteNonQuery("sp_XoaLoaiCoSoVatChat", parameters);
                 LoadTypes();
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Vui lòng chọn một hàng để xóa.", "Chưa Chọn", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ShowError("Lỗi khi xóa loại cơ sở vật chất", ex);
             }
         }
 
-        private void dgvTypes_SelectionChanged(object sender, EventArgs e)
+        private void DgvTypes_SelectionChanged(object? sender, EventArgs e)
         {
+            if (_selectedSummaryLabel == null) return;
+
             if (dgvTypes.SelectedRows.Count > 0)
             {
-                lblTypeNameValue.Text = dgvTypes.SelectedRows[0].Cells["TenLoai"].Value?.ToString() ?? string.Empty;
+                string name = dgvTypes.SelectedRows[0].Cells["TenLoai"].Value?.ToString() ?? "";
+                string id = dgvTypes.SelectedRows[0].Cells["MaLoai"].Value?.ToString() ?? "";
+                _selectedSummaryLabel.Text = $"Đang chọn: {name} (Mã: {id})";
             }
             else
             {
-                lblTypeNameValue.Text = string.Empty;
+                _selectedSummaryLabel.Text = "Chưa chọn loại";
             }
         }
 
-        // ============================================
-        // CÁC PHƯƠNG THỨC TÌM KIẾM
-        // ============================================
+        private void btnSearch_Click(object? sender, EventArgs e) => PerformSearch();
 
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            PerformSearch();
-        }
-
-        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        private void txtSearch_KeyDown(object? sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -262,11 +348,11 @@ namespace FacilityManagementSystem
             }
         }
 
-        private void btnClearSearch_Click(object sender, EventArgs e)
+        private void btnClearSearch_Click(object? sender, EventArgs e)
         {
             txtSearch.Clear();
-            LoadTypes(); // Load lại tất cả dữ liệu
-            currentPage = 1;
+            LoadTypes();
+            _currentPage = 1;
         }
 
         private void PerformSearch()
@@ -274,47 +360,59 @@ namespace FacilityManagementSystem
             string searchTerm = txtSearch.Text.Trim();
             if (string.IsNullOrEmpty(searchTerm))
             {
-                LoadTypes(); // Nếu không có từ khóa tìm kiếm, load tất cả
+                LoadTypes();
                 return;
             }
 
             try
             {
-                dtTypes = DatabaseHelper.SearchEquipmentTypeByName(searchTerm);
-                dgvTypes.DataSource = GetPagedData(dtTypes, 1); // Reset về trang đầu
+                _typeData = DatabaseHelper.SearchEquipmentTypeByName(searchTerm);
+                UpdateDataGridView(_typeData, 1);
                 SetupColumnHeaders();
-                currentPage = 1;
-                UpdatePagingInfo();
-
-                if (dtTypes.Rows.Count == 0)
-                {
-                    MessageBox.Show($"Không tìm thấy loại cơ sở vật chất nào với từ khóa '{searchTerm}'.", 
-                                    "Không Tìm Thấy", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                ShowSearchResult($"loại cơ sở vật chất với từ khóa '{searchTerm}'", _typeData?.Rows.Count ?? 0);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowError("Lỗi khi tìm kiếm", ex);
             }
+        }
+
+        private void ShowSearchResult(string searchTerm, int resultCount)
+        {
+            string message = resultCount == 0
+                ? $"Không tìm thấy {searchTerm}."
+                : $"Tìm thấy {resultCount} {searchTerm}.";
+            MessageBox.Show(message, resultCount == 0 ? "Không Tìm Thấy" : "Kết Quả Tìm Kiếm",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void UpdatePagingInfo()
         {
-            if (dtTypes == null)
+            if (_typeData == null)
             {
-                if (lblPageInfo != null) lblPageInfo.Text = string.Empty;
+                _pageInfoLabel.Text = string.Empty;
                 btnPrev.Enabled = btnNext.Enabled = false;
                 return;
             }
-            int total = dtTypes.Rows.Count;
-            int totalPages = Math.Max(1, (int)Math.Ceiling(total / (double)pageSize));
-            int start = total == 0 ? 0 : (currentPage - 1) * pageSize + 1;
-            int end = Math.Min(currentPage * pageSize, total);
-            if (lblPageInfo != null)
-                lblPageInfo.Text = $"Hiển thị {start}-{end}/{total} (Trang {currentPage}/{totalPages})";
 
-            btnPrev.Enabled = currentPage > 1;
-            btnNext.Enabled = currentPage < totalPages;
+            int total = _typeData.Rows.Count;
+            int totalPages = Math.Max(1, (int)Math.Ceiling(total / (double)PageSize));
+            int start = total == 0 ? 0 : (_currentPage - 1) * PageSize + 1;
+            int end = Math.Min(_currentPage * PageSize, total);
+
+            _pageInfoLabel.Text = $"Hiển thị {start}-{end}/{total} (Trang {_currentPage}/{totalPages})";
+            btnPrev.Enabled = _currentPage > 1;
+            btnNext.Enabled = _currentPage < totalPages;
+        }
+
+        private void ShowError(string message, Exception ex)
+        {
+            MessageBox.Show($"{message}: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void ShowWarning(string message)
+        {
+            MessageBox.Show(message, "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 }

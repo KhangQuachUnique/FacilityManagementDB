@@ -68,3 +68,8 @@ D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagemen
 D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementSystem.EquipmentTypeForm.resources
 D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementSystem.MaintenanceForm.resources
 D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementDB.csproj.GenerateResource.cache
+D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementSystem.EquipmentTypeEditForm.resources
+D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementSystem.LoginForm.resources
+D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementSystem.MainForm.resources
+D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementSystem.MaintenanceEditForm.resources
+D:\SQL server C#\FacilityManagementDB\obj\Debug\net9.0-windows\FacilityManagementSystem.ReportsForm.resources

@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hoang\\Source\\Repos\\FacilityManagementDB2\\FacilityManagementDB.csproj": {}
+    "D:\\SQL server C#\\FacilityManagementDB\\FacilityManagementDB.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hoang\\Source\\Repos\\FacilityManagementDB2\\FacilityManagementDB.csproj": {
+    "D:\\SQL server C#\\FacilityManagementDB\\FacilityManagementDB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hoang\\Source\\Repos\\FacilityManagementDB2\\FacilityManagementDB.csproj",
+        "projectUniqueName": "D:\\SQL server C#\\FacilityManagementDB\\FacilityManagementDB.csproj",
         "projectName": "FacilityManagementDB",
-        "projectPath": "C:\\Users\\hoang\\Source\\Repos\\FacilityManagementDB2\\FacilityManagementDB.csproj",
-        "packagesPath": "C:\\Users\\hoang\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hoang\\Source\\Repos\\FacilityManagementDB2\\obj\\",
+        "projectPath": "D:\\SQL server C#\\FacilityManagementDB\\FacilityManagementDB.csproj",
+        "packagesPath": "C:\\Users\\kadfw\\.nuget\\packages\\",
+        "outputPath": "D:\\SQL server C#\\FacilityManagementDB\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\hoang\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\kadfw\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0-windows"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -78,7 +72,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
