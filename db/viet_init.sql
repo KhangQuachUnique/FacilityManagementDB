@@ -57,16 +57,6 @@ CREATE TABLE BaoTriCoSoVatChat (
 );
 GO
 
--- Bảng Nhật Ký Trạng Thái Cơ Sở Vật Chất
-CREATE TABLE NhatKyTrangThaiCoSoVatChat (
-    MaNhatKy INT PRIMARY KEY IDENTITY(1,1),
-    MaCoSoVatChat INT NOT NULL FOREIGN KEY REFERENCES CoSoVatChat(MaCoSoVatChat),
-    TrangThai NVARCHAR(50) NOT NULL,
-    NgayThayDoi DATETIME NOT NULL DEFAULT GETDATE(),
-    NguoiThayDoi INT NOT NULL FOREIGN KEY REFERENCES NhanVien(MaNhanVien)
-);
-GO
-
 -- Thủ Tục Lưu Trữ (Stored Procedures)
 
 -- Khu Vực
@@ -158,6 +148,16 @@ BEGIN
     FROM NhanVien e 
     LEFT JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc 
     WHERE e.MaNhanVien = @MaNhanVien;
+END;
+GO
+
+-- Chỉ lấy nhân viên kỹ thuật (dùng cho tạo công việc bảo trì)
+CREATE PROCEDURE sp_LayNhanVienKyThuat
+AS
+BEGIN
+    SELECT e.MaNhanVien, e.Ten, e.ChucVu, e.MaKhuVuc
+    FROM NhanVien e
+    WHERE e.ChucVu = N'Nhân Viên Kỹ Thuật';
 END;
 GO
 
@@ -262,6 +262,19 @@ BEGIN
     WHERE (@MaKhuVuc IS NULL OR e.MaKhuVuc = @MaKhuVuc)
     AND (@MaLoai IS NULL OR e.MaLoai = @MaLoai)
     AND (@TrangThai IS NULL OR e.TrangThai = @TrangThai);
+END;
+GO
+
+-- Lấy danh sách loại theo khu vực (phục vụ combobox cascading)
+CREATE PROCEDURE sp_LayLoaiTheoKhuVuc
+    @MaKhuVuc INT
+AS
+BEGIN
+    SELECT DISTINCT l.MaLoai, l.TenLoai
+    FROM CoSoVatChat c
+    INNER JOIN LoaiCoSoVatChat l ON c.MaLoai = l.MaLoai
+    WHERE c.MaKhuVuc = @MaKhuVuc
+    ORDER BY l.TenLoai;
 END;
 GO
 
@@ -521,6 +534,31 @@ BEGIN
 END;
 GO
 
+-- 7. Báo cáo thiết bị có tổng chi phí bảo trì vượt 50% giá trị (để cân nhắc thay thế)
+CREATE PROCEDURE sp_BaoCaoThietBiChiPhiBaoTriVuot50PhanTram
+AS
+BEGIN
+    SELECT 
+        c.MaCoSoVatChat,
+        c.Ten AS TenCoSoVatChat,
+        kv.TenKhuVuc,
+        l.TenLoai,
+        c.TrangThai,
+        c.Gia,
+        SUM(bt.ChiPhi) AS TongChiPhiBaoTri,
+        (SUM(bt.ChiPhi) / c.Gia) * 100 AS PhanTramChiPhi,
+        COUNT(bt.MaBaoTri) AS SoLanBaoTri,
+        MAX(bt.NgayBaoTri) AS LanBaoTriGanNhat
+    FROM CoSoVatChat c
+    INNER JOIN KhuVuc kv ON c.MaKhuVuc = kv.MaKhuVuc
+    INNER JOIN LoaiCoSoVatChat l ON c.MaLoai = l.MaLoai
+    INNER JOIN BaoTriCoSoVatChat bt ON c.MaCoSoVatChat = bt.MaCoSoVatChat
+    GROUP BY c.MaCoSoVatChat, c.Ten, kv.TenKhuVuc, l.TenLoai, c.TrangThai, c.Gia
+    HAVING SUM(bt.ChiPhi) > 0.5 * c.Gia
+    ORDER BY (SUM(bt.ChiPhi) / c.Gia) DESC;
+END;
+GO
+
 -- Hàm
 CREATE FUNCTION fn_TinhTongChiPhiBaoTri (@MaCoSoVatChat INT)
 RETURNS DECIMAL(18,2)
@@ -533,22 +571,6 @@ END;
 GO
 
 -- Trigger
-CREATE TRIGGER trg_ThayDoiTrangThaiCoSoVatChat
-ON CoSoVatChat
-AFTER UPDATE
-AS
-BEGIN
-    IF UPDATE(TrangThai)
-    BEGIN
-        INSERT INTO NhatKyTrangThaiCoSoVatChat (MaCoSoVatChat, TrangThai, NgayThayDoi, NguoiThayDoi)
-        SELECT i.MaCoSoVatChat, i.TrangThai, GETDATE(), 1 
-        FROM inserted i 
-        INNER JOIN deleted d ON i.MaCoSoVatChat = d.MaCoSoVatChat 
-        WHERE i.TrangThai <> d.TrangThai;
-    END;
-END;
-GO
-
 CREATE TRIGGER trg_TuDongCapNhatTrangThaiBaoTri
 ON BaoTriCoSoVatChat
 AFTER INSERT
@@ -923,55 +945,4 @@ VALUES
     -- Bảo trì Loa Âm Thanh
     (42, 5, '2025-09-20', 300000.00, N'Sửa loa âm thanh sự kiện bị rè', N'Chưa Hoàn Thành'),
     (42, 3, '2025-09-05', 200000.00, N'Vệ sinh loa âm thanh', N'Hoàn Thành');
-GO
-
--- 6. Chèn dữ liệu vào bảng NhatKyTrangThaiCoSoVatChat
--- Ghi lại lịch sử thay đổi trạng thái của các cơ sở vật chất
-INSERT INTO NhatKyTrangThaiCoSoVatChat (MaCoSoVatChat, TrangThai, NgayThayDoi, NguoiThayDoi)
-VALUES 
-    -- Máy In Hóa Đơn
-    (3, N'Đang Bảo Trì', '2025-09-20 10:00:00', 3),
-    (3, N'Hoạt Động', '2025-08-15 14:00:00', 3),
-    (4, N'Hoạt Động', '2025-09-10 16:00:00', 3),
-    
-    -- Bàn Gỗ Văn Phòng
-    (19, N'Hỏng', '2025-09-17 14:30:00', 5),
-    (19, N'Hoạt Động', '2025-09-18 16:00:00', 5),
-    
-    -- Kệ Sách
-    (10, N'Hỏng', '2025-09-22 09:00:00', 5),
-    (13, N'Hoạt Động', '2025-09-15 15:00:00', 3),
-    (34, N'Hỏng', '2025-09-10 11:00:00', 3),
-    
-    -- Máy Tính
-    (22, N'Đang Bảo Trì', '2025-09-17 13:00:00', 5),
-    (1, N'Hoạt Động', '2025-09-01 17:00:00', 3),
-    
-    -- Máy Lạnh
-    (23, N'Hoạt Động', '2025-09-12 15:00:00', 5),
-    (40, N'Đang Bảo Trì', '2025-09-19 10:00:00', 3),
-    
-    -- Máy Quét Mã Vạch
-    (6, N'Hỏng', '2025-09-21 08:00:00', 3),
-    (6, N'Hoạt Động', '2025-08-25 16:00:00', 5),
-    
-    -- Đèn LED
-    (18, N'Hỏng', '2025-09-13 10:00:00', 5),
-    (18, N'Hoạt Động', '2025-09-14 14:00:00', 5),
-    (26, N'Hoạt Động', '2025-09-11 12:00:00', 3),
-    
-    -- Máy Pha Cà Phê
-    (36, N'Đang Bảo Trì', '2025-09-23 09:00:00', 5),
-    (36, N'Hoạt Động', '2025-09-02 15:00:00', 3),
-    
-    -- Máy Chiếu
-    (41, N'Hoạt Động', '2025-09-16 17:00:00', 5),
-    
-    -- Loa Âm Thanh
-    (42, N'Đang Bảo Trì', '2025-09-20 11:00:00', 5),
-    (42, N'Hoạt Động', '2025-09-05 14:00:00', 3),
-    
-    -- Bàn Ghế Sự Kiện
-    (44, N'Hỏng', '2025-09-15 10:00:00', 3),
-    (44, N'Hoạt Động', '2025-09-10 16:00:00', 3);
 GO
