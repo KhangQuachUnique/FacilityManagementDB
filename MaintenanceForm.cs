@@ -18,6 +18,8 @@ namespace FacilityManagementSystem
         private readonly FlowLayoutPanel _actionPanel;
         private readonly Label _pageInfoLabel;
         private readonly Label _selectedSummaryLabel;
+    private readonly ComboBox _cmbFilterArea;
+    private readonly ComboBox _cmbFilterType;
 
         public MaintenanceForm()
         {
@@ -28,6 +30,8 @@ namespace FacilityManagementSystem
             _actionPanel = new FlowLayoutPanel();
             _pageInfoLabel = new Label { AutoSize = true, Margin = new Padding(10, 8, 10, 0) };
             _selectedSummaryLabel = new Label { AutoSize = true, Margin = new Padding(10, 8, 20, 0) };
+            _cmbFilterArea = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 150, Margin = new Padding(5) };
+            _cmbFilterType = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 150, Margin = new Padding(5) };
 
             ConfigureUI();
             BuildLayout();
@@ -124,8 +128,10 @@ namespace FacilityManagementSystem
             _filterPanel.Padding = new Padding(5);
             _filterPanel.Controls.AddRange(new Control[]
             {
-                new Label { Text = "Thiết bị:", AutoSize = true, Margin = new Padding(5, 8, 5, 0) },
-                cmbFilterEquipment,
+                new Label { Text = "Khu vực:", AutoSize = true, Margin = new Padding(5, 8, 5, 0) },
+                _cmbFilterArea,
+                new Label { Text = "Loại:", AutoSize = true, Margin = new Padding(10, 8, 5, 0) },
+                _cmbFilterType,
                 new Label { Text = "Nhân viên:", AutoSize = true, Margin = new Padding(10, 8, 5, 0) },
                 cmbFilterEmployee,
                 new Label { Text = "Từ:", AutoSize = true, Margin = new Padding(10, 8, 5, 0) },
@@ -136,7 +142,7 @@ namespace FacilityManagementSystem
                 btnResetFilter
             });
 
-            foreach (var combo in new[] { cmbFilterEquipment, cmbFilterEmployee })
+            foreach (var combo in new[] { _cmbFilterArea, _cmbFilterType, cmbFilterEmployee })
             {
                 combo.Width = 150;
                 combo.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -202,13 +208,15 @@ namespace FacilityManagementSystem
             btnDelete.Click += btnDelete_Click;
             btnNext.Click += btnNext_Click;
             btnPrev.Click += btnPrev_Click;
+            _cmbFilterArea.SelectedIndexChanged += _cmbFilterArea_SelectedIndexChanged;
         }
 
         private void LoadInitialData()
         {
             LoadMaintenance();
-            LoadEquipment();
             LoadEmployees();
+            LoadAreasForFilter();
+            LoadTypesForFilter();
         }
 
         private void LoadMaintenance()
@@ -327,7 +335,6 @@ namespace FacilityManagementSystem
             {
                 var equipment = DatabaseHelper.ExecuteProcedure("sp_LayTatCaCoSoVatChat");
                 ConfigureComboBox(cmbEquipment, equipment, "Ten", "MaCoSoVatChat");
-                ConfigureComboBox(cmbFilterEquipment, equipment.Copy(), "Ten", "MaCoSoVatChat");
             }
             catch (Exception ex)
             {
@@ -339,7 +346,7 @@ namespace FacilityManagementSystem
         {
             try
             {
-                var employees = DatabaseHelper.ExecuteProcedure("sp_LayTatCaNhanVien");
+                var employees = DatabaseHelper.ExecuteProcedure("sp_LayNhanVienKyThuat");
                 ConfigureComboBox(cmbEmployee, employees, "Ten", "MaNhanVien");
                 ConfigureComboBox(cmbFilterEmployee, employees.Copy(), "Ten", "MaNhanVien");
             }
@@ -347,6 +354,53 @@ namespace FacilityManagementSystem
             {
                 ShowError("Lỗi khi tải danh sách nhân viên", ex);
             }
+        }
+
+        private void LoadAreasForFilter()
+        {
+            try
+            {
+                var areas = DatabaseHelper.ExecuteProcedure("sp_LayTatCaKhuVuc");
+                _cmbFilterArea.DataSource = areas;
+                _cmbFilterArea.DisplayMember = "TenKhuVuc";
+                _cmbFilterArea.ValueMember = "MaKhuVuc";
+                _cmbFilterArea.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                ShowError("Lỗi khi tải danh sách khu vực", ex);
+            }
+        }
+
+        private void LoadTypesForFilter()
+        {
+            try
+            {
+                DataTable types;
+                if (_cmbFilterArea.SelectedValue is int areaId)
+                {
+                    var parameters = new SqlParameter[] { new SqlParameter("@MaKhuVuc", areaId) };
+                    types = DatabaseHelper.ExecuteProcedure("sp_LayLoaiTheoKhuVuc", parameters);
+                }
+                else
+                {
+                    types = DatabaseHelper.ExecuteProcedure("sp_LayTatCaLoaiCoSoVatChat");
+                }
+
+                _cmbFilterType.DataSource = types;
+                _cmbFilterType.DisplayMember = "TenLoai";
+                _cmbFilterType.ValueMember = "MaLoai";
+                _cmbFilterType.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                ShowError("Lỗi khi tải danh sách loại", ex);
+            }
+        }
+
+        private void _cmbFilterArea_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            LoadTypesForFilter();
         }
 
         private void ConfigureComboBox(ComboBox comboBox, DataTable data, string displayMember, string valueMember)
@@ -363,13 +417,14 @@ namespace FacilityManagementSystem
             {
                 var parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@MaCoSoVatChat", cmbFilterEquipment.SelectedValue ?? DBNull.Value),
+                    new SqlParameter("@MaKhuVuc", _cmbFilterArea.SelectedValue ?? DBNull.Value),
+                    new SqlParameter("@MaLoai", _cmbFilterType.SelectedValue ?? DBNull.Value),
                     new SqlParameter("@MaNhanVien", cmbFilterEmployee.SelectedValue ?? DBNull.Value),
                     new SqlParameter("@NgayBatDau", dtpStart.Value.Date),
                     new SqlParameter("@NgayKetThuc", dtpEnd.Value.Date)
                 };
 
-                _maintenanceData = DatabaseHelper.ExecuteProcedure("sp_LayBaoTriTheoBoLoc", parameters);
+                _maintenanceData = DatabaseHelper.ExecuteProcedure("sp_LayBaoTriTheoBoLoc_MoRong", parameters);
                 UpdateDataGridView(_maintenanceData, 1);
             }
             catch (Exception ex)
@@ -380,7 +435,8 @@ namespace FacilityManagementSystem
 
         private void btnResetFilter_Click(object? sender, EventArgs e)
         {
-            cmbFilterEquipment.SelectedIndex = -1;
+            _cmbFilterArea.SelectedIndex = -1;
+            _cmbFilterType.SelectedIndex = -1;
             cmbFilterEmployee.SelectedIndex = -1;
             dtpStart.Value = DateTime.Now.AddMonths(-1);
             dtpEnd.Value = DateTime.Now;
