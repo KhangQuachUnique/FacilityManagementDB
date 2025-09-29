@@ -366,7 +366,10 @@ namespace FacilityManagementSystem
 
             try
             {
-                _typeData = DatabaseHelper.SearchEquipmentTypeByName(searchTerm);
+                _typeData = DatabaseHelper.ExecuteProcedure(
+                    "sp_TimKiemLoaiCoSoVatChatTheoTen",
+                    new SqlParameter("@TenLoai", searchTerm)
+                );
                 UpdateDataGridView(_typeData, 1);
                 SetupColumnHeaders();
                 ShowSearchResult($"loại cơ sở vật chất với từ khóa '{searchTerm}'", _typeData?.Rows.Count ?? 0);

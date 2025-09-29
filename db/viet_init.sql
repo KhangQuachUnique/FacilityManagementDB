@@ -371,27 +371,6 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_LayBaoTriTheoBoLoc
-    @MaCoSoVatChat INT = NULL,
-    @MaNhanVien INT = NULL,
-    @NgayBatDau DATE = NULL,
-    @NgayKetThuc DATE = NULL,
-    @TrangThai NVARCHAR(50) = NULL
-AS
-BEGIN
-    SELECT m.MaBaoTri, e.Ten AS TenCoSoVatChat, emp.Ten AS TenNhanVien, 
-           m.NgayBaoTri, m.ChiPhi, m.MoTa, m.TrangThai 
-    FROM BaoTriCoSoVatChat m 
-    JOIN CoSoVatChat e ON m.MaCoSoVatChat = e.MaCoSoVatChat 
-    JOIN NhanVien emp ON m.MaNhanVien = emp.MaNhanVien 
-    WHERE (@MaCoSoVatChat IS NULL OR m.MaCoSoVatChat = @MaCoSoVatChat)
-    AND (@MaNhanVien IS NULL OR m.MaNhanVien = @MaNhanVien)
-    AND (@NgayBatDau IS NULL OR m.NgayBaoTri >= @NgayBatDau)
-    AND (@NgayKetThuc IS NULL OR m.NgayBaoTri <= @NgayKetThuc)
-    AND (@TrangThai IS NULL OR m.TrangThai = @TrangThai);
-END;
-GO
-
 CREATE PROCEDURE sp_LayBaoTriTheoID
     @MaBaoTri INT
 AS

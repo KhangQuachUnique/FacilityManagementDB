@@ -366,7 +366,10 @@ namespace FacilityManagementSystem
 
             try
             {
-                _areaData = DatabaseHelper.SearchAreaByName(searchTerm);
+                _areaData = DatabaseHelper.ExecuteProcedure(
+                    "sp_TimKiemKhuVucTheoTen",
+                    new SqlParameter("@TenKhuVuc", searchTerm)
+                );
                 UpdateDataGridView(_areaData, 1);
                 SetupColumnHeaders();
                 ShowSearchResult($"khu vực với từ khóa '{searchTerm}'", _areaData?.Rows.Count ?? 0);

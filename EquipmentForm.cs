@@ -473,7 +473,10 @@ namespace FacilityManagementSystem
 
             try
             {
-                _equipmentData = DatabaseHelper.SearchEquipmentByName(searchTerm);
+                _equipmentData = DatabaseHelper.ExecuteProcedure(
+                    "sp_TimKiemCoSoVatChatTheoTen",
+                    new SqlParameter("@TenCoSoVatChat", searchTerm)
+                );
                 UpdateDataGridView(_equipmentData, 1);
                 SetupColumnHeaders();
                 ShowSearchResult($"cơ sở vật chất với từ khóa '{searchTerm}'", _equipmentData?.Rows.Count ?? 0);
@@ -555,7 +558,10 @@ namespace FacilityManagementSystem
 
             try
             {
-                _equipmentData = DatabaseHelper.SearchEquipmentByName(searchTerm);
+                _equipmentData = DatabaseHelper.ExecuteProcedure(
+                    "sp_TimKiemCoSoVatChatTheoTen",
+                    new SqlParameter("@TenCoSoVatChat", searchTerm)
+                );
                 UpdateDataGridView(_equipmentData, 1);
                 SetupColumnHeaders();
                 ShowSearchResult($"cơ sở vật chất với từ khóa '{searchTerm}'", _equipmentData?.Rows.Count ?? 0);

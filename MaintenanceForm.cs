@@ -530,7 +530,10 @@ namespace FacilityManagementSystem
 
             try
             {
-                _maintenanceData = DatabaseHelper.SearchMaintenanceByEquipmentName(equipmentName);
+                _maintenanceData = DatabaseHelper.ExecuteProcedure(
+                    "sp_TimKiemBaoTriTheoTenCoSoVatChat",
+                    new SqlParameter("@TenCoSoVatChat", equipmentName)
+                );
                 UpdateDataGridView(_maintenanceData, 1);
                 SetupColumnHeaders();
                 ShowSearchResult($"bảo trì cho cơ sở vật chất '{equipmentName}'", _maintenanceData?.Rows.Count ?? 0);
@@ -551,7 +554,10 @@ namespace FacilityManagementSystem
 
             try
             {
-                _maintenanceData = DatabaseHelper.SearchMaintenanceByEmployeeName(employeeName);
+                _maintenanceData = DatabaseHelper.ExecuteProcedure(
+                    "sp_TimKiemBaoTriTheoTenNhanVien",
+                    new SqlParameter("@TenNhanVien", employeeName)
+                );
                 UpdateDataGridView(_maintenanceData, 1);
                 SetupColumnHeaders();
                 ShowSearchResult($"bảo trì được thực hiện bởi '{employeeName}'", _maintenanceData?.Rows.Count ?? 0);
@@ -590,7 +596,10 @@ namespace FacilityManagementSystem
 
             try
             {
-                _maintenanceData = DatabaseHelper.SearchMaintenanceByEquipmentName(searchTerm);
+                _maintenanceData = DatabaseHelper.ExecuteProcedure(
+                    "sp_TimKiemBaoTriTheoTenCoSoVatChat",
+                    new SqlParameter("@TenCoSoVatChat", searchTerm)
+                );
                 if (_maintenanceData.Rows.Count > 0)
                 {
                     UpdateDataGridView(_maintenanceData, 1);
@@ -598,7 +607,10 @@ namespace FacilityManagementSystem
                     return;
                 }
 
-                _maintenanceData = DatabaseHelper.SearchMaintenanceByEmployeeName(searchTerm);
+                _maintenanceData = DatabaseHelper.ExecuteProcedure(
+                    "sp_TimKiemBaoTriTheoTenNhanVien",
+                    new SqlParameter("@TenNhanVien", searchTerm)
+                );
                 UpdateDataGridView(_maintenanceData, 1);
                 ShowSearchResult($"bảo trì được thực hiện bởi nhân viên có tên chứa '{searchTerm}'", _maintenanceData.Rows.Count);
             }
