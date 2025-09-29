@@ -38,41 +38,7 @@ namespace FacilityManagementSystem
             this.btnEquipment = new System.Windows.Forms.Button();
             this.btnMaintenance = new System.Windows.Forms.Button();
             this.btnReports = new System.Windows.Forms.Button();
-            this.btnSearch = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // // 
-            // // btnUserManagement
-            // // 
-            // this.btnUserManagement.Location = new System.Drawing.Point(12, 12);
-            // this.btnUserManagement.Name = "btnUserManagement";
-            // this.btnUserManagement.Size = new System.Drawing.Size(150, 23);
-            // this.btnUserManagement.TabIndex = 0;
-            // this.btnUserManagement.Text = "User Management";
-            // this.btnUserManagement.UseVisualStyleBackColor = true;
-            // this.btnUserManagement.Click += new System.EventHandler(this.btnUserManagement_Click);
-            // // 
-            // // btnRoleManagement
-            // // 
-            // this.btnRoleManagement.Location = new System.Drawing.Point(12, 41);
-            // this.btnRoleManagement.Name = "btnRoleManagement";
-            // this.btnRoleManagement.Size = new System.Drawing.Size(150, 23);
-            // this.btnRoleManagement.TabIndex = 1;
-            // this.btnRoleManagement.Text = "Role Management";
-            // this.btnRoleManagement.UseVisualStyleBackColor = true;
-            // this.btnRoleManagement.Click += new System.EventHandler(this.btnRoleManagement_Click);
-            // // 
-            // // btnEmployee
-            // // 
-            // this.btnEmployee.Location = new System.Drawing.Point(12, 70);
-            // this.btnEmployee.Name = "btnEmployee";
-            // this.btnEmployee.Size = new System.Drawing.Size(150, 23);
-            // this.btnEmployee.TabIndex = 2;
-            // this.btnEmployee.Text = "Employee Management";
-            // this.btnEmployee.UseVisualStyleBackColor = true;
-            // this.btnEmployee.Click += new System.EventHandler(this.btnEmployee_Click);
-            // 
-            // btnArea
-            // 
             this.btnArea.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular);
             this.btnArea.Location = new System.Drawing.Point(12, 12);
             this.btnArea.Name = "btnArea";
@@ -89,7 +55,7 @@ namespace FacilityManagementSystem
             this.btnEquipmentType.Name = "btnEquipmentType";
             this.btnEquipmentType.Size = new System.Drawing.Size(180, 35);
             this.btnEquipmentType.TabIndex = 4;
-            this.btnEquipmentType.Text = "🏷️ Quản Lý Loại Thiết Bị";
+            this.btnEquipmentType.Text = "🏷️ Quản Lý Loại Cơ sở vật chất";
             this.btnEquipmentType.UseVisualStyleBackColor = true;
             this.btnEquipmentType.Click += new System.EventHandler(this.btnEquipmentType_Click);
             // 
@@ -100,7 +66,7 @@ namespace FacilityManagementSystem
             this.btnEquipment.Name = "btnEquipment";
             this.btnEquipment.Size = new System.Drawing.Size(180, 35);
             this.btnEquipment.TabIndex = 5;
-            this.btnEquipment.Text = "⚙️ Quản Lý Thiết Bị";
+            this.btnEquipment.Text = "⚙️ Quản Lý Cơ Sở Vật Chất";
             this.btnEquipment.UseVisualStyleBackColor = true;
             this.btnEquipment.Click += new System.EventHandler(this.btnEquipment_Click);
             // 
@@ -126,17 +92,6 @@ namespace FacilityManagementSystem
             this.btnReports.UseVisualStyleBackColor = true;
             this.btnReports.Click += new System.EventHandler(this.btnReports_Click);
             // 
-            // btnSearch
-            // 
-            this.btnSearch.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular);
-            this.btnSearch.Location = new System.Drawing.Point(12, 227);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(180, 35);
-            this.btnSearch.TabIndex = 8;
-            this.btnSearch.Text = "🔍 Tìm Kiếm";
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -144,15 +99,11 @@ namespace FacilityManagementSystem
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(210, 300);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular);
-            this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.btnReports);
             this.Controls.Add(this.btnMaintenance);
             this.Controls.Add(this.btnEquipment);
             this.Controls.Add(this.btnEquipmentType);
             this.Controls.Add(this.btnArea);
-            this.Controls.Add(this.btnEmployee);
-            this.Controls.Add(this.btnRoleManagement);
-            this.Controls.Add(this.btnUserManagement);
             this.Name = "MainForm";
             this.Text = "Menu Chính";
             this.ResumeLayout(false);
@@ -161,14 +112,10 @@ namespace FacilityManagementSystem
 
         #endregion
 
-        private System.Windows.Forms.Button btnUserManagement;
-        private System.Windows.Forms.Button btnRoleManagement;
-        private System.Windows.Forms.Button btnEmployee;
         private System.Windows.Forms.Button btnArea;
         private System.Windows.Forms.Button btnEquipmentType;
         private System.Windows.Forms.Button btnEquipment;
         private System.Windows.Forms.Button btnMaintenance;
         private System.Windows.Forms.Button btnReports;
-        private System.Windows.Forms.Button btnSearch;
     }
 }
