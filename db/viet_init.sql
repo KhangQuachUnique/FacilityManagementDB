@@ -59,7 +59,8 @@ GO
 
 -- Thủ Tục Lưu Trữ (Stored Procedures)
 
--- Khu Vực
+-- Nhóm Stored Procedures cho Khu Vực
+-- 1. Thêm khu vực mới
 CREATE PROCEDURE sp_ThemKhuVuc
     @TenKhuVuc NVARCHAR(100)
 AS
@@ -68,6 +69,7 @@ BEGIN
 END;
 GO
 
+-- 2. Cập nhật thông tin khu vực
 CREATE PROCEDURE sp_CapNhatKhuVuc
     @MaKhuVuc INT,
     @TenKhuVuc NVARCHAR(100)
@@ -77,6 +79,7 @@ BEGIN
 END;
 GO
 
+-- 3. Xóa khu vực
 CREATE PROCEDURE sp_XoaKhuVuc
     @MaKhuVuc INT
 AS
@@ -85,6 +88,7 @@ BEGIN
 END;
 GO
 
+-- 4. Lấy tất cả khu vực
 CREATE PROCEDURE sp_LayTatCaKhuVuc
 AS
 BEGIN
@@ -92,6 +96,7 @@ BEGIN
 END;
 GO
 
+-- 5. Lấy khu vực theo ID
 CREATE PROCEDURE sp_LayKhuVucTheoID
     @MaKhuVuc INT
 AS
@@ -100,58 +105,8 @@ BEGIN
 END;
 GO
 
--- Nhân Viên
-CREATE PROCEDURE sp_ThemNhanVien
-    @Ten NVARCHAR(100),
-    @ChucVu NVARCHAR(50),
-    @MaKhuVuc INT
-AS
-BEGIN
-    INSERT INTO NhanVien (Ten, ChucVu, MaKhuVuc) VALUES (@Ten, @ChucVu, @MaKhuVuc);
-END;
-GO
-
-CREATE PROCEDURE sp_CapNhatNhanVien
-    @MaNhanVien INT,
-    @Ten NVARCHAR(100),
-    @ChucVu NVARCHAR(50),
-    @MaKhuVuc INT
-AS
-BEGIN
-    UPDATE NhanVien SET Ten = @Ten, ChucVu = @ChucVu, MaKhuVuc = @MaKhuVuc 
-    WHERE MaNhanVien = @MaNhanVien;
-END;
-GO
-
-CREATE PROCEDURE sp_XoaNhanVien
-    @MaNhanVien INT
-AS
-BEGIN
-    DELETE FROM NhanVien WHERE MaNhanVien = @MaNhanVien;
-END;
-GO
-
-CREATE PROCEDURE sp_LayTatCaNhanVien
-AS
-BEGIN
-    SELECT e.MaNhanVien, e.Ten, e.ChucVu, a.TenKhuVuc 
-    FROM NhanVien e 
-    LEFT JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc;
-END;
-GO
-
-CREATE PROCEDURE sp_LayNhanVienTheoID
-    @MaNhanVien INT
-AS
-BEGIN
-    SELECT e.MaNhanVien, e.Ten, e.ChucVu, a.TenKhuVuc 
-    FROM NhanVien e 
-    LEFT JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc 
-    WHERE e.MaNhanVien = @MaNhanVien;
-END;
-GO
-
--- Chỉ lấy nhân viên kỹ thuật (dùng cho tạo công việc bảo trì)
+-- Nhóm Stored Procedures cho Nhân Viên
+-- 6. Lấy nhân viên kỹ thuật
 CREATE PROCEDURE sp_LayNhanVienKyThuat
 AS
 BEGIN
@@ -161,7 +116,8 @@ BEGIN
 END;
 GO
 
--- Loại Cơ Sở Vật Chất
+-- Nhóm Stored Procedures cho Loại Cơ Sở Vật Chất
+-- 7. Thêm loại cơ sở vật chất mới
 CREATE PROCEDURE sp_ThemLoaiCoSoVatChat
     @TenLoai NVARCHAR(100)
 AS
@@ -170,6 +126,7 @@ BEGIN
 END;
 GO
 
+-- 8. Cập nhật loại cơ sở vật chất
 CREATE PROCEDURE sp_CapNhatLoaiCoSoVatChat
     @MaLoai INT,
     @TenLoai NVARCHAR(100)
@@ -179,6 +136,7 @@ BEGIN
 END;
 GO
 
+-- 9. Xóa loại cơ sở vật chất
 CREATE PROCEDURE sp_XoaLoaiCoSoVatChat
     @MaLoai INT
 AS
@@ -187,6 +145,7 @@ BEGIN
 END;
 GO
 
+-- 10. Lấy tất cả loại cơ sở vật chất
 CREATE PROCEDURE sp_LayTatCaLoaiCoSoVatChat
 AS
 BEGIN
@@ -194,6 +153,7 @@ BEGIN
 END;
 GO
 
+-- 11. Lấy loại cơ sở vật chất theo ID
 CREATE PROCEDURE sp_LayLoaiCoSoVatChatTheoID
     @MaLoai INT
 AS
@@ -202,7 +162,8 @@ BEGIN
 END;
 GO
 
--- Cơ Sở Vật Chất
+-- Nhóm Stored Procedures cho Cơ Sở Vật Chất
+-- 12. Thêm cơ sở vật chất mới
 CREATE PROCEDURE sp_ThemCoSoVatChat
     @Ten NVARCHAR(100),
     @MaLoai INT,
@@ -216,6 +177,7 @@ BEGIN
 END;
 GO
 
+-- 13. Cập nhật cơ sở vật chất
 CREATE PROCEDURE sp_CapNhatCoSoVatChat
     @MaCoSoVatChat INT,
     @Ten NVARCHAR(100),
@@ -231,6 +193,7 @@ BEGIN
 END;
 GO
 
+-- 14. Xóa cơ sở vật chất
 CREATE PROCEDURE sp_XoaCoSoVatChat
     @MaCoSoVatChat INT
 AS
@@ -239,6 +202,7 @@ BEGIN
 END;
 GO
 
+-- 15. Lấy tất cả cơ sở vật chất
 CREATE PROCEDURE sp_LayTatCaCoSoVatChat
 AS
 BEGIN
@@ -249,6 +213,7 @@ BEGIN
 END;
 GO
 
+-- 16. Lấy cơ sở vật chất theo bộ lọc (khu vực, loại, trạng thái)
 CREATE PROCEDURE sp_LayCoSoVatChatTheoBoLoc
     @MaKhuVuc INT = NULL,
     @MaLoai INT = NULL,
@@ -265,7 +230,7 @@ BEGIN
 END;
 GO
 
--- Lấy danh sách loại theo khu vực (phục vụ combobox cascading)
+-- 17. Lấy loại cơ sở vật chất theo khu vực (cho combobox cascading)
 CREATE PROCEDURE sp_LayLoaiTheoKhuVuc
     @MaKhuVuc INT
 AS
@@ -278,6 +243,7 @@ BEGIN
 END;
 GO
 
+-- 18. Lấy cơ sở vật chất theo ID
 CREATE PROCEDURE sp_LayCoSoVatChatTheoID
     @MaCoSoVatChat INT
 AS
@@ -290,7 +256,21 @@ BEGIN
 END;
 GO
 
--- Bảo Trì Cơ Sở Vật Chất
+-- 19. Lấy cơ sở vật chất bị hỏng
+CREATE PROCEDURE sp_LayCoSoVatChatBiHong
+AS
+BEGIN
+    SELECT e.MaCoSoVatChat, e.Ten, e.MaLoai, t.TenLoai, e.MaKhuVuc, a.TenKhuVuc, e.TrangThai, e.Gia 
+    FROM CoSoVatChat e 
+    JOIN LoaiCoSoVatChat t ON e.MaLoai = t.MaLoai 
+    JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc 
+    WHERE e.TrangThai = N'Hỏng'
+    ORDER BY e.Ten;
+END;
+GO
+
+-- Nhóm Stored Procedures cho Bảo Trì Cơ Sở Vật Chất
+-- 20. Thêm bảo trì mới
 CREATE PROCEDURE sp_ThemBaoTri
     @MaCoSoVatChat INT,
     @MaNhanVien INT,
@@ -305,6 +285,7 @@ BEGIN
 END;
 GO
 
+-- 21. Cập nhật bảo trì
 CREATE PROCEDURE sp_CapNhatBaoTri
     @MaBaoTri INT,
     @MaCoSoVatChat INT,
@@ -322,6 +303,7 @@ BEGIN
 END;
 GO
 
+-- 22. Xóa bảo trì
 CREATE PROCEDURE sp_XoaBaoTri
     @MaBaoTri INT
 AS
@@ -330,6 +312,7 @@ BEGIN
 END;
 GO
 
+-- 23. Lấy tất cả bảo trì
 CREATE PROCEDURE sp_LayTatCaBaoTri
 AS
 BEGIN
@@ -341,7 +324,7 @@ BEGIN
 END;
 GO
 
--- Lọc bảo trì theo khu vực, loại (mở rộng), nhân viên và khoảng ngày
+-- 24. Lấy bảo trì theo bộ lọc mở rộng (khu vực, loại, nhân viên, khoảng ngày, trạng thái)
 CREATE PROCEDURE sp_LayBaoTriTheoBoLoc_MoRong
         @MaKhuVuc INT = NULL,
         @MaLoai INT = NULL,
@@ -371,6 +354,7 @@ BEGIN
 END;
 GO
 
+-- 25. Lấy bảo trì theo ID
 CREATE PROCEDURE sp_LayBaoTriTheoID
     @MaBaoTri INT
 AS
@@ -385,11 +369,8 @@ BEGIN
 END;
 GO
 
--- =======================================================
--- STORED PROCEDURES CHO BÁO CÁO
--- =======================================================
-
--- 1. Báo cáo chi phí bảo trì theo tháng (chi tiết)
+-- Nhóm Stored Procedures cho Báo Cáo
+-- 26. Báo cáo chi phí bảo trì theo tháng (chi tiết)
 CREATE PROCEDURE sp_BaoCaoChiPhiBaoTriTheoThang
     @Thang INT,
     @Nam INT
@@ -413,7 +394,7 @@ BEGIN
 END;
 GO
 
--- 2. Báo cáo thiết bị theo trạng thái
+-- 27. Báo cáo thiết bị theo trạng thái (số lượng)
 CREATE PROCEDURE sp_BaoCaoThietBiTheoTrangThai
 AS
 BEGIN
@@ -426,7 +407,7 @@ BEGIN
 END;
 GO
 
--- 3. Báo cáo giá trị tài sản theo khu vực (chi tiết từng thiết bị)
+-- 28. Báo cáo giá trị tài sản theo khu vực (chi tiết từng thiết bị)
 CREATE PROCEDURE sp_BaoCaoGiaTriTaiSanTheoKhuVuc
     @MaKhuVuc INT
 AS
@@ -443,7 +424,7 @@ BEGIN
 END;
 GO
 
--- 4. Báo cáo thiết bị cần bảo trì
+-- 29. Báo cáo thiết bị cần bảo trì (ưu tiên theo trạng thái)
 CREATE PROCEDURE sp_BaoCaoThietBiCanBaoTri
 AS  
 BEGIN
@@ -482,68 +463,7 @@ BEGIN
 END;
 GO
 
--- 5. Thống kê tổng quan hệ thống
-CREATE PROCEDURE sp_ThongKeTongQuan
-AS
-BEGIN
-    SELECT 
-        'Thiết Bị' AS LoaiThongKe,
-        COUNT(*) AS TongSo,
-        SUM(Gia) AS TongGiaTri
-    FROM CoSoVatChat
-    
-    UNION ALL
-    
-    SELECT 
-        'Khu Vực' AS LoaiThongKe,
-        COUNT(*) AS TongSo,
-        0 AS TongGiaTri
-    FROM KhuVuc
-    
-    UNION ALL
-    
-    SELECT 
-        'Nhân Viên' AS LoaiThongKe,
-        COUNT(*) AS TongSo,
-        0 AS TongGiaTri
-    FROM NhanVien
-    
-    UNION ALL
-    
-    SELECT 
-        'Bảo Trì Tháng Này' AS LoaiThongKe,
-        COUNT(*) AS TongSo,
-        SUM(ChiPhi) AS TongGiaTri
-    FROM BaoTriCoSoVatChat
-    WHERE MONTH(NgayBaoTri) = MONTH(GETDATE()) 
-      AND YEAR(NgayBaoTri) = YEAR(GETDATE());
-END;
-GO
-
--- 6. Top thiết bị chi phí bảo trì cao nhất
-CREATE PROCEDURE sp_TopThietBiChiPhiBaoTriCao
-    @SoLuong INT = 10
-AS
-BEGIN
-    SELECT TOP (@SoLuong)
-        c.Ten AS TenCoSoVatChat,
-        kv.TenKhuVuc,
-        l.TenLoai,
-        c.TrangThai,
-        SUM(bt.ChiPhi) AS TongChiPhiBaoTri,
-        COUNT(bt.MaBaoTri) AS SoLanBaoTri,
-        AVG(bt.ChiPhi) AS ChiPhiTrungBinh,
-        MAX(bt.NgayBaoTri) AS LanBaoTriGanNhat
-    FROM CoSoVatChat c
-    INNER JOIN KhuVuc kv ON c.MaKhuVuc = kv.MaKhuVuc
-    INNER JOIN LoaiCoSoVatChat l ON c.MaLoai = l.MaLoai
-    INNER JOIN BaoTriCoSoVatChat bt ON c.MaCoSoVatChat = bt.MaCoSoVatChat
-    GROUP BY c.MaCoSoVatChat, c.Ten, kv.TenKhuVuc, l.TenLoai, c.TrangThai
-    ORDER BY TongChiPhiBaoTri DESC;
-END;
-GO
-
--- 7. Báo cáo thiết bị có tổng chi phí bảo trì vượt 50% giá trị (để cân nhắc thay thế)
+-- 30. Báo cáo thiết bị có tổng chi phí bảo trì vượt 50% giá trị (để cân nhắc thay thế)
 CREATE PROCEDURE sp_BaoCaoThietBiChiPhiBaoTriVuot50PhanTram
 AS
 BEGIN
@@ -568,18 +488,77 @@ BEGIN
 END;
 GO
 
--- Hàm
-CREATE FUNCTION fn_TinhTongChiPhiBaoTri (@MaCoSoVatChat INT)
-RETURNS DECIMAL(18,2)
+-- Nhóm Stored Procedures cho Tìm Kiếm
+-- 31. Tìm kiếm khu vực theo tên
+CREATE PROCEDURE sp_TimKiemKhuVucTheoTen
+    @TenKhuVuc NVARCHAR(255)
 AS
 BEGIN
-    DECLARE @Tong DECIMAL(18,2);
-    SELECT @Tong = SUM(ChiPhi) FROM BaoTriCoSoVatChat WHERE MaCoSoVatChat = @MaCoSoVatChat;
-    RETURN ISNULL(@Tong, 0);
+    SELECT MaKhuVuc, TenKhuVuc
+    FROM KhuVuc
+    WHERE TenKhuVuc LIKE N'%' + @TenKhuVuc + N'%'
+    ORDER BY TenKhuVuc;
+END;
+GO
+
+-- 32. Tìm kiếm loại cơ sở vật chất theo tên
+CREATE PROCEDURE sp_TimKiemLoaiCoSoVatChatTheoTen
+    @TenLoai NVARCHAR(255)
+AS
+BEGIN
+    SELECT MaLoai, TenLoai
+    FROM LoaiCoSoVatChat
+    WHERE TenLoai LIKE N'%' + @TenLoai + N'%'
+    ORDER BY TenLoai;
+END;
+GO
+
+-- 33. Tìm kiếm cơ sở vật chất theo tên
+CREATE PROCEDURE sp_TimKiemCoSoVatChatTheoTen
+    @TenCoSoVatChat NVARCHAR(255)
+AS
+BEGIN
+    SELECT csvc.MaCoSoVatChat, csvc.Ten, csvc.MaLoai, lcsvc.TenLoai, csvc.MaKhuVuc, kv.TenKhuVuc, csvc.TrangThai, csvc.Gia
+    FROM CoSoVatChat csvc
+    JOIN LoaiCoSoVatChat lcsvc ON csvc.MaLoai = lcsvc.MaLoai
+    JOIN KhuVuc kv ON csvc.MaKhuVuc = kv.MaKhuVuc
+    WHERE csvc.Ten LIKE N'%' + @TenCoSoVatChat + N'%'
+    ORDER BY csvc.Ten;
+END;
+GO
+
+-- 34. Tìm kiếm bảo trì theo tên cơ sở vật chất
+CREATE PROCEDURE sp_TimKiemBaoTriTheoTenCoSoVatChat
+    @TenCoSoVatChat NVARCHAR(255)
+AS
+BEGIN
+    SELECT bt.MaBaoTri, csvc.Ten AS TenCoSoVatChat, nv.Ten AS TenNhanVien, 
+           bt.NgayBaoTri, bt.ChiPhi, bt.MoTa, bt.TrangThai
+    FROM BaoTriCoSoVatChat bt
+    JOIN CoSoVatChat csvc ON bt.MaCoSoVatChat = csvc.MaCoSoVatChat
+    JOIN NhanVien nv ON bt.MaNhanVien = nv.MaNhanVien
+    WHERE csvc.Ten LIKE N'%' + @TenCoSoVatChat + N'%'
+    ORDER BY bt.NgayBaoTri DESC;
+END;
+GO
+
+-- 35. Tìm kiếm bảo trì theo tên nhân viên
+CREATE PROCEDURE sp_TimKiemBaoTriTheoTenNhanVien
+    @TenNhanVien NVARCHAR(255)
+AS
+BEGIN
+    SELECT bt.MaBaoTri, csvc.Ten AS TenCoSoVatChat, nv.Ten AS TenNhanVien, 
+           bt.NgayBaoTri, bt.ChiPhi, bt.MoTa, bt.TrangThai
+    FROM BaoTriCoSoVatChat bt
+    JOIN CoSoVatChat csvc ON bt.MaCoSoVatChat = csvc.MaCoSoVatChat
+    JOIN NhanVien nv ON bt.MaNhanVien = nv.MaNhanVien
+    WHERE nv.Ten LIKE N'%' + @TenNhanVien + N'%'
+    ORDER BY bt.NgayBaoTri DESC;
 END;
 GO
 
 -- Trigger
+-- Trigger 1: Tự động cập nhật trạng thái cơ sở vật chất thành 'Đang Bảo Trì' khi thêm bảo trì mới
 CREATE TRIGGER trg_TuDongCapNhatTrangThaiBaoTri
 ON BaoTriCoSoVatChat
 AFTER INSERT
@@ -592,6 +571,7 @@ BEGIN
 END;
 GO
 
+-- Trigger 2: Cập nhật trạng thái cơ sở vật chất thành 'Hoạt Động' khi hoàn thành bảo trì
 CREATE TRIGGER trg_HoanThanhBaoTri
 ON BaoTriCoSoVatChat
 AFTER UPDATE
@@ -608,129 +588,6 @@ BEGIN
             WHERE i.TrangThai = N'Hoàn Thành' AND d.TrangThai = N'Chưa Hoàn Thành'
         );
     END;
-END;
-GO
-
--- Tìm Kiếm
-CREATE PROCEDURE sp_TimKiemNhanVienTheoTen
-    @TenNhanVien NVARCHAR(255)
-AS
-BEGIN
-    SELECT nv.MaNhanVien, nv.Ten, nv.ChucVu, kv.TenKhuVuc
-    FROM NhanVien nv
-    LEFT JOIN KhuVuc kv ON nv.MaKhuVuc = kv.MaKhuVuc
-    WHERE nv.Ten LIKE N'%' + @TenNhanVien + N'%'
-    ORDER BY nv.Ten;
-END;
-GO
-
-CREATE PROCEDURE sp_TimKiemKhuVucTheoTen
-    @TenKhuVuc NVARCHAR(255)
-AS
-BEGIN
-    SELECT MaKhuVuc, TenKhuVuc
-    FROM KhuVuc
-    WHERE TenKhuVuc LIKE N'%' + @TenKhuVuc + N'%'
-    ORDER BY TenKhuVuc;
-END;
-GO
-
-CREATE PROCEDURE sp_TimKiemLoaiCoSoVatChatTheoTen
-    @TenLoai NVARCHAR(255)
-AS
-BEGIN
-    SELECT MaLoai, TenLoai
-    FROM LoaiCoSoVatChat
-    WHERE TenLoai LIKE N'%' + @TenLoai + N'%'
-    ORDER BY TenLoai;
-END;
-GO
-
-CREATE PROCEDURE sp_TimKiemCoSoVatChatTheoTen
-    @TenCoSoVatChat NVARCHAR(255)
-AS
-BEGIN
-    SELECT csvc.MaCoSoVatChat, csvc.Ten, csvc.MaLoai, lcsvc.TenLoai, csvc.MaKhuVuc, kv.TenKhuVuc, csvc.TrangThai, csvc.Gia
-    FROM CoSoVatChat csvc
-    JOIN LoaiCoSoVatChat lcsvc ON csvc.MaLoai = lcsvc.MaLoai
-    JOIN KhuVuc kv ON csvc.MaKhuVuc = kv.MaKhuVuc
-    WHERE csvc.Ten LIKE N'%' + @TenCoSoVatChat + N'%'
-    ORDER BY csvc.Ten;
-END;
-GO
-
-CREATE PROCEDURE sp_TimKiemBaoTriTheoTenCoSoVatChat
-    @TenCoSoVatChat NVARCHAR(255)
-AS
-BEGIN
-    SELECT bt.MaBaoTri, csvc.Ten AS TenCoSoVatChat, nv.Ten AS TenNhanVien, 
-           bt.NgayBaoTri, bt.ChiPhi, bt.MoTa, bt.TrangThai
-    FROM BaoTriCoSoVatChat bt
-    JOIN CoSoVatChat csvc ON bt.MaCoSoVatChat = csvc.MaCoSoVatChat
-    JOIN NhanVien nv ON bt.MaNhanVien = nv.MaNhanVien
-    WHERE csvc.Ten LIKE N'%' + @TenCoSoVatChat + N'%'
-    ORDER BY bt.NgayBaoTri DESC;
-END;
-GO
-
-CREATE PROCEDURE sp_TimKiemBaoTriTheoTenNhanVien
-    @TenNhanVien NVARCHAR(255)
-AS
-BEGIN
-    SELECT bt.MaBaoTri, csvc.Ten AS TenCoSoVatChat, nv.Ten AS TenNhanVien, 
-           bt.NgayBaoTri, bt.ChiPhi, bt.MoTa, bt.TrangThai
-    FROM BaoTriCoSoVatChat bt
-    JOIN CoSoVatChat csvc ON bt.MaCoSoVatChat = csvc.MaCoSoVatChat
-    JOIN NhanVien nv ON bt.MaNhanVien = nv.MaNhanVien
-    WHERE nv.Ten LIKE N'%' + @TenNhanVien + N'%'
-    ORDER BY bt.NgayBaoTri DESC;
-END;
-GO
-
-CREATE PROCEDURE sp_LayCoSoVatChatBiHong
-AS
-BEGIN
-    SELECT e.MaCoSoVatChat, e.Ten, e.MaLoai, t.TenLoai, e.MaKhuVuc, a.TenKhuVuc, e.TrangThai, e.Gia 
-    FROM CoSoVatChat e 
-    JOIN LoaiCoSoVatChat t ON e.MaLoai = t.MaLoai 
-    JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc 
-    WHERE e.TrangThai = N'Hỏng'
-    ORDER BY e.Ten;
-END;
-GO
-
-CREATE PROCEDURE sp_HoanThanhBaoTri
-    @MaBaoTri INT
-AS
-BEGIN
-    UPDATE BaoTriCoSoVatChat 
-    SET TrangThai = N'Hoàn Thành' 
-    WHERE MaBaoTri = @MaBaoTri AND TrangThai = N'Chưa Hoàn Thành';
-END;
-GO
-
-CREATE PROCEDURE sp_LayBaoTriChuaHoanThanh
-AS
-BEGIN
-    SELECT m.MaBaoTri, e.Ten AS TenCoSoVatChat, emp.Ten AS TenNhanVien, 
-           m.NgayBaoTri, m.ChiPhi, m.MoTa, m.TrangThai 
-    FROM BaoTriCoSoVatChat m 
-    JOIN CoSoVatChat e ON m.MaCoSoVatChat = e.MaCoSoVatChat 
-    JOIN NhanVien emp ON m.MaNhanVien = emp.MaNhanVien 
-    WHERE m.TrangThai = N'Chưa Hoàn Thành' 
-    ORDER BY m.NgayBaoTri DESC;
-END;
-GO
-
-CREATE PROCEDURE sp_LayThietBiDangBaoTri
-AS
-BEGIN
-    SELECT e.MaCoSoVatChat, e.Ten, t.TenLoai, a.TenKhuVuc, e.TrangThai, e.Gia 
-    FROM CoSoVatChat e 
-    JOIN LoaiCoSoVatChat t ON e.MaLoai = t.MaLoai 
-    JOIN KhuVuc a ON e.MaKhuVuc = a.MaKhuVuc 
-    WHERE e.TrangThai = N'Đang Bảo Trì' 
-    ORDER BY e.Ten;
 END;
 GO
 

@@ -10,7 +10,8 @@ namespace FacilityManagementSystem
 {
     public class DatabaseHelper
     {
-        private static string connectionString = "Server=localhost; Database=QuanLyCoSoVatChatDB; Trusted_Connection=True; " +
+        // Mặc định không dùng Windows Authentication; LoginUser sẽ thiết lập User Id/Password để dùng SQL Authentication
+        private static string connectionString = "Server=localhost; Database=QuanLyCoSoVatChatDB; " +
         "TrustServerCertificate=True; MultipleActiveResultSets=True; Encrypt=False;";
 
         /// Cập nhật connection string với thông tin đăng nhập SQL Server
